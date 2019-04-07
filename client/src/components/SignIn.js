@@ -25,11 +25,11 @@ class SignIn extends Component {
                     <form onSubmit={handleSubmit(this.onSubmit)}>
                         <fieldset>
                             <Field
-                                name="email"
+                                name="userName"
                                 type="text"
-                                id="email"
-                                label="Enter your email"
-                                placeholder="example@example.com"
+                                id="userName"
+                                label="Enter your email/username"
+                                placeholder="example@example.com/example"
                                 component={CustomInput} />
                         </fieldset>
                         <fieldset>

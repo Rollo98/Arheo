@@ -15,27 +15,31 @@ module.exports = {
   },
 
   schemas: {
+    
     authSchema: Joi.object().keys({
-      email: Joi.string().email().required(),
+      userName: Joi.string().required(),
       password: Joi.string().required()
-
     }),
     registerSchema: Joi.object().keys({
+      userName: Joi.string().required(),
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       email: Joi.string().email().required(),
-      password: Joi.string().required()
+      password: Joi.string().required(),
+      passwordVerify: Joi.string().required()
     }),
-    noteSchema: Joi.object().keys({
+
+
+    archeologistSchema: Joi.object().keys({
       title: Joi.string().required(),
       date: Joi.string().required()
     }),
-    newNoteSchema: Joi.object().keys({
+    newArcheologistSchema: Joi.object().keys({
       title: Joi.string().required(),
       body: Joi.string().required(),
       date: Joi.string().required()
     }),
-    updateNoteSchema: Joi.object().keys({
+    updateArcheologistSchema: Joi.object().keys({
       title: Joi.string().required(),
       body: Joi.string().required(),
       date: Joi.string().required(),

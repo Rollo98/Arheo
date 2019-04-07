@@ -1,4 +1,4 @@
-# NotesApp
+# ArcheologistsApp
 This is a personal project.
 
 Requirements:

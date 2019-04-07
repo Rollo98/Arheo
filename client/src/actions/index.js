@@ -4,9 +4,9 @@ import {
     AUTH_SIGN_IN,
     AUTH_SIGN_OUT,
     AUTH_ERROR,
-    NOTE_SAVE,
-    NOTE_ERROR,
-    NOTE_EDIT
+    ARCHEOLOGIST_SAVE,
+    ARCHEOLOGIST_ERROR,
+    ARCHEOLOGIST_EDIT
 } from "./types";
 
 export const SignUp = data => {
@@ -70,52 +70,52 @@ export const SignOut = () => {
     };
 }
 
-export const NewNote = data => {
-    return async dispatch => {
-        try {
-            const res = await Axios.post('http://localhost:5000/notes/add_note', data)
-            dispatch({
-                type: NOTE_SAVE,
-                payload: res.data.token
-            });
-        } catch (error) {
-            if (error.response.status === 400) {
-                dispatch({
-                    type: NOTE_ERROR,
-                    payload: error.response.data.details[0].message
-                });
-            } else {
-                dispatch({
-                    type: NOTE_ERROR,
-                    payload: error.response.data
-                });
-            }
-        }
-    };
-}
-export const EditNote = data => {
-    return async dispatch => {
-        try {
-            const res = await Axios.post('http://localhost:5000/notes/edit_note', data)
-            dispatch({
-                type: NOTE_EDIT,
-                payload: res.data.token
-            });
-        } catch (error) {
-            if (error.response.status === 400) {
-                dispatch({
-                    type: NOTE_ERROR,
-                    payload: error.response.data.details[0].message
-                });
-            } else {
-                dispatch({
-                    type: NOTE_ERROR,
-                    payload: error.response.data
-                });
-            }
-        }
-    };
-}
+// export const NewArcheologist = data => {
+//     return async dispatch => {
+//         try {
+//             const res = await Axios.post('http://localhost:5000/notes/add_note', data)
+//             dispatch({
+//                 type: ARCHEOLOGIST_SAVE,
+//                 payload: res.data.token
+//             });
+//         } catch (error) {
+//             if (error.response.status === 400) {
+//                 dispatch({
+//                     type: ARCHEOLOGIST_ERROR,
+//                     payload: error.response.data.details[0].message
+//                 });
+//             } else {
+//                 dispatch({
+//                     type: ARCHEOLOGIST_ERROR,
+//                     payload: error.response.data
+//                 });
+//             }
+//         }
+//     };
+// }
+// export const EditArcheologist = data => {
+//     return async dispatch => {
+//         try {
+//             const res = await Axios.post('http://localhost:5000/notes/edit_note', data)
+//             dispatch({
+//                 type: ARCHEOLOGIST_EDIT,
+//                 payload: res.data.token
+//             });
+//         } catch (error) {
+//             if (error.response.status === 400) {
+//                 dispatch({
+//                     type: ARCHEOLOGIST_ERROR,
+//                     payload: error.response.data.details[0].message
+//                 });
+//             } else {
+//                 dispatch({
+//                     type: ARCHEOLOGIST_ERROR,
+//                     payload: error.response.data
+//                 });
+//             }
+//         }
+//     };
+// }
 
 
 

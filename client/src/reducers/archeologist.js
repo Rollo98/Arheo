@@ -1,7 +1,7 @@
 import {
-    NOTE_EDIT,
-    NOTE_SAVE,
-    NOTE_ERROR
+    ARCHEOLOGIST_EDIT,
+    ARCHEOLOGIST_SAVE,
+    ARCHEOLOGIST_ERROR
 } from "../actions/types";
 
 const DEFAULT_STATE = {
@@ -11,11 +11,11 @@ const DEFAULT_STATE = {
 
 export default (state = DEFAULT_STATE, action) => {
     switch (action.type) {
-        case NOTE_SAVE:
+        case ARCHEOLOGIST_SAVE:
             return { ...state, reqStatus: action.payload, errorMessage: '' }
-        case NOTE_EDIT:
+        case ARCHEOLOGIST_EDIT:
             return { ...state, reqStatus: action.payload, errorMessage: '' }
-        case NOTE_ERROR:
+        case ARCHEOLOGIST_ERROR:
             return { ...state, errorMessage: action.payload }
         default:
             return state

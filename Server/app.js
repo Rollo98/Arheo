@@ -1,14 +1,15 @@
-const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express = require('express'),
+ morgan = require('morgan'),
+ bodyParser = require('body-parser'),
+ mongoose = require('mongoose'),
+ constants = require('./constants')
+ cors = require('cors');
 
 mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV === 'test') {
-  mongoose.connect('mongodb://localhost:27017/notesAppTEST');
+  mongoose.connect(`${constants.mongoURL}/arheoAppTEST`);
 } else {
-  mongoose.connect('mongodb://localhost:27017/notesApp');
+  mongoose.connect(`${constants.mongoURL}/arheoApp`);
 }
 
 const app = express();
@@ -22,8 +23,8 @@ if (!process.env.NODE_ENV == 'test') {
 app.use(bodyParser.json());
 
 //Routes
-app.use('/users', require('./routes/users'));
-app.use('/notes', require('./routes/notes'));
+app.use('/', require('./routes/users'));
+app.use('/archeologist', require('./routes/archeologist'));
 
 
 module.exports = app;

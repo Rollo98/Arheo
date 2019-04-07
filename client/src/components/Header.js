@@ -33,7 +33,7 @@ class Header extends Component {
                                 <>
                                     {!this.props.saveState ?
                                         <li className="nav-item">
-                                            <Link className="nav-link btn btn-primary" to="/NewNote" >New Note</Link>
+                                            <Link className="nav-link btn btn-primary" to="/NewNote" >New Archeologist</Link>
                                         </li>
                                         : null}
                                     <li className="nav-item">
@@ -41,7 +41,6 @@ class Header extends Component {
                                     </li>
                                 </>
                                 : null}
-
                         </ul>
                     </div>
                 </nav>
