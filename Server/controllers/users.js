@@ -88,7 +88,6 @@ module.exports = {
           return res.status(200).end();
         }).catch(err => next(err))
     }
-    //for all users wich don't have admin role return 400
     res.status(400).end();
   },
 

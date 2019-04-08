@@ -37,30 +37,54 @@ module.exports = {
     res.status(400).end();
   },
   deleteArcheologist: async (req, res, next) => {
-    // const { title, body } = req.body;
-    // let { date } = req.body;
-    // const user = req.user._id;
-    // date = new Date(date);
-    // Archeologist.deleteOne({ user, title, body, date }).then(doc => {
-    //     if (!doc) {
-    //         return res.status(404).end();
-    //     }
-    //     return res.status(200).json("OK");
-    // }).catch(err => next(err))
+    if (req.user.role.includes("writer")) {
+      if ((req.body.deathDay === null) || (req.body.deathDay === undefined)) {
+        newArcheologist = new Archeologist({ user, firstName, lastName, birthDay, institution, specialization, university, works, date });
+        await Archeologist.deleteOne({ user, firstName, lastName, birthDay, institution, specialization, university, works, date }).then(entry => {
+          if (!entry) {
+            return res.status(404).end();
+          }
+          return res.status(200).json("OK");
+        }).catch(err => next(err))
+      } else {
+        const { deathDay } = req.body;
+        newArcheologist = new Archeologist({ user, firstName, lastName, birthDay, deathDay, institution, specialization, university, works, date });
+        await Archeologist.deleteOne({ user, firstName, lastName, birthDay, deathDay, institution, specialization, university, works, date }).then(entry => {
+          if (!entry) {
+            return res.status(404).end();
+          }
+          return res.status(200).json("OK");
+        }).catch(err => next(err))
+      }
+    }
   },
   updateArcheologist: async (req, res, next) => {
-    // const { title, oldBody, body } = req.body;
-    // let { date, oldDate } = req.body;
-    // const user = req.user._id;
-    // date = new Date(date);
-    // oldDate = new Date(oldDate);
-    // var qry = await Archeologist.update(
-    //     { user, title, body: oldBody, date: oldDate },
-    //     { body, date }).then(doc => {
-    //         if (!doc) {
-    //             return res.status(404).end();
-    //         }
-    //         return res.status(200).json("OK");
-    //     }).catch(err => next(err))
+    if (req.user.role.includes("writer")) {
+      if (((req.params.firstName === null) || (req.params.firstName === undefined)) ||
+        ((req.params.lastName === null) || (req.params.lastName === undefined))) {
+        const { old_user, old_firstName, old_lastName, old_birthDay, old_institution, old_specialization, old_university, old_works, old_date } = req.body;
+        oldArcheologist = new Archeologist({ old_user, old_firstName, old_lastName, old_birthDay, old_institution, old_specialization, old_university, old_works, old_date });
+        if ((req.body.deathDay === null) || (req.body.deathDay === undefined)) {
+          const { user, firstName, lastName, birthDay, deathDay, institution, specialization, university, works, date } = req.body;
+          await Archeologist.update(oldArcheologist, { user, firstName, lastName, birthDay, deathDay, institution, specialization, university, works, date })
+            .then(ret => {
+              if (!ret) {
+                return res.status(400).end();
+              }
+              return res.status(200).end();
+            }).catch(err => next(err))
+        } else {
+          const { user, firstName, lastName, birthDay, institution, specialization, university, works, date } = req.body;
+          await Archeologist.update(oldArcheologist, { user, firstName, lastName, birthDay, institution, specialization, university, works, date })
+            .then(ret => {
+              if (!ret) {
+                return res.status(400).end();
+              }
+              return res.status(200).end();
+            }).catch(err => next(err))
+        }
+      }
+    }
+    res.status(400).end();
   }
 }
