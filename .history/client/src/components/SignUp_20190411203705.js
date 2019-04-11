@@ -1,36 +1,35 @@
-import React, { Component } from "react";
-import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React, { Component } from 'react';
+import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import CustomInput from "./CustomInput";
-import * as actions from "../actions";
+import CustomInput from './CustomInput';
+import * as actions from '../actions';
 class SignUp extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.onSubmit = this.onSubmit.bind(this);
   }
   async onSubmit(formData) {
-    await this.props.SignUp(formData);
+    await this.props.SignUp(formData)
     if (!this.props.errorMessage) {
-      this.props.history.push("/");
+      this.props.history.push('/');
     }
   }
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="row text-center">
+      <div className="row">
         <div className="col">
           <form onSubmit={handleSubmit(this.onSubmit)}>
-            <fieldset>
+          <fieldset>
               <Field
                 name="userName"
                 type="text"
                 id="userName"
                 label="Enter an username"
                 placeholder="user1"
-                component={CustomInput}
-              />
+                component={CustomInput} />
             </fieldset>
             <fieldset>
               <Field
@@ -39,8 +38,7 @@ class SignUp extends Component {
                 id="email"
                 label="Enter your email"
                 placeholder="example@example.com"
-                component={CustomInput}
-              />
+                component={CustomInput} />
             </fieldset>
             <fieldset>
               <Field
@@ -49,8 +47,7 @@ class SignUp extends Component {
                 id="firstName"
                 label="Enter your first name"
                 placeholder=""
-                component={CustomInput}
-              />
+                component={CustomInput} />
             </fieldset>
             <fieldset>
               <Field
@@ -59,8 +56,7 @@ class SignUp extends Component {
                 id="lasstName"
                 label="Enter your last name"
                 placeholder=""
-                component={CustomInput}
-              />
+                component={CustomInput} />
             </fieldset>
             <fieldset>
               <Field
@@ -69,8 +65,7 @@ class SignUp extends Component {
                 id="password"
                 label="Enter your password"
                 placeholder=""
-                component={CustomInput}
-              />
+                component={CustomInput} />
             </fieldset>
             <fieldset>
               <Field
@@ -79,17 +74,15 @@ class SignUp extends Component {
                 id="passwordVerify"
                 label="Re-enter your password"
                 placeholder=""
-                component={CustomInput}
-              />
+                component={CustomInput} />
             </fieldset>
-            {this.props.errorMessage ? (
+            {this.props.errorMessage ?
               <div className="alert  alert-danger">
                 {this.props.errorMessage}
               </div>
-            ) : null}
-            <button type="submit" className="button">
-              Sign Up
-            </button>
+
+              : null}
+            <button type="submit" className="btn btn-primary">Sign Up</button>
           </form>
         </div>
       </div>
@@ -100,13 +93,10 @@ class SignUp extends Component {
 function MapStateToProps(state) {
   return {
     errorMessage: state.auth.errorMessage
-  };
+  }
 }
 
 export default compose(
-  connect(
-    MapStateToProps,
-    actions
-  ),
-  reduxForm({ form: "signup" })
+  connect(MapStateToProps, actions),
+  reduxForm({ form: 'signup' })
 )(SignUp);

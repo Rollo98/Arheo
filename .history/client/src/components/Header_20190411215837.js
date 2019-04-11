@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Navbar, Nav } from "react-bootstrap";
 
 import * as actions from "../actions";
 
@@ -40,7 +41,10 @@ class Header extends Component {
                 <>
                   {!this.props.saveState ? (
                     <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
+                      <Link
+                        className="nav-link btn btn-primary"
+                        to="/NewArcheologist"
+                      >
                         New Archeologist
                       </Link>
                     </li>

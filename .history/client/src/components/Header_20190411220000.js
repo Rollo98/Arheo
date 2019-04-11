@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Navbar, Nav } from "react-bootstrap";
 
 import * as actions from "../actions";
 
@@ -15,12 +16,13 @@ class Header extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark">
           <Link className="navbar-brand" to="/">
             ArheoApp
           </Link>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav ml-auto">
+          <Navbar.Toggle aria-controls="navbar" />
+          <Navbar.Collapse id="navbar">
+          <Nav>
               {!this.props.isAuth ? (
                 <>
                   <li className="nav-item">
@@ -40,7 +42,10 @@ class Header extends Component {
                 <>
                   {!this.props.saveState ? (
                     <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
+                      <Link
+                        className="nav-link btn btn-primary"
+                        to="/NewArcheologist"
+                      >
                         New Archeologist
                       </Link>
                     </li>
@@ -58,7 +63,10 @@ class Header extends Component {
               ) : null}
             </ul>
           </div>
-        </nav>
+          </Nav>
+
+          </Navbar.Collapse>
+        </Navbar>
       </div>
     );
   }

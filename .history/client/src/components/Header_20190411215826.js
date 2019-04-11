@@ -19,7 +19,8 @@ class Header extends Component {
           <Link className="navbar-brand" to="/">
             ArheoApp
           </Link>
-          <div className="collapse navbar-collapse">
+          <Navbar.Toggle aria-controls="navbar" />
+          <Navbar.Collapse id="navbar">
             <ul className="navbar-nav ml-auto">
               {!this.props.isAuth ? (
                 <>
@@ -40,7 +41,10 @@ class Header extends Component {
                 <>
                   {!this.props.saveState ? (
                     <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
+                      <Link
+                        className="nav-link btn btn-primary"
+                        to="/NewArcheologist"
+                      >
                         New Archeologist
                       </Link>
                     </li>

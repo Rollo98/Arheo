@@ -5,13 +5,14 @@ import { compose } from "redux";
 
 import CustomInput from "./CustomInput";
 import * as actions from "../actions";
-class SignUp extends Component {
+
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
   async onSubmit(formData) {
-    await this.props.SignUp(formData);
+    await this.props.SignIn(formData);
     if (!this.props.errorMessage) {
       this.props.history.push("/");
     }
@@ -19,7 +20,7 @@ class SignUp extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="row text-center">
+      <div className="row">
         <div className="col">
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
@@ -27,38 +28,8 @@ class SignUp extends Component {
                 name="userName"
                 type="text"
                 id="userName"
-                label="Enter an username"
-                placeholder="user1"
-                component={CustomInput}
-              />
-            </fieldset>
-            <fieldset>
-              <Field
-                name="email"
-                type="text"
-                id="email"
-                label="Enter your email"
-                placeholder="example@example.com"
-                component={CustomInput}
-              />
-            </fieldset>
-            <fieldset>
-              <Field
-                name="firstName"
-                type="text"
-                id="firstName"
-                label="Enter your first name"
-                placeholder=""
-                component={CustomInput}
-              />
-            </fieldset>
-            <fieldset>
-              <Field
-                name="lastName"
-                type="text"
-                id="lasstName"
-                label="Enter your last name"
-                placeholder=""
+                label="Enter your email/username"
+                placeholder="example@example.com/example"
                 component={CustomInput}
               />
             </fieldset>
@@ -72,23 +43,14 @@ class SignUp extends Component {
                 component={CustomInput}
               />
             </fieldset>
-            <fieldset>
-              <Field
-                name="passwordVerify"
-                type="password"
-                id="passwordVerify"
-                label="Re-enter your password"
-                placeholder=""
-                component={CustomInput}
-              />
-            </fieldset>
+
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
                 {this.props.errorMessage}
               </div>
             ) : null}
-            <button type="submit" className="button">
-              Sign Up
+            <button id="button" type="submit" className="button">
+              <p>Sign In</p>
             </button>
           </form>
         </div>
@@ -108,5 +70,5 @@ export default compose(
     MapStateToProps,
     actions
   ),
-  reduxForm({ form: "signup" })
-)(SignUp);
+  reduxForm({ form: "singin" })
+)(SignIn);

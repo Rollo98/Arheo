@@ -1,0 +1,242 @@
+//first things first
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+//variables
+$button-color: #009ed8;
+$button-text: #ffffff;
+$regular-text: #333;
+$button-tint: fadeout(#000, 90%);
+$background: #303036;
+
+$bg-color: #424242;
+$hl-color: #2196f3;
+$muted-color: mix(white, $bg-color, 70%);
+$trans-time: 300ms;
+$width: 100%;
+
+//navbar and all containings
+.navbar {
+  min-width: 255px;
+  background: #00b4db; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #0083b0,
+    #00b4db
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #0083b0,
+    #00b4db
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+//main area container
+.container {
+  .form-login {
+    fieldset {
+      width: 400px;
+      margin: auto;
+    }
+  }
+}
+
+//form group for sign in/up
+.group {
+  position: relative;
+  margin: 45px 0;
+
+  input {
+    background: none;
+    color: #343a40;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: $width;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $muted-color;
+    &:focus {
+      outline: none;
+    }
+    &:focus ~ label,
+    &:valid ~ label {
+      top: -14px;
+      font-size: 12px;
+      color: $hl-color;
+    }
+    &:focus ~ .bar:before {
+      width: $width;
+    }
+  }
+
+  input[type="password"] {
+    letter-spacing: 0.3em;
+  }
+
+  label {
+    color: $muted-color;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: $trans-time ease all;
+  }
+
+  .bar {
+    position: relative;
+    display: block;
+    width: $width;
+    &:before {
+      content: "";
+      height: 2px;
+      width: 0;
+      bottom: 0px;
+      position: absolute;
+      background: $hl-color;
+      transition: $trans-time ease all;
+      left: 0%;
+    }
+  }
+}
+
+//button for general use
+.button {
+  min-width: 15em;
+  display: inline-block;
+  font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  padding: 0.8em 1.4em;
+  padding-right: 4.7em;
+  background: $button-color;
+  border: none;
+  color: white;
+  transition: 0.2s;
+  &:before,
+  &:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding-top: inherit;
+    padding-bottom: inherit;
+    width: 2.8em;
+    content: "\00a0";
+    font-family: "FontAwesome", sans-serif;
+    font-size: 1.2em;
+    text-align: center;
+
+    transition: 0.2s;
+    transform-origin: 50% 60%;
+  }
+  &:before {
+    background: $button-tint;
+  }
+  &:hover {
+    background: darken($button-color, 10%);
+  }
+  &:active,
+  &:focus {
+    background: darken($button-color, 30%);
+    outline: none;
+  }
+}
+
+//button specific for sign in/up
+.search {
+  &:after {
+    font-family: "Font Awesome 5 Free";
+    content: "\f35a";
+  }
+  &:hover:after {
+    -webkit-animation: none;
+    -webkit-transform: scale(1.4);
+    animation: none;
+    transform: scale(1.4);
+  }
+}
+
+// pure css for select menu
+.select {
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+  min-width: 15em;
+  color: white;
+}
+.select select {
+  display: inline-block;
+  min-width: 15em;
+  margin: 0;
+  padding: 0.5rem 2.25rem 0.5rem 1rem;
+  line-height: 1.5;
+  color: white;
+  background-color: $button-color;
+  border: none;
+  cursor: pointer;
+  outline: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.select:after {
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  display: inline-block;
+  content: "";
+  width: 0;
+  height: 0;
+  margin-top: -0.15rem;
+  pointer-events: none;
+  border-top: 0.35rem solid;
+  border-right: 0.35rem solid transparent;
+  border-bottom: 0.35rem solid transparent;
+  border-left: 0.35rem solid transparent;
+}
+
+.select select:hover {
+  background-color: rgb(26, 100, 148);
+}
+
+.select select:focus {
+  box-shadow: 0 0 0 0.075rem #fff, 0 0 0 0.2rem $button-color;
+}
+
+.select select:active {
+  color: #fff;
+  background-color: $button-color;
+}
+
+//action add button input
+.addAction {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  padding: 10px;
+  min-width: 15em;
+  border-radius: 4px;
+  font-size: 15px;
+  box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.4s ease-in-out;
+}
+.addAction:focus {
+  outline: none;
+  box-shadow: 0px 3px 20px 6px rgba(0, 0, 0, 0.12);
+}
+
+//media queries
+@media screen and (max-width: 255px) {
+  .container {
+    min-width: 100%;
+  }
+}

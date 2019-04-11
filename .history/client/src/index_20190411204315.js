@@ -16,8 +16,6 @@ import reducers from "./reducers/index";
 import authGuard from "./components/HOCs/authGuard";
 import NewArcheologist from "./components/NewArcheologist";
 
-import "./main.scss";
-
 const jwtToken = localStorage.getItem("JWT_TOKEN");
 Axios.defaults.headers.common["Authorization"] = jwtToken;
 

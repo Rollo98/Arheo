@@ -40,7 +40,10 @@ class Header extends Component {
                 <>
                   {!this.props.saveState ? (
                     <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
+                      <Link
+                        className="nav-link btn btn-primary"
+                        to="/NewArcheologist"
+                      >
                         New Archeologist
                       </Link>
                     </li>

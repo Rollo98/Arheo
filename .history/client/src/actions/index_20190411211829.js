@@ -72,7 +72,10 @@ export const SignOut = () => {
 export const NewArcheologist = data => {
   return async dispatch => {
     try {
-      const res = await Axios.post("http://localhost:5000/add", data);
+      const res = await Axios.post(
+        "http://localhost:5000/notes/add_note",
+        data
+      );
       dispatch({
         type: ARCHEOLOGIST_SAVE,
         payload: res.data.token

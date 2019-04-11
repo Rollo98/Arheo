@@ -32,7 +32,7 @@ class NewArcheologist extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="row text-center">
+      <div className="row">
         <div className="col">
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
@@ -63,7 +63,7 @@ class NewArcheologist extends Component {
             ) : null}
             <button
               type="submit"
-              className="button"
+              className="button text-center"
               onClick={this.updateNeeded()}
             >
               Save
