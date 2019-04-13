@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import io from 'socket.io-client';
 
 
 import CustomInput from './CustomInput';
@@ -12,20 +11,12 @@ class NewArcheologist extends Component {
     constructor(props) {
         super(props)
         this.onSubmit = this.onSubmit.bind(this);
-        this.state = {
-            socket: io.connect('http://localhost:5000')
-        }
-    }
-
-    updateNeeded() {
-        this.state.socket.emit("refresh", localStorage.getItem('JWT_TOKEN'));
     }
 
     async onSubmit(formData) {
         formData.date = new Date();
         await this.props.NewArcheologist(formData)
         if (!this.props.errorMessage) {
-            this.updateNeeded();
             this.props.history.push("/");
         }
     }

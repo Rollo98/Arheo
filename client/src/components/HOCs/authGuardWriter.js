@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 export default (OriginalComponent) => {
     class MixedComponent extends Component {
         checkAuth() {
-            if (!this.props.isAuth && !this.props.jwtToken) {
+            if (!this.props.isAuth && !this.props.jwtToken && !this.props.role.includes("writer")) {
                 this.props.history.push('/Signin');
             }
         };
@@ -23,6 +23,7 @@ export default (OriginalComponent) => {
 
     function MapStateToProps(state) {
         return {
+            role:state.auth.role,
             isAuth: state.auth.isAuthenticated,
             jwtToken: state.auth.token
         }

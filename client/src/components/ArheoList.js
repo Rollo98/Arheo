@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import io from 'socket.io-client';
 
 
 export default class ArheoList extends Component {
@@ -9,18 +8,15 @@ export default class ArheoList extends Component {
         super(props);
         this.state = {}
         this.state.notes = {}
-        this.state.sock = {
-            socket: io.connect('http://localhost:5000')
-        }
-        this.state.sock.socket.on(localStorage.getItem('JWT_TOKEN'), () => this.componentDidMount())
     }
 
     componentDidMount() {
-        const jwtToken = localStorage.getItem('JWT_TOKEN');
+        const jwtToken = localStorage.getItem('zeBilet');
         Axios.defaults.headers.common['Authorization'] = jwtToken;
-        Axios.post('http://localhost:5000/notes/get_notes').then(
-            Response => this.setState({ "notes": Response.data.notes })
-        );
+        Axios.get('http://localhost:5000/archeologist/get').then(
+            Response =>{ this.setState({ "archeologists": Response.data.archeologists })
+            console.log("Response.data",Response.data);
+          });
     }
 
     renderNotes() {

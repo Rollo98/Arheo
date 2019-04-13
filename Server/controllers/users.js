@@ -63,7 +63,7 @@ module.exports = {
   editUser: async (req, res, next) => {
     if ((req.params.userName === null) || (req.params.userName === undefined)) {
       const { firstName, lastName, email } = req.body;
-      let {password}=req.body
+      let { password } = req.body
       let newVals
       if (password === "") {
         newVals = { userName: user[0].userName, firstName, lastName, email, role }
@@ -91,7 +91,7 @@ module.exports = {
         }
       }
       const { firstName, lastName, email, role } = req.body;
-      let {password}=req.body
+      let { password } = req.body
       let newVals
       if (password === "") {
         newVals = { userName: user[0].userName, firstName, lastName, email, role }
@@ -128,11 +128,11 @@ module.exports = {
     await newUser.save();
 
     const token = signToken(newUser);
-    res.status(200).json({ token });
+    res.status(200).json({ token, role: req.user.role });
   },
 
   signIn: async (req, res, next) => {
     const token = signToken(req.user);
-    res.status(200).json({ token });
+    res.status(200).json({ token, role: req.user.role });
   }
 }

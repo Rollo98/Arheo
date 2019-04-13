@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 import authReducer from './auth';
-import noteReducer from './note';
+import archeologistReducer from './archeologist';
 
 
 export default combineReducers({
     form: formReducer,
     auth: authReducer,
-    note: noteReducer
+    archeologist: archeologistReducer
 });

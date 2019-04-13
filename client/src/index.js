@@ -9,20 +9,23 @@ import Axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 import App from './pages/App';
 import ArheoApp from './components/ArheoApp';
-import ShowNote from './components/ShowNote';
+import ShowArcheologist from './components/ShowArcheologist';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import reducers from './reducers/index';
-import authGuard from './components/HOCs/authGuard';
-import NewNote from './components/NewNote';
+import authGuardAdmin from './components/HOCs/authGuardAdmin';
+import authGuardWriter from './components/HOCs/authGuardWriter';
+import NewArcheologist from './components/NewArcheologist';
 
-const jwtToken = localStorage.getItem('JWT_TOKEN');
+const role = JSON.parse(localStorage.getItem('pRemisiuni'));
+const jwtToken = localStorage.getItem('zeBilet');
 Axios.defaults.headers.common['Authorization'] = jwtToken;
 
 
 ReactDOM.render(
     <Provider store={createStore(reducers, {
         auth: {
+            role: role,
             token: jwtToken,
             isAuthenticated: jwtToken ? true : false
         }
@@ -30,9 +33,11 @@ ReactDOM.render(
         <BrowserRouter>
             <App >
                 <Route exact path="/" component={ArheoApp} />
-                <Route exact path="/NewNote" component={authGuard(NewNote)} />
-                <Route exact path="/note/:title::date" component={(props) => <ShowNote title={props.match.params.title} date={props.match.params.date} {...props} />} />
-
+                {/* <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} /> */}
+                <Route exact path="/NewArcheologist" component={authGuardWriter(NewArcheologist)} />
+                <Route exact path="/:firstName_:lastName/edit" component={authGuardWriter(NewArcheologist)} />
+                <Route exact path="/:firstName_:lastName" component={(props) => <ShowArcheologist firstName={props.match.params.firstName} lastName={props.match.params.lastName} {...props} />} />
+                {/* <Route exact path="/edit" component={editCurrentUser} /> */}
                 <Route exact path="/SignUp" component={SignUp} />
                 <Route exact path="/SignIn" component={SignIn} />
             </App>
