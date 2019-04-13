@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
-export default class ArheoList extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -12,18 +12,18 @@ export default class ArheoList extends Component {
   componentDidMount() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    Axios.get("http://localhost:5000/archeologist/get").then(Response => {
-      this.setState({ archeologists: Response.data.archeologists });
-      console.log("Response.data", Response.data);
+    Axios.get("http://localhost:5000").then(Response => {
+      this.setState({ users: Response.data.users });
+      console.log("Useeers", Response.data);
     });
   }
 
-  renderUsers() {
+  renderNotes() {
     const notes = Object.values(this.state.notes);
     var x = notes.map(n => (
       <div key={n.date}>
         <h2>
-          <Link to={`/note/${n.title}:${n.date}`}>{n.title}</Link>
+          <Link to={`/${n.title}:${n.date}`}>{n.title}</Link>
         </h2>
       </div>
     ));
@@ -31,6 +31,11 @@ export default class ArheoList extends Component {
   }
 
   render() {
-    return <div>{this.renderUsers()}</div>;
+    return (
+      <div>
+        Dashboard
+        {this.renderNotes()}
+      </div>
+    );
   }
 }
