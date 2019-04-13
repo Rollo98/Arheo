@@ -42,16 +42,6 @@ userSchema.pre('save', async function (next) {
     next(error);
   }
 });
-userSchema.pre('update', async function (next) {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const passHash = await bcrypt.hash(this.password, salt);
-    this.password = passHash;
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
 userSchema.methods.passValid = async function (inpassword) {
   try {
     return await bcrypt.compare(inpassword, this.password);

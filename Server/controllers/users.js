@@ -1,6 +1,7 @@
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
 const { JWT_SECRET } = require('../config');
+const bcrypt = require('bcryptjs');
 
 signToken = user => {
   return JWT.sign({
@@ -25,10 +26,9 @@ module.exports = {
             res.status(400).end();
           }
         }
-        res.status(200).json({ foundUsers });
+        res.status(200).json({ foundUser });
       }
     }
-    //for all users wich don't have admin role return 400
     res.status(400).end();
   },
   deleteUser: async (req, res, next) => {
@@ -58,11 +58,22 @@ module.exports = {
         }).catch(err => next(err))
     }
     res.status(400).end();
-  },
+  },//not tested might not work
+
   editUser: async (req, res, next) => {
     if ((req.params.userName === null) || (req.params.userName === undefined)) {
-      const { userName, firstName, lastName, email, password } = req.body;
-      await User.update(req.user, { userName, firstName, lastName, email, password })
+      const { firstName, lastName, email } = req.body;
+      let {password}=req.body
+      let newVals
+      if (password === "") {
+        newVals = { userName: user[0].userName, firstName, lastName, email, role }
+      } else {
+        const salt = await bcrypt.genSalt(10);
+        const passHash = await bcrypt.hash(password, salt);
+        password = passHash;
+        newVals = { userName: user[0].userName, firstName, lastName, email, password, role }
+      }
+      await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
           if (!newUser) {
             return res.status(400).end();
@@ -79,8 +90,18 @@ module.exports = {
           res.status(400).end();
         }
       }
-      const { userName, firstName, lastName, email, password, role } = req.body;
-      await User.update(user, { userName, firstName, lastName, email, password, role })
+      const { firstName, lastName, email, role } = req.body;
+      let {password}=req.body
+      let newVals
+      if (password === "") {
+        newVals = { userName: user[0].userName, firstName, lastName, email, role }
+      } else {
+        const salt = await bcrypt.genSalt(10);
+        const passHash = await bcrypt.hash(password, salt);
+        password = passHash;
+        newVals = { userName: user[0].userName, firstName, lastName, email, password, role }
+      }
+      await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
           if (!newUser) {
             return res.status(400).end();

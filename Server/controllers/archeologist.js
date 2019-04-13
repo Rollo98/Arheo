@@ -1,6 +1,18 @@
 const Archeologist = require('../models/archeologist');
 
 module.exports = {
+  isWriter:async (req, res, next)=>{
+    if (req.user.role.includes("writer")) {
+      return res.status(200).json("OK");
+    }
+    res.status(400).end();
+  },
+  isAdmin:async (req, res, next)=>{
+    if (req.user.role.includes("admin")) {
+      return res.status(200).json("OK");
+    }
+    res.status(400).end();
+  },
   //still needs the image handling part fuck me over
   addArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer")) {
@@ -28,11 +40,8 @@ module.exports = {
       res.status(200).json({ archeologists });
     } else {
       const { firstName, lastName } = req.params;
-      const archeologist = await Archeologist.find(firstName, lastName);
-      if (!archeologist) {
-        res.status(400).end();
-      }
-      res.status(200).json({ archeologist });
+      const archeologists = await Archeologist.find(firstName, lastName);
+      res.status(200).json({ archeologists });
     }
     res.status(400).end();
   },

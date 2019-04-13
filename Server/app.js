@@ -3,7 +3,7 @@ const express = require('express'),
  bodyParser = require('body-parser'),
  mongoose = require('mongoose'),
  constants = require('./constants')
- cors = require('cors');
+ var cors = require('cors')
 
 mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV === 'test') {
@@ -13,8 +13,14 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 const app = express();
-
-app.use(cors());
+app.use(cors())
+// const CORS = (req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+//   res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,Accept')
+//   next()
+// }
+// app.use(CORS)
 
 //Middlewares
 if (!process.env.NODE_ENV == 'test') {

@@ -15,6 +15,11 @@ router.route('/:userName?')
 router.route('/:userName/edit', '/edit')
   .post(passportJWT, UsersController.editUser);
 
+// router.route('/writer') -> we have to discuss 
+//   .get(passportJWT, UsersController.isWriter);
+// router.route('/admin') -> we have to discuss 
+//   .get(passportJWT, UsersController.isAdmin);
+
 router.route('/signup')
   .post(validateBody(schemas.registerSchema), UsersController.signUp);
 
