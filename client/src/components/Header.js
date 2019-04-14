@@ -13,6 +13,7 @@ class Header extends Component {
     this.props.SignOut();
   }
   render() {
+    console.log(this.props)
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -35,7 +36,19 @@ class Header extends Component {
                   </li>
                 </>
               ) : null}
-
+              {this.props.role.includes("admin")?<>
+              <li className="nav-item">
+                    <Link className="nav-link" to="/">
+                      Acasa
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/Dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                </>:null
+              }
               {this.props.isAuth ? (
                 <>
                   {!this.props.saveState ? (
@@ -66,6 +79,7 @@ class Header extends Component {
 
 function MapStateToProps(state) {
   return {
+    role: state.auth.role,
     isAuth: state.auth.isAuthenticated
   };
 }

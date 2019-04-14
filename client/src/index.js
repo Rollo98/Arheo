@@ -20,8 +20,9 @@ import Dashboard from "./components/Dashboard";
 
 import "./main.scss";
 
-const role = JSON.parse(localStorage.getItem("pRemisiuni"));
-const jwtToken = localStorage.getItem("zeBilet");
+const userName = localStorage.getItem("uNema"),
+ role = JSON.parse(localStorage.getItem("pRemisiuni")),
+ jwtToken = localStorage.getItem("zeBilet");
 Axios.defaults.headers.common["Authorization"] = jwtToken;
 
 ReactDOM.render(
@@ -30,6 +31,7 @@ ReactDOM.render(
       reducers,
       {
         auth: {
+          userName:userName,
           role: role,
           token: jwtToken,
           isAuthenticated: jwtToken ? true : false
@@ -42,17 +44,17 @@ ReactDOM.render(
       <App>
         <Route exact path="/" component={ArheoApp} />
         <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
-        <Route
+        {/* <Route
           exact
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
-        />
-        <Route
+        /> */}
+        {/* <Route
           exact
           path="/:firstName_:lastName/edit"
           component={authGuardWriter(NewArcheologist)}
-        />
-        <Route
+        /> */}
+        {/* <Route
           exact
           path="/:firstName_:lastName"
           component={props => (
@@ -60,7 +62,7 @@ ReactDOM.render(
               firstName={props.match.params.firstName}
               lastName={props.match.params.lastName}
               {...props}
-            />
+            /> */}
           )}
         />
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}

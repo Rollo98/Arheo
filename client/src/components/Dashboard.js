@@ -5,36 +5,47 @@ import Axios from "axios";
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.state.notes = {};
+    this.state = {
+      gotData: true,
+      users: []
+    };
   }
 
-  componentDidMount() {
+  async componentWillMount() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    Axios.get("http://localhost:5000").then(Response => {
-      this.setState({ users: Response.data.users });
-      console.log("Useeers", Response.data);
-    });
+    let Response = await Axios.get("http://localhost:5000/")
+    if (Response) {
+      this.setState({ users: Response.data.foundUsers, gotData: true });
+    };
   }
 
-  renderNotes() {
-    const notes = Object.values(this.state.notes);
-    var x = notes.map(n => (
-      <div key={n.date}>
-        <h2>
-          <Link to={`/${n.title}:${n.date}`}>{n.title}</Link>
-        </h2>
-      </div>
-    ));
+  renderUserList() {
+    const users = Object.values(this.state.users);
+    let x = ""
+    if (users.length > 0) {
+      x = users.map(n =>
+        (
+          <div key={n.userName}>
+            <h2>
+              <Link to={`/dashboard/${n.userName}`}>{n.userName}</Link>
+            </h2>
+          </div>
+        )
+      )
+    }
     return x;
   }
 
   render() {
+    let userList = ""
+    if (this.state.gotData) {
+      userList = this.renderUserList()
+    }
     return (
       <div>
         Dashboard
-        {this.renderNotes()}
+        {userList}
       </div>
     );
   }

@@ -17,48 +17,40 @@ module.exports = {
     if (req.user.role.includes("admin")) {
       if ((req.params.userName === null) || (req.params.userName === undefined)) {
         const foundUsers = await User.find({});
-        res.status(200).json({ foundUsers });
+        return res.status(200).json({ foundUsers });
       } else {
         let foundUser = await User.find({ userName: req.params.userName });
         if (!foundUser) {
           foundUser = await User.find({ email: req.params.userName });
           if (!foundUser) {
-            res.status(400).end();
+            return res.status(400).send();
           }
         }
-        res.status(200).json({ foundUser });
+        return res.status(200).json({ foundUser });
       }
+    } else if (req.user !== null) {
+      return res.status(200).json({ foundUser: req.user });
     }
-    res.status(400).end();
+    return res.status(400).send();
   },
   deleteUser: async (req, res, next) => {
     if ((req.params.userName === null) || (req.params.userName === undefined)) {
-      const user = req.user;
-      await User.deleteOne({ user }).then(user => {
-        if (!user) {
-          return res.status(404).end();
-        }
-        return res.status(200).json("OK");
-      }).catch(err => next(err))
+      let { ok, deletedCount } = await User.deleteOne({ userName: req.user.userName }).catch(err => next(err))
+      if ((ok === 1) && (deletedCount === 1)) {
+        res.status(200).send();
+      }
     }
     if (req.user.role.includes("admin")) {
       let user = await User.find({ userName: req.params.userName });
       if (!user) {
-        user = await User.find({ email: req.params.userName });
-        if (!user) {
-          res.status(400).end();
-        }
+        return res.status(400).send();
       }
-      await User.deleteOne(user)
-        .then(user => {
-          if (!user) {
-            return res.status(400).end();
-          }
-          return res.status(200).end();
-        }).catch(err => next(err))
+      let { ok, deletedCount } = await User.deleteOne({ userName: req.params.userName }).catch(err => next(err))
+      if ((ok === 1) && (deletedCount === 1)) {
+        return res.status(200).send();
+      }
     }
-    res.status(400).end();
-  },//not tested might not work
+  },
 
   editUser: async (req, res, next) => {
     if ((req.params.userName === null) || (req.params.userName === undefined)) {
@@ -76,7 +68,7 @@ module.exports = {
       await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
           if (!newUser) {
-            return res.status(400).end();
+            return res.status(400).send();
           }
           const token = signToken(newUser);
           return res.status(200).json({ token });
@@ -87,7 +79,7 @@ module.exports = {
       if (!user) {
         user = await User.find({ email: req.params.userName });
         if (!user) {
-          res.status(400).end();
+          return res.status(400).send();
         }
       }
       const { firstName, lastName, email, role } = req.body;
@@ -104,12 +96,12 @@ module.exports = {
       await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
           if (!newUser) {
-            return res.status(400).end();
+            return res.status(400).send();
           }
-          return res.status(200).end();
+          return res.status(200).send();
         }).catch(err => next(err))
     }
-    res.status(400).end();
+    return res.status(400).send();
   },
 
   signUp: async (req, res, next) => {
@@ -128,11 +120,11 @@ module.exports = {
     await newUser.save();
 
     const token = signToken(newUser);
-    res.status(200).json({ token, role: req.user.role });
+    return res.status(200).json({ token, role: newUser.role });
   },
 
   signIn: async (req, res, next) => {
     const token = signToken(req.user);
-    res.status(200).json({ token, role: req.user.role });
+    return res.status(200).json({ token, role: req.user.role });
   }
 }

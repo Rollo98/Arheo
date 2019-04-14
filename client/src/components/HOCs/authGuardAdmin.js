@@ -2,31 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 export default (OriginalComponent) => {
-    class MixedComponent extends Component {
-        checkAuth() {
-            if (!this.props.isAuth && !this.props.jwtToken) {
-                this.props.history.push('/Signin');
-            }
-        };
-        componentDidMount() {
-            this.checkAuth();
-        };
+  class MixedComponent extends Component {
+    checkAuth() {
+      if (!this.props.isAuth && !this.props.jwtToken && !this.props.role.includes("admin")) {
+        this.props.history.push('/Signin');
+      }
+    };
+    componentDidMount() {
+      this.checkAuth();
+    };
 
-        componentDidUpdate() {
-            this.checkAuth();
-        };
+    componentDidUpdate() {
+      this.checkAuth();
+    };
 
-        render() {
-          console.log("user",this.props)
-            return <OriginalComponent {...this.props} />;
-        }
+    render() {
+      return <OriginalComponent {...this.props} />;
     }
+  }
 
-    function MapStateToProps(state) {
-        return {
-            isAuth: state.auth.isAuthenticated,
-            jwtToken: state.auth.token
-        }
+  function MapStateToProps(state) {
+    return {
+      role: state.auth.role,
+      isAuth: state.auth.isAuthenticated,
+      jwtToken: state.auth.token
     }
-    return connect(MapStateToProps)(MixedComponent);
+  }
+  return connect(MapStateToProps)(MixedComponent);
 }
