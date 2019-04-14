@@ -36,37 +36,43 @@ class Header extends Component {
                   </li>
                 </>
               ) : null}
-              {this.props.role.includes("admin")?<>
-              <li className="nav-item">
-                    <Link className="nav-link" to="/">
-                      Acasa
+              {this.props.role.includes("admin") ? <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">
+                    Acasa
                     </Link>
-                  </li>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/Dashboard">
+                    Dashboard
+                    </Link>
+                </li>
+              </> : null
+              }
+              {this.props.role.includes("writer") ? <>
+                {!this.props.saveState ?
                   <li className="nav-item">
-                    <Link className="nav-link" to="/Dashboard">
-                      Dashboard
-                    </Link>
+                    <Link className="nav-link" to="/NewArcheologist">
+                      New Archeologist
+                      </Link>
                   </li>
-                </>:null
+                  : null}
+              </> : null
               }
               {this.props.isAuth ? (
-                <>
-                  {!this.props.saveState ? (
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
-                        New Archeologist
-                      </Link>
-                    </li>
-                  ) : null}
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link"
-                      to="/SignIn"
-                      onClick={this.signOut}
-                    >
-                      Sign Out
-                    </Link>
-                  </li>
+                <> <li className="nav-item">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                     style={{backgroundColor:"#00b4db"}}>
+                      {this.props.userName}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{backgroundColor:"#00b4db"}}>
+                      <Link class="dropdown-item nav-link" to="/"> Profil </Link>
+                      <Link class="dropdown-item nav-link" to="/" onClick={this.signOut}>Sign Out</Link>
+                    </div>
+                  </div>
+                </li>
                 </>
               ) : null}
             </ul>
@@ -79,6 +85,7 @@ class Header extends Component {
 
 function MapStateToProps(state) {
   return {
+    userName: state.auth.userName,
     role: state.auth.role,
     isAuth: state.auth.isAuthenticated
   };
