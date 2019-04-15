@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
         (
           <div key={n.userName}>
             <h2>
-              <Link to={`/dashboard/${n.userName}`}>{n.userName}</Link>
+              <Link to={{ pathname: `/dashboard/${n.userName}`, state: { modal: true } }}>{n.userName}</Link>
             </h2>
           </div>
         )
