@@ -113,12 +113,47 @@ class ViewAccount extends Component {
     }
     return x;
   }
-  sendChanges() {
-    //tbi
+  
+  async sendChanges() {
+    let checkboxesOptions = this.state.checkboxesOptions
+    let data = {}
+    data.firstName = this.state.firstName
+    data.lastName = this.state.lastName
+    data.email = this.state.email
+    data.role = ["user"]
+    this.state.roleDefined.map(n => {
+      if (checkboxesOptions[n] === true) {
+        data.role.push(n)
+      }
+    })
+    data.password = this.state.password
+    const jwtToken = localStorage.getItem("zeBilet");
+    Axios.defaults.headers.common["Authorization"] = jwtToken;
+    let Response
+    if ((this.props.userName === null) || (this.props.userName === undefined)) {
+      Response = await Axios.post(`http://localhost:5000/edit`, data)
+    } else {
+      Response = await Axios.post(`http://localhost:5000/${this.props.userName}/edit`, data)
+    }
+    if (Response.status === 200) {
+      this.handleClose()
+    }
   }
-  sendDeleteAcc() {
-    //tbi
+
+ async sendDeleteAcc() {
+    const jwtToken = localStorage.getItem("zeBilet");
+    Axios.defaults.headers.common["Authorization"] = jwtToken;
+    let Response
+    if ((this.props.userName === null) || (this.props.userName === undefined)) {
+      Response = await Axios.delete(`http://localhost:5000/`)
+    } else {
+      Response = await Axios.delete(`http://localhost:5000/${this.props.userName}`)
+    }
+    if (Response.status === 200) {
+      this.handleClose()
+    }
   }
+
   resetState() {
     this.setState({
       firstName: '',

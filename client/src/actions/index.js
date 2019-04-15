@@ -84,29 +84,29 @@ export const SignOut = () => {
   };
 }
 
-// export const NewArcheologist = data => {
-//     return async dispatch => {
-//         try {
-//             const res = await Axios.post('http://localhost:5000/notes/add_note', data)
-//             dispatch({
-//                 type: ARCHEOLOGIST_SAVE,
-//                 payload: res.data.token
-//             });
-//         } catch (error) {
-//             if (error.response.status === 400) {
-//                 dispatch({
-//                     type: ARCHEOLOGIST_ERROR,
-//                     payload: error.response.data.details[0].message
-//                 });
-//             } else {
-//                 dispatch({
-//                     type: ARCHEOLOGIST_ERROR,
-//                     payload: error.response.data
-//                 });
-//             }
-//         }
-//     };
-// }
+export const NewArcheologist = data => {
+    return async dispatch => {
+        try {
+            const res = await Axios.post('http://localhost:5000//', data)
+            dispatch({
+                type: ARCHEOLOGIST_SAVE,
+                payload: res.data.token
+            });
+        } catch (error) {
+            if (error.response.status === 400) {
+                dispatch({
+                    type: ARCHEOLOGIST_ERROR,
+                    payload: error.response.data.details[0].message
+                });
+            } else {
+                dispatch({
+                    type: ARCHEOLOGIST_ERROR,
+                    payload: error.response.data
+                });
+            }
+        }
+    };
+}
 // export const EditArcheologist = data => {
 //     return async dispatch => {
 //         try {
