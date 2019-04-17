@@ -106,6 +106,27 @@ $width: 100%;
   }
 }
 
+.dashboard {
+  :hover {
+    background-color: rgb(238, 238, 238);
+  }
+  p {
+    font-size: 30px;
+  }
+  .searchBar {
+    margin-bottom: 30px;
+    border-radius: 10px;
+  }
+  .user {
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+  }
+  .userLink {
+    color: black;
+    text-decoration: none;
+  }
+}
+
 //button for general use
 .button {
   background: $button-color;
