@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
@@ -16,13 +16,13 @@ import reducers from "./reducers/index";
 import authGuardAdmin from "./components/HOCs/authGuardAdmin";
 import authGuardWriter from "./components/HOCs/authGuardWriter";
 import NewArcheologist from "./components/NewArcheologist";
-import Dashboard from "./components/Dashboard";
-
+import Dashboard from "./components/Dashboard/Dashboard";
+import ViewAccount from './components/Dashboard/ViewAccount'
 import "./main.scss";
 
 const userName = localStorage.getItem("uNema"),
- role = JSON.parse(localStorage.getItem("pRemisiuni")),
- jwtToken = localStorage.getItem("zeBilet");
+  role = JSON.parse(localStorage.getItem("pRemisiuni")),
+  jwtToken = localStorage.getItem("zeBilet");
 Axios.defaults.headers.common["Authorization"] = jwtToken;
 
 ReactDOM.render(
@@ -31,7 +31,7 @@ ReactDOM.render(
       reducers,
       {
         auth: {
-          userName:userName,
+          userName: userName,
           role: role,
           token: jwtToken,
           isAuthenticated: jwtToken ? true : false
@@ -42,18 +42,29 @@ ReactDOM.render(
   >
     <BrowserRouter>
       <App>
-        <Route exact path="/" component={ArheoApp} />
-        <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
+        {/* <Switch> */}
+          <Route exact path="/" component={ArheoApp} />
+          <Route exact path="/account" component={ViewAccount} />
+
+          <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
+          <Route exact path="/Dashboard/:userName" component={authGuardAdmin(
+            props => (
+              <ViewAccount
+                userName={props.match.params.userName}
+                {...props}
+              />)
+          )} />
+
         {/* <Route
           exact
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
-        /> */}
+          /> */}
         {/* <Route
           exact
           path="/:firstName_:lastName/edit"
           component={authGuardWriter(NewArcheologist)}
-        /> */}
+          /> */}
         {/* <Route
           exact
           path="/:firstName_:lastName"
@@ -62,12 +73,14 @@ ReactDOM.render(
               firstName={props.match.params.firstName}
               lastName={props.match.params.lastName}
               {...props}
-            /> */}
-          )}
-        />
+            />
+            )}
+          /> */}
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}
-        <Route exact path="/SignUp" component={SignUp} />
-        <Route exact path="/SignIn" component={SignIn} />
+        
+          <Route exact path="/SignUp" component={SignUp} />
+          <Route exact path="/SignIn" component={SignIn} />
+      {/* </Switch> */}
       </App>
     </BrowserRouter>
   </Provider>,
