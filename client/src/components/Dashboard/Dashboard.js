@@ -13,12 +13,13 @@ export default class Dashboard extends Component {
   }
 
   async componentWillMount() {
+    const currentUser = localStorage.getItem("uNema")
+    this.setState({ currentUser })
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     let Response = await Axios.get("http://localhost:5000/");
     if (Response) {
       this.setState({ users: Response.data.foundUsers, gotData: true });
-      console.log("Useeers", Response.data);
     }
   }
 
@@ -34,9 +35,9 @@ export default class Dashboard extends Component {
     );
     let x = "";
     if (users.length > 0) {
-      x = users.map(n => (
+      x = users.map(n => {if(n.userName!==this.state.currentUser)
+        return(
         <div className="m-2 user" key={n.userName}>
-          {/* <Link to={`/dashboard/${n.userName}`}>{n.userName}</Link> */}
           <Link
             className="userLink row text-center m-2 p-2"
             to={`/dashboard/${n.userName}`}
@@ -49,8 +50,8 @@ export default class Dashboard extends Component {
             </h5>
           </Link>
         </div>
-      ));
-    }
+      )})};
+    
     return x;
   }
 

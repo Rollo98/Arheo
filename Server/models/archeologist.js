@@ -43,8 +43,7 @@ const archeologistSchema = new Schema({
         required: true
     },
     photo:{
-      type: String,
-      data: Buffer
+      type: String
     },
     author:{
       type:String,

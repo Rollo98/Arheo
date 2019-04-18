@@ -17,6 +17,9 @@ module.exports = {
     if (req.user.role.includes("admin")) {
       if ((req.params.userName === null) || (req.params.userName === undefined)) {
         const foundUsers = await User.find({});
+        // foundUsers=foundUsers.reduce((acc,current)=>{
+        // acc.push(current.userName)
+        // },[]) don't send all the data like we do now wtf is wrong w me
         return res.status(200).json({ foundUsers });
       } else {
         let foundUser = await User.find({ userName: req.params.userName });

@@ -13,7 +13,6 @@ class Header extends Component {
     this.props.SignOut();
   }
   render() {
-    console.log(this.props)
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -63,11 +62,11 @@ class Header extends Component {
                 <> <li className="nav-item">
                   <div className="dropdown">
                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                     style={{backgroundColor:"#00b4db"}}>
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      style={{ backgroundColor: "#00b4db" }}>
                       {this.props.userName}
                     </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{backgroundColor:"#00b4db"}}>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ backgroundColor: "#00b4db" }}>
                       <Link className="dropdown-item nav-link" to="/account"> Profil </Link>
                       <Link className="dropdown-item nav-link" to="/" onClick={this.signOut}>Sign Out</Link>
                     </div>

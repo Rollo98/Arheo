@@ -2,14 +2,14 @@ const express = require('express'),
  morgan = require('morgan'),
  bodyParser = require('body-parser'),
  mongoose = require('mongoose'),
- constants = require('./constants')
+ conf = require('./config/index')
  var cors = require('cors')
 
 mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV === 'test') {
-  mongoose.connect(`${constants.mongoURL}/arheoAppTEST`);
+  mongoose.connect(`${conf.mongoURL}/arheoAppTEST`);
 } else {
-  mongoose.connect(`${constants.mongoURL}/arheoApp`);
+  mongoose.connect(`${conf.mongoURL}/arheoApp`);
 }
 
 const app = express();

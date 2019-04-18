@@ -31,8 +31,8 @@ ReactDOM.render(
       reducers,
       {
         auth: {
-          userName: userName,
-          role: role,
+          userName: userName ? userName : "",
+          role: role ? role : [],
           token: jwtToken,
           isAuthenticated: jwtToken ? true : false
         }
@@ -43,17 +43,17 @@ ReactDOM.render(
     <BrowserRouter>
       <App>
         {/* <Switch> */}
-          <Route exact path="/" component={ArheoApp} />
-          <Route exact path="/account" component={ViewAccount} />
+        <Route exact path="/" component={ArheoApp} />
+        <Route exact path="/account" component={ViewAccount} />
 
-          <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
-          <Route exact path="/Dashboard/:userName" component={authGuardAdmin(
-            props => (
-              <ViewAccount
-                userName={props.match.params.userName}
-                {...props}
-              />)
-          )} />
+        <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
+        <Route exact path="/Dashboard/:userName" component={authGuardAdmin(
+          props => (
+            <ViewAccount
+              userName={props.match.params.userName}
+              {...props}
+            />)
+        )} />
 
         {/* <Route
           exact
@@ -77,10 +77,10 @@ ReactDOM.render(
             )}
           /> */}
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}
-        
-          <Route exact path="/SignUp" component={SignUp} />
-          <Route exact path="/SignIn" component={SignIn} />
-      {/* </Switch> */}
+
+        <Route exact path="/SignUp" component={SignUp} />
+        <Route exact path="/SignIn" component={SignIn} />
+        {/* </Switch> */}
       </App>
     </BrowserRouter>
   </Provider>,
