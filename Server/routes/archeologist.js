@@ -16,7 +16,7 @@ router.route('/get')
 // router.route('/') -> this doesn't work for some reason amazingly 
 // .get((req, res, next)=>{res.status(200).end();})
 
-router.route('/:firstName/:lastName')
+router.route('/get/:firstName/:lastName')
   .get(ArchController.getArcheologist)
   .delete(passportJWT, ArchController.deleteArcheologist)
   .post(validateBody(schemas.updateArcheologistSchema), passportJWT, ArchController.updateArcheologist);

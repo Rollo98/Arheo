@@ -8,14 +8,14 @@ import Axios from "axios";
 
 import registerServiceWorker from "./registerServiceWorker";
 import App from "./pages/App";
-import ArheoApp from "./components/ArheoApp";
-import ShowArcheologist from "./components/ShowArcheologist";
+import ArheoApp from "./components/Arheo/ArheoApp";
+import ShowArcheologist from "./components/Arheo/ShowArcheologist";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import reducers from "./reducers/index";
 import authGuardAdmin from "./components/HOCs/authGuardAdmin";
 import authGuardWriter from "./components/HOCs/authGuardWriter";
-import NewArcheologist from "./components/NewArcheologist";
+import NewArcheologist from "./components/Arheo/NewArcheologist";
 import Dashboard from "./components/Dashboard/Dashboard";
 import ViewAccount from './components/Dashboard/ViewAccount'
 import "./main.scss";
@@ -35,6 +35,9 @@ ReactDOM.render(
           role: role ? role : [],
           token: jwtToken,
           isAuthenticated: jwtToken ? true : false
+        },
+        arhe:{
+          errorMessage:""
         }
       },
       applyMiddleware(reduxThunk)
@@ -55,11 +58,11 @@ ReactDOM.render(
             />)
         )} />
 
-        {/* <Route
+        <Route
           exact
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
-          /> */}
+          />
         {/* <Route
           exact
           path="/:firstName_:lastName/edit"

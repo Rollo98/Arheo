@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 
-import CustomInput from './CustomInput';
-import CustomTextarea from './CustomTextarea';
-import * as actions from '../actions';
+import CustomInput from './../CustomInput';
+import CustomTextarea from './../CustomTextarea';
+import * as actions from './../../actions';
 class NewArcheologist extends Component {
     constructor(props) {
         super(props)
@@ -51,7 +51,7 @@ class NewArcheologist extends Component {
                                 {this.props.errorMessage}
                             </div>
                             : null}
-                        <button type="submit" className="btn btn-primary" onClick={this.updateNeeded()}>Save</button>
+                        <button type="submit" className="btn btn-primary" >Save</button>
                     </form>
                 </div>
             </div>
@@ -61,7 +61,7 @@ class NewArcheologist extends Component {
 
 function MapStateToProps(state) {
     return {
-        errorMessage: state.Archeologist.errorMessage
+        errorMessage: state.arhe.errorMessage
     }
 }
 

@@ -19,14 +19,15 @@ module.exports = {
         const foundUsers = await User.find({});
         // foundUsers=foundUsers.reduce((acc,current)=>{
         // acc.push(current.userName)
-        // },[]) don't send all the data like we do now wtf is wrong w me
+        // },[]) 
+        // don't send all the data like we do now wtf is wrong w me
         return res.status(200).json({ foundUsers });
       } else {
         let foundUser = await User.find({ userName: req.params.userName });
         if (!foundUser) {
           foundUser = await User.find({ email: req.params.userName });
           if (!foundUser) {
-            return res.status(400).send();
+            return res.status(400)
           }
         }
         return res.status(200).json({ foundUser });
@@ -34,23 +35,23 @@ module.exports = {
     } else if (req.user !== null) {
       return res.status(200).json({ foundUser: req.user });
     }
-    return res.status(400).send();
+    return res.status(400)
   },
   deleteUser: async (req, res, next) => {
     if ((req.params.userName === null) || (req.params.userName === undefined)) {
       let { ok, deletedCount } = await User.deleteOne({ userName: req.user.userName }).catch(err => next(err))
       if ((ok === 1) && (deletedCount === 1)) {
-        res.status(200).send();
+        res.status(200)
       }
     }
     if (req.user.role.includes("admin")) {
       let user = await User.find({ userName: req.params.userName });
       if (!user) {
-        return res.status(400).send();
+        return res.status(400)
       }
       let { ok, deletedCount } = await User.deleteOne({ userName: req.params.userName }).catch(err => next(err))
       if ((ok === 1) && (deletedCount === 1)) {
-        return res.status(200).send();
+        return res.status(200)
       }
     }
   },
@@ -71,7 +72,7 @@ module.exports = {
       await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
           if (!newUser) {
-            return res.status(400).send();
+            return res.status(400)
           }
           const token = signToken(newUser);
           return res.status(200).json({ token });
@@ -82,7 +83,7 @@ module.exports = {
       if (!user) {
         user = await User.find({ email: req.params.userName });
         if (!user) {
-          return res.status(400).send();
+          return res.status(400)
         }
       }
       const { firstName, lastName, email, role } = req.body;
@@ -99,12 +100,12 @@ module.exports = {
       await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
           if (!newUser) {
-            return res.status(400).send();
+            return res.status(400)
           }
-          return res.status(200).send();
+          return res.status(200)
         }).catch(err => next(err))
     }
-    return res.status(400).send();
+    return res.status(400)
   },
 
   signUp: async (req, res, next) => {

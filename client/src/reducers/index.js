@@ -8,5 +8,5 @@ import archeologistReducer from './archeologist';
 export default combineReducers({
     form: formReducer,
     auth: authReducer,
-    archeologist: archeologistReducer
+    arhe: archeologistReducer
 });

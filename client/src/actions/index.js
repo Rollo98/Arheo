@@ -87,7 +87,7 @@ export const SignOut = () => {
 export const NewArcheologist = data => {
     return async dispatch => {
         try {
-            const res = await Axios.post('http://localhost:5000//', data)
+            const res = await Axios.post('http://localhost:5000/arheologist/add', data)
             dispatch({
                 type: ARCHEOLOGIST_SAVE,
                 payload: res.data.token
@@ -107,6 +107,7 @@ export const NewArcheologist = data => {
         }
     };
 }
+
 // export const EditArcheologist = data => {
 //     return async dispatch => {
 //         try {
