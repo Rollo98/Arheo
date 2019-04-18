@@ -16,16 +16,15 @@ module.exports = {
   addArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer")) {
       const { firstName, lastName, institution, specialization, university, works } = req.body;
-      let user = req.user.userName
+      let user = [req.user.userName]
       let { birthDay } = req.body;
       dateModified = new Date();
       birthDay = new Date(birthDay);
-      author = `${req.user.firstName} ${req.user.lastName}`
       if ((req.body.deathDay === null) || (req.body.deathDay === undefined)) {
-        newArcheologist = new Archeologist({ user, firstName, lastName, birthDay, institution, specialization, university, works, dateModified, author });
+        newArcheologist = new Archeologist({ user, firstName, lastName, birthDay, institution, specialization, university, works, dateModified, author:user[0] });
       } else {
         const { deathDay } = req.body;
-        newArcheologist = new Archeologist({ user, firstName, lastName, birthDay, deathDay, institution, specialization, university, works, dateModified, author });
+        newArcheologist = new Archeologist({ user, firstName, lastName, birthDay, deathDay, institution, specialization, university, works, dateModified, author:user[0] });
       }
       await newArcheologist.save().then(doc => {
         if (!doc) {
@@ -73,7 +72,7 @@ module.exports = {
       }
     }
   },
-  
+
   updateArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer")) {
       if (((req.params.firstName === null) || (req.params.firstName === undefined)) ||
