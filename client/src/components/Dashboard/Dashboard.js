@@ -35,23 +35,25 @@ export default class Dashboard extends Component {
     );
     let x = "";
     if (users.length > 0) {
-      x = users.map(n => {if(n.userName!==this.state.currentUser)
-        return(
-        <div className="m-2 user" key={n.userName}>
-          <Link
-            className="userLink row text-center m-2 p-2"
-            to={`/dashboard/${n.userName}`}
-          >
-            <h5 className="col">
-              <b>Username</b>: {n.userName}
-            </h5>
-            <h5 className="col">
-              <b>Email</b>: {n.email}
-            </h5>
-          </Link>
-        </div>
-      )})};
-    
+      x = users.map(n => {
+        if (n.userName !== this.state.currentUser)
+          return (
+            <Link to={`/dashboard/${n.userName}`} >
+              <div className="m-2 user" key={n.userName}>
+                <div className="userLink row text-center m-2 p-2">
+                  <h5 className="col">
+                    <b>Username</b>: {n.userName}
+                  </h5>
+                  <h5 className="col">
+                    <b>Email</b>: {n.email}
+                  </h5>
+                </div>
+              </div>
+            </Link>
+          )
+      })
+    };
+
     return x;
   }
 
