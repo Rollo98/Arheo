@@ -126,6 +126,43 @@ $width: 100%;
   }
 }
 
+.dropdown {
+  .customButton {
+    border: none;
+    background: none !important;
+  }
+  .customButton:focus,
+  .customButton:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+  .btn-secondary:not(:disabled):not(.disabled):active:focus,
+  .show > .btn-secondary.dropdown-toggle:focus {
+    box-shadow: none;
+  }
+  .dropdownCustom {
+    margin-right: -20px;
+    margin-top: 10px;
+    background-color: #00b4db;
+    .dropitemCustom:hover {
+      background-color: #00a4c9;
+    }
+  }
+}
+.modal {
+  .modalGroup {
+    background-color: #e9ecef;
+    margin: auto;
+    border-radius: 10px;
+    .modalSpan {
+      width: 100%;
+    }
+  }
+  .spanCustom {
+    min-width: 100px;
+  }
+}
+
 //button for general use
 .button {
   background: $button-color;

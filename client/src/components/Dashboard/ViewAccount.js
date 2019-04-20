@@ -208,10 +208,15 @@ class ViewAccount extends Component {
           <Modal.Body>
             {this.state.edit ? (
               <>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Nume:
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Nume</b>
+                    </span>
+                  </div>
                   <input
                     className="form-control"
                     value={this.state.lastName}
@@ -220,10 +225,15 @@ class ViewAccount extends Component {
                     }}
                   />
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Prenume:
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Prenume</b>
+                    </span>
+                  </div>
                   <input
                     className="form-control"
                     value={this.state.firstName}
@@ -232,10 +242,15 @@ class ViewAccount extends Component {
                     }}
                   />
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Email:
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Email</b>
+                    </span>
+                  </div>
                   <input
                     className="form-control"
                     value={this.state.email}
@@ -244,18 +259,15 @@ class ViewAccount extends Component {
                     }}
                   />
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Rol:
-                  </span>
-                  {this.props.userName
-                    ? this.roleRender(true)
-                    : this.roleRender(false)}
-                </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Parola
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Parola</b>
+                    </span>
+                  </div>
                   <input
                     className="form-control"
                     value={this.state.password}
@@ -264,27 +276,60 @@ class ViewAccount extends Component {
                     }}
                   />
                 </div>
+                <div className="input-group mt-2">
+                  <span
+                    className="input-group-text modalSpan"
+                    id="inputGroup-sizing-sm"
+                  >
+                    <b>Rol:</b>
+                  </span>
+                  {this.props.userName
+                    ? this.roleRender(true)
+                    : this.roleRender(false)}
+                </div>
               </>
             ) : (
               <>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Nume:{this.state.lastName}
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Nume</b>
+                    </span>
+                  </div>
+                  <div className="form-control">{this.state.lastName}</div>
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Prenume:{this.state.firstName}
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Prenume</b>
+                    </span>
+                  </div>
+                  <div className="form-control">{this.state.firstName}</div>
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Email:{this.state.email}
-                  </span>
+                <div className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span
+                      className="spanCustom input-group-text"
+                      id="inputGroup-sizing-sm"
+                    >
+                      <b>Email</b>
+                    </span>
+                  </div>
+                  <div className="form-control">{this.state.email}</div>
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">
-                    Rol:
+
+                <div className="input-group mt-2">
+                  <span
+                    className="input-group-text modalSpan"
+                    id="inputGroup-sizing-sm"
+                  >
+                    <b>Rol</b>
                   </span>
                   {this.roleRender(false)}
                 </div>
@@ -308,7 +353,7 @@ class ViewAccount extends Component {
                 <button
                   variant="primary"
                   type="button"
-                  className="btn"
+                  className="btn btn-primary"
                   onClick={() => {
                     this.toggleEdit();
                   }}

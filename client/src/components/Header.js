@@ -35,43 +35,65 @@ class Header extends Component {
                   </li>
                 </>
               ) : null}
-              {this.props.role.includes("admin") ? <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">
-                    Acasa
-                    </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Dashboard">
-                    Dashboard
-                    </Link>
-                </li>
-              </> : null
-              }
-              {this.props.role.includes("writer") ? <>
-                {!this.props.saveState ?
+              {this.props.role.includes("admin") ? (
+                <>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/NewArcheologist">
-                      New Archeologist
-                      </Link>
+                    <Link className="nav-link" to="/">
+                      Acasa
+                    </Link>
                   </li>
-                  : null}
-              </> : null
-              }
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/Dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                </>
+              ) : null}
+              {this.props.role.includes("writer") ? (
+                <>
+                  {!this.props.saveState ? (
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/NewArcheologist">
+                        New Archeologist
+                      </Link>
+                    </li>
+                  ) : null}
+                </>
+              ) : null}
               {this.props.isAuth ? (
-                <> <li className="nav-item">
-                  <div className="dropdown">
-                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                      style={{ backgroundColor: "#00b4db" }}>
-                      {this.props.userName}
-                    </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ backgroundColor: "#00b4db" }}>
-                      <Link className="dropdown-item nav-link" to="/account"> Profil </Link>
-                      <Link className="dropdown-item nav-link" to="/" onClick={this.signOut}>Sign Out</Link>
+                <>
+                  <li className="nav-item">
+                    <div className="dropdown">
+                      <button
+                        className="btn btn-secondary customButton dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {this.props.userName}
+                      </button>
+                      <div
+                        className="dropdown-menu dropdownCustom dropdown-menu-right text-center"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <Link
+                          className="dropdown-item dropitemCustom nav-link"
+                          to="/account"
+                        >
+                          Profil
+                        </Link>
+                        <Link
+                          className="dropdown-item dropitemCustom nav-link"
+                          to="/"
+                          onClick={this.signOut}
+                        >
+                          Sign Out
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
                 </>
               ) : null}
             </ul>
