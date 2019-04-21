@@ -27,7 +27,8 @@ export default class NewArcheologist extends Component {
       ],
       dataModified: "",
       photo: "",
-      author: ""
+      author: "",
+      workCount: 1
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -47,6 +48,7 @@ export default class NewArcheologist extends Component {
 
   handleAdd = e => {
     this.setState(prevState => ({
+      workCount: this.state.workCount + 1,
       works: [...prevState.works, { title: "", text: "", start: "", end: "" }]
     }));
   };
@@ -58,114 +60,133 @@ export default class NewArcheologist extends Component {
 
   render() {
     return (
-      <div className="row text-center">
+      <div className="row">
         <div className="col">
           <form onSubmit={this.sendChanges}>
             <input
               type="text"
               name="firstName"
-              className="form-control m-3"
+              className="form-control"
               placeholder="First name"
               onChange={e => this.setState({ firstName: e.target.value })}
             />
             <input
               type="text"
               name="lastName"
-              className="form-control m-3"
+              className="form-control"
               placeholder="Last name"
               onChange={e => this.setState({ lastName: e.target.value })}
             />
             <input
-              type="datetime-local"
+              type="text"
               name="birthDay"
-              className="form-control m-3"
+              className="form-control"
               placeholder="Birthday"
               onChange={e => this.setState({ birthDay: e.target.value })}
             />
             <input
-              type="datetime-local"
+              type="text"
               name="deathDay"
-              className="form-control m-3"
+              className="form-control"
               placeholder="Death day"
               onChange={e => this.setState({ deathDay: e.target.value })}
             />
             <input
               type="text"
               name="institution"
-              className="form-control m-3"
+              className="form-control"
               placeholder="Institution"
               onChange={e => this.setState({ institution: e.target.value })}
             />
             <input
               type="text"
               name="specialization"
-              className="form-control m-3"
+              className="form-control"
               placeholder="Specialization"
               onChange={e => this.setState({ specialization: e.target.value })}
             />
             <input
               type="text"
               name="university"
-              className="form-control m-3"
+              className="form-control"
               placeholder="University"
               onChange={e => this.setState({ university: e.target.value })}
             />
             <input
               type="text"
               name="author"
-              className="form-control m-3"
+              className="form-control"
               placeholder="Author"
               onChange={e => this.setState({ author: e.target.value })}
             />
             {this.state.works.map(work => {
               return (
-                <div key={work._id}>
+                <div className="workForm" key={work._id}>
+                  <h2 className="">{`Work: ${this.state.workCount}`}</h2>
+                  <label for="title">Title:</label>
                   <input
                     type="text"
+                    id="title"
                     name="title"
-                    className="form-control m-3"
+                    className="form-control"
                     placeholder="Title"
                     onChange={e => this.setState({ title: e.target.value })}
                   />
+                  <label for="text">Text:</label>
+
                   <input
                     type="text"
+                    id="text"
                     name="text"
-                    className="form-control m-3"
+                    className="form-control"
                     placeholder="Text"
                     onChange={e => this.setState({ text: e.target.value })}
                   />
+                  <label for="start">Start:</label>
+
                   <input
-                    type="datetime-local"
+                    type="text"
+                    id="start"
                     name="start"
-                    className="form-control m-3"
+                    className="form-control"
                     placeholder="Start"
                     onChange={e => this.setState({ start: e.target.value })}
                   />
+                  <label for="end">End:</label>
+
                   <input
-                    type="datetime-local"
+                    type="text"
+                    id="end"
                     name="end"
-                    className="form-control m-3"
+                    className="form-control"
                     placeholder="End"
                     onChange={e => this.setState({ end: e.target.value })}
                   />
+                  <button
+                    type="button"
+                    onClick={this.handleAdd}
+                    className="btn btn-danger ml-2"
+                  >
+                    -
+                  </button>
+                  <button
+                    type="button"
+                    onClick={this.handleAdd}
+                    className="btn btn-success ml-2"
+                  >
+                    +
+                  </button>
                 </div>
               );
             })}
 
-            <button
-              type="button"
-              onClick={this.handleAdd}
-              className="btn btn-success mr-2"
-            >
-              Add work
-            </button>
-            {console.log(this.state)}
+            {console.log("this is the motherfucking state", this.state)}
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
                 {this.props.errorMessage}
               </div>
             ) : null}
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn mt-2 btn-primary">
               Save
             </button>
           </form>
