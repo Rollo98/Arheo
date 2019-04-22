@@ -2,8 +2,3 @@ export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
 export const AUTH_SIGN_IN = 'AUTH_SIGN_IN';
 export const AUTH_SIGN_OUT = 'AUTH_SIGN_OUT';
 export const AUTH_ERROR = 'AUTH_ERROR';
-
-export const ARCHEOLOGIST_SAVE = 'ARCHEOLOGIST_SAVE';
-export const ARCHEOLOGIST_EDIT = 'ARCHEOLOGIST_EDIT';
-export const ARCHEOLOGIST_ERROR = 'ARCHEOLOGIST_ERROR';
-

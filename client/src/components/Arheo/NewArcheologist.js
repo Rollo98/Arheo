@@ -3,7 +3,6 @@ import { Field } from "redux-form";
 import CustomInput from "./../CustomInput";
 import CustomTextarea from "./../CustomTextarea";
 import * as actions from "./../../actions";
-import Work from "./Work";
 import props from "../../pages/App";
 
 export default class NewArcheologist extends Component {
@@ -19,6 +18,7 @@ export default class NewArcheologist extends Component {
       university: "",
       works: [
         {
+          id: 1,
           start: "",
           end: "",
           title: "",
@@ -28,7 +28,6 @@ export default class NewArcheologist extends Component {
       dataModified: "",
       photo: "",
       author: "",
-      workCount: 1
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -40,16 +39,18 @@ export default class NewArcheologist extends Component {
       this.props.history.push("/");
     }
   }
-
-  handleWork() {
-    let x = this.state.works.map(n => <Work />);
-    return x;
+  handleDel = e => {
+    if (this.state.works.length > 1) {
+      const works = this.state.works
+      works.pop()
+      console.log(works)
+      this.setState({ works });
+    }
   }
-
   handleAdd = e => {
+    const iD = this.state.works[this.state.works.length - 1].id + 1
     this.setState(prevState => ({
-      workCount: this.state.workCount + 1,
-      works: [...prevState.works, { title: "", text: "", start: "", end: "" }]
+      works: [...prevState.works, { id: iD, title: "", text: "", start: "", end: "" }]
     }));
   };
 
@@ -63,124 +64,167 @@ export default class NewArcheologist extends Component {
       <div className="row">
         <div className="col">
           <form onSubmit={this.sendChanges}>
+            <label for="firstName">FirstName:</label>
             <input
+              id="firstName"
               type="text"
               name="firstName"
               className="form-control"
               placeholder="First name"
               onChange={e => this.setState({ firstName: e.target.value })}
             />
+            <label for="lastName">LastName:</label>
             <input
+              id="lastName"
               type="text"
               name="lastName"
               className="form-control"
               placeholder="Last name"
               onChange={e => this.setState({ lastName: e.target.value })}
             />
+            <label for="birthDay">BirthDay:</label>
             <input
+              id="birthDay"
               type="text"
               name="birthDay"
               className="form-control"
               placeholder="Birthday"
               onChange={e => this.setState({ birthDay: e.target.value })}
             />
+            <label for="deathDay">DeathDay:</label>
             <input
+              id="deathDay"
               type="text"
               name="deathDay"
               className="form-control"
               placeholder="Death day"
               onChange={e => this.setState({ deathDay: e.target.value })}
             />
+            <label for="institution">Institution:</label>
             <input
+              id="institution"
               type="text"
               name="institution"
               className="form-control"
               placeholder="Institution"
               onChange={e => this.setState({ institution: e.target.value })}
             />
+            <label for="specialization">Specialization:</label>
             <input
+              id="specialization"
               type="text"
               name="specialization"
               className="form-control"
               placeholder="Specialization"
               onChange={e => this.setState({ specialization: e.target.value })}
             />
+            <label for="university">University:</label>
             <input
+              id="university"
               type="text"
               name="university"
               className="form-control"
               placeholder="University"
               onChange={e => this.setState({ university: e.target.value })}
             />
+            <label for="workform">Work:</label><br />
+            {this.state.works.map(work => {
+              return (
+                <>
+                  <br /> <label for="workform">{`${work.id}`}</label><br />
+                  <div id="workform" className="workForm col-md-11" key={work.id}>
+                    <label for="title">Titlu:</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      placeholder="Title"
+                      onChange={e => {
+                        this.state.works[work.id - 1].title = e.target.value
+                        this.setState({ works: this.state.works })
+                      }}
+                    />
+                    <label for="text">Descriere:</label>
+
+                    <textarea
+                      type="text"
+                      id="text"
+                      name="text"
+                      className="form-control col-md-10"
+                      placeholder="Text"
+                      onChange={e => {
+                        this.state.works[work.id - 1].text = e.target.value
+                        this.setState({ works: this.state.works })
+                      }
+                      }
+                    />
+                    <label for="start">Inceput:</label>
+
+                    <input
+                      type="text"
+                      id="start"
+                      name="start"
+                      className="form-control col-md-10"
+                      placeholder="Start"
+                      onChange={e => {
+                        this.state.works[work.id - 1].start = e.target.value
+                        this.setState({ works: this.state.works })
+                      }}
+                    />
+
+                    <label for="end">Sfarsit:</label>
+
+                    <input
+                      type="text"
+                      id="end"
+                      name="end"
+                      className="form-control col-md-10"
+                      placeholder="End"
+                      onChange={e => {
+                        this.state.works[work.id - 1].end = e.target.value
+                        this.setState({ works: this.state.works })
+                      }}
+                    />
+                    {work.id === this.state.works.length ?
+                      <div
+                        style={{ marginTop: "10px" }}
+                      >
+                        {this.state.works.length > 1 ?
+                          <button
+                            type="button"
+                            onClick={this.handleDel}
+                            className="btn btn-danger "
+                            style={{ width: 50, height: 50 }}
+                          >
+                            -
+                          </button>
+                          : null}
+                        <button
+                          type="button"
+                          onClick={this.handleAdd}
+                          className="btn btn-success "
+                          style={{ width: 50, height: 50 }}
+                        >
+                          +
+                           </button>
+                      </div> : null}
+                  </div>
+                </>);
+            })}
+
+
+            <label for="author">Author:</label>
             <input
+              id="author"
               type="text"
               name="author"
               className="form-control"
               placeholder="Author"
               onChange={e => this.setState({ author: e.target.value })}
             />
-            {this.state.works.map(work => {
-              return (
-                <div className="workForm" key={work._id}>
-                  <h2 className="">{`Work: ${this.state.workCount}`}</h2>
-                  <label for="title">Title:</label>
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    className="form-control"
-                    placeholder="Title"
-                    onChange={e => this.setState({ title: e.target.value })}
-                  />
-                  <label for="text">Text:</label>
 
-                  <input
-                    type="text"
-                    id="text"
-                    name="text"
-                    className="form-control"
-                    placeholder="Text"
-                    onChange={e => this.setState({ text: e.target.value })}
-                  />
-                  <label for="start">Start:</label>
 
-                  <input
-                    type="text"
-                    id="start"
-                    name="start"
-                    className="form-control"
-                    placeholder="Start"
-                    onChange={e => this.setState({ start: e.target.value })}
-                  />
-                  <label for="end">End:</label>
-
-                  <input
-                    type="text"
-                    id="end"
-                    name="end"
-                    className="form-control"
-                    placeholder="End"
-                    onChange={e => this.setState({ end: e.target.value })}
-                  />
-                  <button
-                    type="button"
-                    onClick={this.handleAdd}
-                    className="btn btn-danger ml-2"
-                  >
-                    -
-                  </button>
-                  <button
-                    type="button"
-                    onClick={this.handleAdd}
-                    className="btn btn-success ml-2"
-                  >
-                    +
-                  </button>
-                </div>
-              );
-            })}
-
-            {console.log("this is the motherfucking state", this.state)}
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
                 {this.props.errorMessage}

@@ -14,8 +14,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="sticky-top navbar navbar-expand-lg navbar-dark bg-dark">
           <Link className="navbar-brand" to="/">
             Arheo
           </Link>
@@ -99,7 +98,6 @@ class Header extends Component {
             </ul>
           </div>
         </nav>
-      </div>
     );
   }
 }

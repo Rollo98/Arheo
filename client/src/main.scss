@@ -165,7 +165,7 @@ $width: 100%;
 
 .workForm {
   max-width: 80%;
-  margin: auto;
+  // margin: auto; ce-i fa asta?
   label {
     color: $muted-color;
     font-size: 16px;
@@ -228,6 +228,9 @@ $width: 100%;
 }
 .card {
   margin: 15px auto;
+}
+.custombtn{
+  border:none;
 }
 
 //media queries
