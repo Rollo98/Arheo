@@ -165,16 +165,6 @@ $width: 100%;
 
 .workForm {
   max-width: 80%;
-  // margin: auto; ce-i fa asta?
-  label {
-    color: $muted-color;
-    font-size: 16px;
-    font-weight: normal;
-    pointer-events: none;
-    left: 5px;
-    top: 10px;
-    transition: $trans-time ease all;
-  }
   button {
     border-radius: 50%;
   }
@@ -229,8 +219,8 @@ $width: 100%;
 .card {
   margin: 15px auto;
 }
-.custombtn{
-  border:none;
+.custombtn {
+  border: none;
 }
 
 //media queries

@@ -27,7 +27,7 @@ export default class NewArcheologist extends Component {
       ],
       dataModified: "",
       photo: "",
-      author: "",
+      author: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -41,16 +41,19 @@ export default class NewArcheologist extends Component {
   }
   handleDel = e => {
     if (this.state.works.length > 1) {
-      const works = this.state.works
-      works.pop()
-      console.log(works)
+      const works = this.state.works;
+      works.pop();
+      console.log(works);
       this.setState({ works });
     }
-  }
+  };
   handleAdd = e => {
-    const iD = this.state.works[this.state.works.length - 1].id + 1
+    const iD = this.state.works[this.state.works.length - 1].id + 1;
     this.setState(prevState => ({
-      works: [...prevState.works, { id: iD, title: "", text: "", start: "", end: "" }]
+      works: [
+        ...prevState.works,
+        { id: iD, title: "", text: "", start: "", end: "" }
+      ]
     }));
   };
 
@@ -64,42 +67,55 @@ export default class NewArcheologist extends Component {
       <div className="row">
         <div className="col">
           <form onSubmit={this.sendChanges}>
-            <label for="firstName">FirstName:</label>
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              className="form-control"
-              placeholder="First name"
-              onChange={e => this.setState({ firstName: e.target.value })}
-            />
-            <label for="lastName">LastName:</label>
-            <input
-              id="lastName"
-              type="text"
-              name="lastName"
-              className="form-control"
-              placeholder="Last name"
-              onChange={e => this.setState({ lastName: e.target.value })}
-            />
-            <label for="birthDay">BirthDay:</label>
-            <input
-              id="birthDay"
-              type="text"
-              name="birthDay"
-              className="form-control"
-              placeholder="Birthday"
-              onChange={e => this.setState({ birthDay: e.target.value })}
-            />
-            <label for="deathDay">DeathDay:</label>
-            <input
-              id="deathDay"
-              type="text"
-              name="deathDay"
-              className="form-control"
-              placeholder="Death day"
-              onChange={e => this.setState({ deathDay: e.target.value })}
-            />
+            <div class="form-row">
+              <div class="col">
+                <label for="firstName">FirstName:</label>
+                <input
+                  id="firstName"
+                  type="text"
+                  name="firstName"
+                  className="form-control"
+                  placeholder="First name"
+                  onChange={e => this.setState({ firstName: e.target.value })}
+                />
+              </div>
+              <div class="col">
+                <label for="lastName">LastName:</label>
+                <input
+                  id="lastName"
+                  type="text"
+                  name="lastName"
+                  className="form-control"
+                  placeholder="Last name"
+                  onChange={e => this.setState({ lastName: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <label for="birthDay">BirthDay:</label>
+                <input
+                  id="birthDay"
+                  type="text"
+                  name="birthDay"
+                  className="form-control"
+                  placeholder="Birthday"
+                  onChange={e => this.setState({ birthDay: e.target.value })}
+                />
+              </div>
+              <div class="col">
+                <label for="deathDay">DeathDay:</label>
+                <input
+                  id="deathDay"
+                  type="text"
+                  name="deathDay"
+                  className="form-control"
+                  placeholder="Death day"
+                  onChange={e => this.setState({ deathDay: e.target.value })}
+                />
+              </div>
+            </div>
             <label for="institution">Institution:</label>
             <input
               id="institution"
@@ -127,12 +143,18 @@ export default class NewArcheologist extends Component {
               placeholder="University"
               onChange={e => this.setState({ university: e.target.value })}
             />
-            <label for="workform">Work:</label><br />
+            <label for="workform">Work:</label>
+            <br />
             {this.state.works.map(work => {
               return (
                 <>
-                  <br /> <label for="workform">{`${work.id}`}</label><br />
-                  <div id="workform" className="workForm col-md-11" key={work.id}>
+                  <br /> <label for="workform">{`${work.id}`}</label>
+                  <br />
+                  <div
+                    id="workform"
+                    className="workForm col-md-11"
+                    key={work.id}
+                  >
                     <label for="title">Titlu:</label>
                     <input
                       type="text"
@@ -141,12 +163,11 @@ export default class NewArcheologist extends Component {
                       className="form-control col-md-10"
                       placeholder="Title"
                       onChange={e => {
-                        this.state.works[work.id - 1].title = e.target.value
-                        this.setState({ works: this.state.works })
+                        this.state.works[work.id - 1].title = e.target.value;
+                        this.setState({ works: this.state.works });
                       }}
                     />
                     <label for="text">Descriere:</label>
-
                     <textarea
                       type="text"
                       id="text"
@@ -154,10 +175,9 @@ export default class NewArcheologist extends Component {
                       className="form-control col-md-10"
                       placeholder="Text"
                       onChange={e => {
-                        this.state.works[work.id - 1].text = e.target.value
-                        this.setState({ works: this.state.works })
-                      }
-                      }
+                        this.state.works[work.id - 1].text = e.target.value;
+                        this.setState({ works: this.state.works });
+                      }}
                     />
                     <label for="start">Inceput:</label>
 
@@ -168,8 +188,8 @@ export default class NewArcheologist extends Component {
                       className="form-control col-md-10"
                       placeholder="Start"
                       onChange={e => {
-                        this.state.works[work.id - 1].start = e.target.value
-                        this.setState({ works: this.state.works })
+                        this.state.works[work.id - 1].start = e.target.value;
+                        this.setState({ works: this.state.works });
                       }}
                     />
 
@@ -182,15 +202,13 @@ export default class NewArcheologist extends Component {
                       className="form-control col-md-10"
                       placeholder="End"
                       onChange={e => {
-                        this.state.works[work.id - 1].end = e.target.value
-                        this.setState({ works: this.state.works })
+                        this.state.works[work.id - 1].end = e.target.value;
+                        this.setState({ works: this.state.works });
                       }}
                     />
-                    {work.id === this.state.works.length ?
-                      <div
-                        style={{ marginTop: "10px" }}
-                      >
-                        {this.state.works.length > 1 ?
+                    {work.id === this.state.works.length ? (
+                      <div style={{ marginTop: "10px" }}>
+                        {this.state.works.length > 1 ? (
                           <button
                             type="button"
                             onClick={this.handleDel}
@@ -199,20 +217,21 @@ export default class NewArcheologist extends Component {
                           >
                             -
                           </button>
-                          : null}
+                        ) : null}
                         <button
                           type="button"
                           onClick={this.handleAdd}
-                          className="btn btn-success "
+                          className="btn btn-success ml-2"
                           style={{ width: 50, height: 50 }}
                         >
                           +
-                           </button>
-                      </div> : null}
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
-                </>);
+                </>
+              );
             })}
-
 
             <label for="author">Author:</label>
             <input
@@ -223,7 +242,6 @@ export default class NewArcheologist extends Component {
               placeholder="Author"
               onChange={e => this.setState({ author: e.target.value })}
             />
-
 
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
