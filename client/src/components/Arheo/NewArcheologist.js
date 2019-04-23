@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Field } from "redux-form";
-import CustomInput from "./../CustomInput";
-import CustomTextarea from "./../CustomTextarea";
-import * as actions from "./../../actions";
-import props from "../../pages/App";
+import React, { Component } from "react"
+import { Field } from "redux-form"
+import CustomInput from "./../CustomInput"
+import CustomTextarea from "./../CustomTextarea"
+import * as actions from "./../../actions"
+import props from "../../pages/App"
 
 export default class NewArcheologist extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       firstName: "",
       lastName: "",
@@ -33,10 +33,10 @@ export default class NewArcheologist extends Component {
   }
 
   async onSubmit(formData) {
-    formData.date = new Date();
-    await this.props.NewArcheologist(formData);
+    formData.date = new Date()
+    await this.props.NewArcheologist(formData)
     if (!this.props.errorMessage) {
-      this.props.history.push("/");
+      this.props.history.push("/")
     }
   }
   handleDel = e => {
@@ -58,8 +58,8 @@ export default class NewArcheologist extends Component {
   };
 
   sendChanges() {
-    let data = this.state;
-    console.log(data);
+    // let data = this.state
+    console.log(this.state)
   }
 
   render() {
@@ -229,8 +229,7 @@ export default class NewArcheologist extends Component {
                       </div>
                     ) : null}
                   </div>
-                </>
-              );
+                </>)
             })}
 
             <label for="author">Author:</label>
@@ -248,12 +247,22 @@ export default class NewArcheologist extends Component {
                 {this.props.errorMessage}
               </div>
             ) : null}
-            <button type="submit" className="btn mt-2 btn-primary">
+            {/* <button 
+            // type="submit" 
+            className="btn mt-2 btn-primary"
+            onClick={this.sendChanges}
+            >
               Save
-            </button>
+            </button> */}
+            <div
+              className="btn mt-2 btn-primary"
+              onClick={() => {this.sendChanges()}}
+            >
+              Save
+          </div>
           </form>
         </div>
       </div>
-    );
+    )
   }
 }
