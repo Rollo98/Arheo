@@ -1,19 +1,18 @@
-import React, { Component } from "react"
-import { Field } from "redux-form"
-import CustomInput from "./../CustomInput"
-import CustomTextarea from "./../CustomTextarea"
-import * as actions from "./../../actions"
-import props from "../../pages/App"
-import Dropzone from 'react-dropzone';
+import React, { Component } from "react";
+import { Field } from "redux-form";
+import CustomInput from "./../CustomInput";
+import CustomTextarea from "./../CustomTextarea";
+import * as actions from "./../../actions";
+import props from "../../pages/App";
+import Dropzone from "react-dropzone";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-
 export default class NewArcheologist extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       firstName: "",
       lastName: "",
@@ -37,10 +36,10 @@ export default class NewArcheologist extends Component {
   }
 
   async onSubmit(formData) {
-    formData.date = new Date()
-    await this.props.NewArcheologist(formData)
+    formData.date = new Date();
+    await this.props.NewArcheologist(formData);
     if (!this.props.errorMessage) {
-      this.props.history.push("/")
+      this.props.history.push("/");
     }
   }
   handleDel = e => {
@@ -56,44 +55,56 @@ export default class NewArcheologist extends Component {
     this.setState(prevState => ({
       works: [
         ...prevState.works,
-        { id: iD, title: "", text: "", start: new Date().toISOString(), end: new Date().toISOString() }
+        {
+          id: iD,
+          title: "",
+          text: "",
+          start: new Date().toISOString(),
+          end: new Date().toISOString()
+        }
       ]
     }));
   };
 
   async sendChanges() {
-    const works=this.state.works.reduce((acc,val)=>{
-      const currentVal={
+    const works = this.state.works.reduce((acc, val) => {
+      const currentVal = {
         start: val.start,
         end: val.end,
         title: val.title,
         text: val.text
-      }
-       acc.push(currentVal)
-       return acc
-      },[])
-    console.log(JSON.stringify([this.state.institution]))
-    let { formData } = this.state
-    formData.append('firstName', this.state.firstName)
-    formData.append('lastName', this.state.lastName)
-    formData.append('birthDay', this.state.birthDay.toISOString())
-    formData.append('deathDay', this.state.deathDay.toISOString())
-    formData.append('institution', JSON.stringify([this.state.institution]))
-    formData.append('specialization', JSON.stringify([this.state.specialization]))
-    formData.append('university', JSON.stringify([this.state.university]))
-    formData.append('works', JSON.stringify(works))
+      };
+      acc.push(currentVal);
+      return acc;
+    }, []);
+    console.log(JSON.stringify([this.state.institution]));
+    let { formData } = this.state;
+    formData.append("firstName", this.state.firstName);
+    formData.append("lastName", this.state.lastName);
+    formData.append("birthDay", this.state.birthDay.toISOString());
+    formData.append("deathDay", this.state.deathDay.toISOString());
+    formData.append("institution", JSON.stringify([this.state.institution]));
+    formData.append(
+      "specialization",
+      JSON.stringify([this.state.specialization])
+    );
+    formData.append("university", JSON.stringify([this.state.university]));
+    formData.append("works", JSON.stringify(works));
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    const response = await Axios.post(`http://localhost:5000/archeologist/add`, formData, { headers: { 'Content-Type': 'multipart/form-data'}})
+    const response = await Axios.post(
+      `http://localhost:5000/archeologist/add`,
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
     if (!response.error) {
-      this.props.history.push("/")
+      this.props.history.push("/");
     }
   }
   acceptedFile(file) {
-    let { formData } = this.state
-    formData.append('img', file[0])
-    this.setState({ formData: formData })
-
+    let { formData } = this.state;
+    formData.append("img", file[0]);
+    this.setState({ formData: formData });
   }
   handleChange(field, date) {
     this.setState({
@@ -102,28 +113,33 @@ export default class NewArcheologist extends Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     return (
       <div className="row">
         <div className="col">
           <form onSubmit={this.sendChanges}>
-
             <div className="dropzone">
-            <label for="dropzone">Upload Picture:</label>
+              <label for="dropzone">Upload Picture:</label>
               <Dropzone
-              id="dropzone"
+                id="dropzone"
                 multiple={false}
-                accept={'image/*'}
+                accept={"image/*"}
                 onDrop={e => this.acceptedFile(e)}
-                noClick >
-                {({ getRootProps, getInputProps, open }) => (<>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <button type="button" className="btn btn-primary" onClick={() => open()} >
-                      Open File Dialog
-                </button>
-                  </div>
-                </>
+                noClick
+              >
+                {({ getRootProps, getInputProps, open }) => (
+                  <>
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => open()}
+                      >
+                        Open File Dialog
+                      </button>
+                    </div>
+                  </>
                 )}
               </Dropzone>
             </div>
@@ -158,14 +174,18 @@ export default class NewArcheologist extends Component {
                 <label for="birthDay">BirthDay:</label>
                 <DatePicker
                   selected={this.state.birthDay}
-                  onChange={e => { this.handleChange('birthDay', e) }}
+                  onChange={e => {
+                    this.handleChange("birthDay", e);
+                  }}
                 />
               </div>
               <div class="col">
                 <label for="deathDay">DeathDay:</label>
                 <DatePicker
                   selected={this.state.deathDay}
-                  onChange={e => { this.handleChange('deathDay', e) }}
+                  onChange={e => {
+                    this.handleChange("deathDay", e);
+                  }}
                 />
               </div>
             </div>
@@ -237,16 +257,16 @@ export default class NewArcheologist extends Component {
                       selected={new Date(this.state.works[work.id - 1].start)}
                       onChange={e => {
                         this.state.works[work.id - 1].start = e.toISOString();
-                        this.setState({ works: this.state.works })
+                        this.setState({ works: this.state.works });
                       }}
                     />
 
                     <label for="end">Sfarsit:</label>
-                      <DatePicker
+                    <DatePicker
                       selected={new Date(this.state.works[work.id - 1].end)}
                       onChange={e => {
                         this.state.works[work.id - 1].end = e.toISOString();
-                        this.setState({ works: this.state.works })
+                        this.setState({ works: this.state.works });
                       }}
                     />
                     {work.id === this.state.works.length ? (
@@ -272,7 +292,8 @@ export default class NewArcheologist extends Component {
                       </div>
                     ) : null}
                   </div>
-                </>)
+                </>
+              );
             })}
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
@@ -288,13 +309,15 @@ export default class NewArcheologist extends Component {
             </button> */}
             <div
               className="btn mt-2 btn-primary"
-              onClick={() => { this.sendChanges() }}
+              onClick={() => {
+                this.sendChanges();
+              }}
             >
               Save
-          </div>
+            </div>
           </form>
         </div>
       </div>
-    )
+    );
   }
 }

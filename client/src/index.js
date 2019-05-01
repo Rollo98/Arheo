@@ -17,7 +17,7 @@ import authGuardAdmin from "./components/HOCs/authGuardAdmin";
 import authGuardWriter from "./components/HOCs/authGuardWriter";
 import NewArcheologist from "./components/Arheo/NewArcheologist";
 import Dashboard from "./components/Dashboard/Dashboard";
-import ViewAccount from './components/Dashboard/ViewAccount'
+import ViewAccount from "./components/Dashboard/ViewAccount";
 import "./main.scss";
 
 const userName = localStorage.getItem("uNema"),
@@ -36,8 +36,8 @@ ReactDOM.render(
           token: jwtToken,
           isAuthenticated: jwtToken ? true : false
         },
-        arhe:{
-          errorMessage:""
+        arhe: {
+          errorMessage: ""
         }
       },
       applyMiddleware(reduxThunk)
@@ -50,35 +50,35 @@ ReactDOM.render(
         <Route exact path="/account" component={ViewAccount} />
 
         <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
-        <Route exact path="/Dashboard/:userName" component={authGuardAdmin(
-          props => (
-            <ViewAccount
-              userName={props.match.params.userName}
-              {...props}
-            />)
-        )} />
+        <Route
+          exact
+          path="/Dashboard/:userName"
+          component={authGuardAdmin(props => (
+            <ViewAccount userName={props.match.params.userName} {...props} />
+          ))}
+        />
 
         <Route
           exact
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
-          />
+        />
         {/* <Route
           exact
           path="/:firstName_:lastName/edit"
           component={authGuardWriter(NewArcheologist)}
           /> */}
-        {/* <Route
+        <Route
           exact
-          path="/:firstName_:lastName"
+          path="/:firstName::lastName"
           component={props => (
             <ShowArcheologist
               firstName={props.match.params.firstName}
               lastName={props.match.params.lastName}
               {...props}
             />
-            )}
-          /> */}
+          )}
+        />
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}
 
         <Route exact path="/SignUp" component={SignUp} />

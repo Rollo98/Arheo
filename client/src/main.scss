@@ -122,12 +122,16 @@ $width: 100%;
     border: 1px solid #e3e3e3;
     border-radius: 10px;
   }
-  .userLink {
-    color: black;
-    text-decoration: none;
-  }
 }
 
+.userLink {
+  color: black;
+  text-decoration: none;
+}
+.userLink:hover {
+  color: black;
+  text-decoration: none;
+}
 .dropdown {
   .customButton {
     border: none;
