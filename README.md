@@ -1,5 +1,5 @@
 # ArcheologistsApp
-This is a personal project.
+... need to clear-out some details about the ownership of the project
 
 Requirements:
 mongo available @ localhost:27017
