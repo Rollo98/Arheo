@@ -27,7 +27,7 @@ if (!process.env.NODE_ENV == 'test') {
   app.user(morgan('dev'));
 }
 app.use(bodyParser.json());
-
+app.use('/uploads',express.static('uploads'))
 //Routes
 app.use('/', require('./routes/users'));
 app.use('/archeologist', require('./routes/archeologist'));

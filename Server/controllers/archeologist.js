@@ -7,7 +7,7 @@ module.exports = {
       const oldPath = `./${req.file.path}`,
         newPath = `./${req.file.path}_${req.file.originalname}`
       fs.renameSync(oldPath, newPath)
-      const fullpath = __dirname + newPath.replace('.','')
+      const fullpath = newPath.replace('.', '')
       const { firstName, lastName, institution, specialization, university } = req.body
       const works = JSON.parse(req.body.works)
       let user = [req.user.userName]
@@ -40,7 +40,7 @@ module.exports = {
   getArcheologist: async (req, res, next) => {
     if (((req.params.firstName === null) || (req.params.firstName === undefined)) ||
       ((req.params.lastName === null) || (req.params.lastName === undefined))) {
-      const archeologists = await Archeologist.find({}, { firstName: 1, lastName: 1, birthDay: 1, university: 1 })
+      const archeologists = await Archeologist.find({}, { firstName: 1, lastName: 1, birthDay: 1, university: 1, photo: 1 })
       if (!archeologists) {
         res.status(500)
       }

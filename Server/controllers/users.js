@@ -49,7 +49,7 @@ module.exports = {
       if (!user) {
         return res.status(400)
       }
-      let { ok, deletedCount } = await User.deleteOne({ userName: req.params.userName },(err)=>{
+      await User.deleteOne({ userName: req.params.userName },(err)=>{
         if (error) {
           logger.error(error)
           return res.status(500).json({ error })
