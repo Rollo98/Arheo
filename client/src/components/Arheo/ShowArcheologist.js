@@ -18,15 +18,17 @@ export default class ShowArcheologist extends Component {
       }`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
-      console.log(Response.data.archeologists);
+      console.log(
+        "Response from details archeo",
+        Response.data.archeologists[0]
+      );
     });
   }
 
   renderWorks() {
     const { works } = this.state.archeologist;
     let x;
-    // console.log(typeof works);
-    if (works !== undefined && works.lenght > 0) {
+    if (works !== undefined) {
       x = works.map(n => (
         <div key={n._id}>
           <p>
@@ -41,10 +43,36 @@ export default class ShowArcheologist extends Component {
   renderInstitution() {
     const { institution } = this.state.archeologist;
     let x;
-    if (institution !== undefined && institution.lenght > 0) {
+    if (institution !== undefined) {
       x = institution.map(n => (
         <div key={n._id}>
-          <p>aosd</p>
+          <p>{n}</p>
+        </div>
+      ));
+    }
+    return x;
+  }
+
+  renderUniversity() {
+    const { university } = this.state.archeologist;
+    let x;
+    if (university !== undefined) {
+      x = university.map(n => (
+        <div key={n._id}>
+          <p>{n}</p>
+        </div>
+      ));
+    }
+    return x;
+  }
+
+  renderSpecialization() {
+    const { specialization } = this.state.archeologist;
+    let x;
+    if (specialization !== undefined) {
+      x = specialization.map(n => (
+        <div key={n._id}>
+          <p>{n}</p>
         </div>
       ));
     }
@@ -54,8 +82,25 @@ export default class ShowArcheologist extends Component {
   render() {
     return (
       <div>
+        <img
+          className="mx-auto img-fluid d-block mt-2 profileImg"
+          src={`http://localhost:5000${this.state.archeologist.photo}`}
+        />
+        <br />
+        <b>
+          {this.state.archeologist.firstName +
+            " " +
+            this.state.archeologist.lastName}
+        </b>
+        <br />
+        <b>Work</b>
         {this.renderWorks()}
+        <b>Institution</b>
         {this.renderInstitution()}
+        <b>University</b>
+        {this.renderUniversity()}
+        <b>Specialization</b>
+        {this.renderSpecialization()}
       </div>
     );
   }
