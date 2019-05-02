@@ -46,7 +46,7 @@ export default class ShowArcheologist extends Component {
     if (institution !== undefined) {
       x = institution.map(n => (
         <div key={n._id}>
-          <p>{n}</p>
+          <p>{JSON.parse(n)}</p>
         </div>
       ));
     }
@@ -59,7 +59,7 @@ export default class ShowArcheologist extends Component {
     if (university !== undefined) {
       x = university.map(n => (
         <div key={n._id}>
-          <p>{n}</p>
+          <p>{JSON.parse(n)}</p>
         </div>
       ));
     }
@@ -72,7 +72,7 @@ export default class ShowArcheologist extends Component {
     if (specialization !== undefined) {
       x = specialization.map(n => (
         <div key={n._id}>
-          <p>{n}</p>
+          <p>{JSON.parse(n)}</p>
         </div>
       ));
     }
@@ -87,11 +87,11 @@ export default class ShowArcheologist extends Component {
           src={`http://localhost:5000${this.state.archeologist.photo}`}
         />
         <br />
-        <b>
+        <h2>
           {this.state.archeologist.firstName +
             " " +
             this.state.archeologist.lastName}
-        </b>
+        </h2>
         <br />
         <b>Work</b>
         {this.renderWorks()}
