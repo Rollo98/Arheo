@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import Axios from "axios";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import Checkbox from "./checkbox";
+import Checkbox from "../checkbox";
 
 class ViewAccount extends Component {
   constructor() {

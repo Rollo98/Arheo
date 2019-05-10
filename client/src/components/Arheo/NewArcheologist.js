@@ -18,6 +18,7 @@ export default class NewArcheologist extends Component {
       lastName: "",
       birthDay: new Date(),
       deathDay: new Date(),
+      isDead: false,
       institution: "",
       specialization: "",
       university: "",
@@ -82,6 +83,7 @@ export default class NewArcheologist extends Component {
     formData.append("firstName", this.state.firstName);
     formData.append("lastName", this.state.lastName);
     formData.append("birthDay", this.state.birthDay.toISOString());
+    if(this.state.isDead)
     formData.append("deathDay", this.state.deathDay.toISOString());
     formData.append("institution", JSON.stringify([this.state.institution]));
     formData.append(
@@ -146,7 +148,7 @@ export default class NewArcheologist extends Component {
 
             <div class="form-row">
               <div class="col">
-                <label htmlFor="firstName">FirstName:</label>
+                <label htmlFor="firstName">Prenume:</label>
                 <input
                   id="firstName"
                   type="text"
@@ -157,7 +159,7 @@ export default class NewArcheologist extends Component {
                 />
               </div>
               <div class="col">
-                <label htmlFor="lastName">LastName:</label>
+                <label htmlFor="lastName">Nume Familie:</label>
                 <input
                   id="lastName"
                   type="text"
@@ -171,7 +173,7 @@ export default class NewArcheologist extends Component {
 
             <div class="form-row">
               <div class="col">
-                <label htmlFor="birthDay">BirthDay:</label>
+                <label htmlFor="birthDay">Zi Nastere:</label>
                 <DatePicker
                   selected={this.state.birthDay}
                   onChange={e => {
@@ -179,17 +181,32 @@ export default class NewArcheologist extends Component {
                   }}
                 />
               </div>
+
               <div class="col">
-                <label htmlFor="deathDay">DeathDay:</label>
-                <DatePicker
-                  selected={this.state.deathDay}
-                  onChange={e => {
-                    this.handleChange("deathDay", e);
-                  }}
-                />
+                <label style={{ marginRight: "10px" }}>
+                  <input
+                    style={{ marginRight: '3px' }}
+                    type='checkbox'
+                    name={"Decedat"}
+                    defaultChecked={this.state.isDead}
+                    onChange={e => this.setState({ isDead: !this.state.isDead })}
+                    className='form-check-input'
+                  />
+                  {"Decedat"}
+                </label>
+                {this.state.isDead ? <>
+                  <label htmlFor="deathDay">Decedat la:</label>
+                  <DatePicker
+                    selected={this.state.deathDay}
+                    onChange={e => {
+                      this.handleChange("deathDay", e);
+                    }}
+                  />
+                </> : null
+                }
               </div>
             </div>
-            <label htmlFor="institution">Institution:</label>
+            <label htmlFor="institution">Institutie:</label>
             <input
               id="institution"
               type="text"
@@ -198,7 +215,7 @@ export default class NewArcheologist extends Component {
               placeholder="Institution"
               onChange={e => this.setState({ institution: e.target.value })}
             />
-            <label htmlFor="specialization">Specialization:</label>
+            <label htmlFor="specialization">Specializari:</label>
             <input
               id="specialization"
               type="text"
@@ -207,7 +224,7 @@ export default class NewArcheologist extends Component {
               placeholder="Specialization"
               onChange={e => this.setState({ specialization: e.target.value })}
             />
-            <label htmlFor="university">University:</label>
+            <label htmlFor="university">Universitati:</label>
             <input
               id="university"
               type="text"
@@ -216,7 +233,7 @@ export default class NewArcheologist extends Component {
               placeholder="University"
               onChange={e => this.setState({ university: e.target.value })}
             />
-            <label htmlFor="workform">Work:</label>
+            <label htmlFor="workform">Lucrari:</label>
             <br />
             {this.state.works.map(work => {
               return (
