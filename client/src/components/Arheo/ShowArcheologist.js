@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
+var moment = require("moment");
 export default class ShowArcheologist extends Component {
   constructor(props) {
     super(props);
@@ -31,9 +31,8 @@ export default class ShowArcheologist extends Component {
     if (works !== undefined) {
       x = works.map(n => (
         <div key={n._id}>
-          <p>
-            {n.text},{n.title}
-          </p>
+          <h4>{n.title}</h4>
+          <p>{n.text}</p>
         </div>
       ));
     }
@@ -81,25 +80,35 @@ export default class ShowArcheologist extends Component {
 
   render() {
     return (
-      <div>
-        <img
-          className="mx-auto img-fluid d-block mt-2 profileImg"
-          src={`http://localhost:5000${this.state.archeologist.photo}`}
-        />
-        <br />
-        <h2>
-          {this.state.archeologist.firstName +
-            " " +
-            this.state.archeologist.lastName}
-        </h2>
-        <br />
-        <b>Work</b>
+      <div className="arheoDetails">
+        <div className="row text-center">
+          <img
+            className="img-fluid d-block mt-2 profileImg"
+            src={`http://localhost:5000${this.state.archeologist.photo}`}
+          />
+          <p className="arheoname">
+            <b>{`${this.state.archeologist.firstName} ${
+              this.state.archeologist.lastName
+            }`}</b>
+            <p className="arheoname">
+              {`(${moment(this.state.archeologist.birthDay).format("L")}-${
+                this.state.archeologist.deathDate
+                  ? //aici trebuie facut sa mearga blana rau de tot
+                    moment(this.state.archeologist.deathDate).format("L")
+                  : moment(this.state.archeologist.deathDate).format("L")
+              }
+            )`}
+            </p>
+          </p>
+        </div>
+        <hr />
+        <h3>Work</h3>
         {this.renderWorks()}
-        <b>Institution</b>
+        <h3>Institution</h3>
         {this.renderInstitution()}
-        <b>University</b>
+        <h3>University</h3>
         {this.renderUniversity()}
-        <b>Specialization</b>
+        <h3>Specialization</h3>
         {this.renderSpecialization()}
       </div>
     );

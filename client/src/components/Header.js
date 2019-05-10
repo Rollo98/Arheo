@@ -14,90 +14,90 @@ class Header extends Component {
   }
   render() {
     return (
-        <nav className="sticky-top navbar navbar-expand-lg navbar-dark bg-dark">
-          <Link className="navbar-brand" to="/">
-            Arheo
-          </Link>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav ml-auto">
-              {!this.props.isAuth ? (
-                <>
+      <nav className="sticky-top navbar navbar-expand-lg navbar-dark bg-dark">
+        <Link className="navbar-brand" to="/">
+          Arheo
+        </Link>
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav ml-auto">
+            {!this.props.isAuth ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/SignUp">
+                    Sign Up
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/SignIn">
+                    Sign In
+                  </Link>
+                </li>
+              </>
+            ) : null}
+            {this.props.role.includes("admin") ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">
+                    Acasa
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/Dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+              </>
+            ) : null}
+            {this.props.role.includes("writer") ? (
+              <>
+                {!this.props.saveState ? (
                   <li className="nav-item">
-                    <Link className="nav-link" to="/SignUp">
-                      Sign Up
+                    <Link className="nav-link" to="/NewArcheologist">
+                      New Archeologist
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/SignIn">
-                      Sign In
-                    </Link>
-                  </li>
-                </>
-              ) : null}
-              {this.props.role.includes("admin") ? (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/">
-                      Acasa
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/Dashboard">
-                      Dashboard
-                    </Link>
-                  </li>
-                </>
-              ) : null}
-              {this.props.role.includes("writer") ? (
-                <>
-                  {!this.props.saveState ? (
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
-                        New Archeologist
+                ) : null}
+              </>
+            ) : null}
+            {this.props.isAuth ? (
+              <>
+                <li className="nav-item">
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-secondary customButton dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      {this.props.userName}
+                    </button>
+                    <div
+                      className="dropdown-menu dropdownCustom dropdown-menu-right text-center"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      <Link
+                        className="dropdown-item dropitemCustom nav-link"
+                        to="/account"
+                      >
+                        Profil
                       </Link>
-                    </li>
-                  ) : null}
-                </>
-              ) : null}
-              {this.props.isAuth ? (
-                <>
-                  <li className="nav-item">
-                    <div className="dropdown">
-                      <button
-                        className="btn btn-secondary customButton dropdown-toggle"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
+                      <Link
+                        className="dropdown-item dropitemCustom nav-link"
+                        to="/"
+                        onClick={this.signOut}
                       >
-                        {this.props.userName}
-                      </button>
-                      <div
-                        className="dropdown-menu dropdownCustom dropdown-menu-right text-center"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <Link
-                          className="dropdown-item dropitemCustom nav-link"
-                          to="/account"
-                        >
-                          Profil
-                        </Link>
-                        <Link
-                          className="dropdown-item dropitemCustom nav-link"
-                          to="/"
-                          onClick={this.signOut}
-                        >
-                          Sign Out
-                        </Link>
-                      </div>
+                        Sign Out
+                      </Link>
                     </div>
-                  </li>
-                </>
-              ) : null}
-            </ul>
-          </div>
-        </nav>
+                  </div>
+                </li>
+              </>
+            ) : null}
+          </ul>
+        </div>
+      </nav>
     );
   }
 }

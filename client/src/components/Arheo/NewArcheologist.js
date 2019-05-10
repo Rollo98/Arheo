@@ -119,7 +119,7 @@ export default class NewArcheologist extends Component {
         <div className="col">
           <form onSubmit={this.sendChanges}>
             <div className="dropzone">
-              <label for="dropzone">Upload Picture:</label>
+              <label htmlFor="dropzone">Upload Picture:</label>
               <Dropzone
                 id="dropzone"
                 multiple={false}
@@ -146,7 +146,7 @@ export default class NewArcheologist extends Component {
 
             <div class="form-row">
               <div class="col">
-                <label for="firstName">FirstName:</label>
+                <label htmlFor="firstName">FirstName:</label>
                 <input
                   id="firstName"
                   type="text"
@@ -157,7 +157,7 @@ export default class NewArcheologist extends Component {
                 />
               </div>
               <div class="col">
-                <label for="lastName">LastName:</label>
+                <label htmlFor="lastName">LastName:</label>
                 <input
                   id="lastName"
                   type="text"
@@ -171,7 +171,7 @@ export default class NewArcheologist extends Component {
 
             <div class="form-row">
               <div class="col">
-                <label for="birthDay">BirthDay:</label>
+                <label htmlFor="birthDay">BirthDay:</label>
                 <DatePicker
                   selected={this.state.birthDay}
                   onChange={e => {
@@ -180,7 +180,7 @@ export default class NewArcheologist extends Component {
                 />
               </div>
               <div class="col">
-                <label for="deathDay">DeathDay:</label>
+                <label htmlFor="deathDay">DeathDay:</label>
                 <DatePicker
                   selected={this.state.deathDay}
                   onChange={e => {
@@ -189,7 +189,7 @@ export default class NewArcheologist extends Component {
                 />
               </div>
             </div>
-            <label for="institution">Institution:</label>
+            <label htmlFor="institution">Institution:</label>
             <input
               id="institution"
               type="text"
@@ -198,7 +198,7 @@ export default class NewArcheologist extends Component {
               placeholder="Institution"
               onChange={e => this.setState({ institution: e.target.value })}
             />
-            <label for="specialization">Specialization:</label>
+            <label htmlFor="specialization">Specialization:</label>
             <input
               id="specialization"
               type="text"
@@ -207,7 +207,7 @@ export default class NewArcheologist extends Component {
               placeholder="Specialization"
               onChange={e => this.setState({ specialization: e.target.value })}
             />
-            <label for="university">University:</label>
+            <label htmlFor="university">University:</label>
             <input
               id="university"
               type="text"
@@ -216,19 +216,19 @@ export default class NewArcheologist extends Component {
               placeholder="University"
               onChange={e => this.setState({ university: e.target.value })}
             />
-            <label for="workform">Work:</label>
+            <label htmlFor="workform">Work:</label>
             <br />
             {this.state.works.map(work => {
               return (
                 <>
-                  <br /> <label for="workform">{`${work.id}`}</label>
+                  <br /> <label htmlFor="workform">{`${work.id}`}</label>
                   <br />
                   <div
                     id="workform"
                     className="workForm col-md-11"
                     key={work.id}
                   >
-                    <label for="title">Titlu:</label>
+                    <label htmlFor="title">Titlu:</label>
                     <input
                       type="text"
                       id="title"
@@ -240,7 +240,7 @@ export default class NewArcheologist extends Component {
                         this.setState({ works: this.state.works });
                       }}
                     />
-                    <label for="text">Descriere:</label>
+                    <label htmlFor="text">Descriere:</label>
                     <textarea
                       type="text"
                       id="text"
@@ -252,7 +252,7 @@ export default class NewArcheologist extends Component {
                         this.setState({ works: this.state.works });
                       }}
                     />
-                    <label for="start">Inceput:</label>
+                    <label htmlFor="start">Inceput:</label>
                     <DatePicker
                       selected={new Date(this.state.works[work.id - 1].start)}
                       onChange={e => {
@@ -261,7 +261,7 @@ export default class NewArcheologist extends Component {
                       }}
                     />
 
-                    <label for="end">Sfarsit:</label>
+                    <label htmlFor="end">Sfarsit:</label>
                     <DatePicker
                       selected={new Date(this.state.works[work.id - 1].end)}
                       onChange={e => {
