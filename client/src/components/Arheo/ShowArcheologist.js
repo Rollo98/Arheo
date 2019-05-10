@@ -79,37 +79,46 @@ export default class ShowArcheologist extends Component {
   }
 
   render() {
+    console.log(this.state.archeologist.deathDay);
     return (
-      <div className="arheoDetails">
-        <div className="row text-center">
+      <div className="arheoDetails row">
+        <div className="col-xl-8 col-lg-8 col-md-12 details">
+          <h3>Work</h3>
+          {this.renderWorks()}
+          <h3>Institution</h3>
+          {this.renderInstitution()}
+          <h3>University</h3>
+          {this.renderUniversity()}
+          <h3>Specialization</h3>
+          {this.renderSpecialization()}
+        </div>
+        <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           <img
-            className="img-fluid d-block mt-2 profileImg"
+            className="img-fluid showImg"
             src={`http://localhost:5000${this.state.archeologist.photo}`}
           />
           <p className="arheoname">
             <b>{`${this.state.archeologist.firstName} ${
               this.state.archeologist.lastName
             }`}</b>
-            <p className="arheoname">
-              {`(${moment(this.state.archeologist.birthDay).format("L")}-${
-                this.state.archeologist.deathDate
-                  ? //aici trebuie facut sa mearga blana rau de tot
-                    moment(this.state.archeologist.deathDate).format("L")
-                  : moment(this.state.archeologist.deathDate).format("L")
-              }
-            )`}
-            </p>
+          </p>
+          <p>
+            <b>Birth day: {moment(this.state.birthDay).format("L")}</b>
+            <br />
+            {this.state.archeologist.deathDay === undefined ? null : (
+              <b>Death day: {moment(this.state.deathDay).format("L")}</b>
+            )}
           </p>
         </div>
-        <hr />
-        <h3>Work</h3>
-        {this.renderWorks()}
-        <h3>Institution</h3>
-        {this.renderInstitution()}
-        <h3>University</h3>
-        {this.renderUniversity()}
-        <h3>Specialization</h3>
-        {this.renderSpecialization()}
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => {
+            //do something
+          }}
+        >
+          Editeaza
+        </button>
       </div>
     );
   }

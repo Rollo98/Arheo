@@ -22,12 +22,12 @@ export default class ArheoList extends Component {
     const { archeologists } = this.state;
     var x = archeologists.map(n => (
       <Link
-        className="userLink card col-lg-3 m-2"
+        className="userLink card col-xl-2 col-lg-3 col-md-3 m-2"
         to={`/${n.firstName}:${n.lastName}`}
         key={n._id}
       >
         <img
-          className="card-img-top mt-2"
+          className="card-img-top profileImg mt-2"
           src={`http://localhost:5000${n.photo}`}
           alt="Card image cap"
         />

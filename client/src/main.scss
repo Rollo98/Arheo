@@ -35,8 +35,10 @@ $width: 100%;
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-//main area container
-.container {
+//main area wrapper
+.wrapper {
+  margin-left: 20px;
+  margin-right: 20px;
   .form-login {
     fieldset {
       width: 400px;
@@ -185,8 +187,15 @@ $width: 100%;
 }
 
 .profileImg {
-  max-width: 300px !important;
-  max-height: 200px !important;
+  margin: auto;
+  width: 150px !important;
+  height: 200px !important;
+}
+
+.showImg {
+  margin: auto;
+  max-width: 300px;
+  max-height: 400px;
 }
 
 //button for general use
@@ -235,16 +244,22 @@ $width: 100%;
     border-radius: 2px;
   }
 }
-.card {
-  margin: 15px auto;
-}
 .custombtn {
   border: none;
 }
 
 //media queries
 @media screen and (max-width: 255px) {
-  .container {
+  .wrapper {
     min-width: 100%;
+  }
+}
+@media screen and (max-width: 991px) {
+  .lol {
+    top: 1;
+    position: absolute;
+  }
+  .details {
+    margin-top: 400px;
   }
 }
