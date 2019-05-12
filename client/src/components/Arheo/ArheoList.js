@@ -5,8 +5,7 @@ import Axios from "axios";
 export default class ArheoList extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.state.archeologists = [{}];
+    this.state = { search: "", archeologists: [] };
   }
 
   componentDidMount() {
@@ -19,7 +18,11 @@ export default class ArheoList extends Component {
   }
 
   renderUsers() {
-    const { archeologists } = this.state;
+    const archeologists = Object.values(this.state.archeologists).filter(
+      archeologist =>
+        archeologist.firstName.indexOf(this.state.search) !== -1 ||
+        archeologist.lastName.indexOf(this.state.search) !== -1
+    );
     var x = archeologists.map(n => (
       <Link
         className="userLink card col-xl-2 col-lg-3 col-md-3 m-2"
@@ -42,7 +45,25 @@ export default class ArheoList extends Component {
     return x;
   }
 
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
-    return <div className="row">{this.renderUsers()}</div>;
+    return (
+      <div className="row dashboard">
+        <input
+          autoComplete="off"
+          name="search"
+          type="text"
+          value={this.state.search}
+          className="form-control mt-2 searchBar"
+          placeholder="Search..."
+          aria-label="Search"
+          onChange={this.handleChange}
+        />
+        {this.renderUsers()}
+      </div>
+    );
   }
 }

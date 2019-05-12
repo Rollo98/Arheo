@@ -112,12 +112,21 @@ export default class ShowArcheologist extends Component {
         </div>
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary m-2"
           onClick={() => {
             //do something
           }}
         >
           Editeaza
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger m-2"
+          onClick={() => {
+            //do something
+          }}
+        >
+          Delete
         </button>
       </div>
     );
