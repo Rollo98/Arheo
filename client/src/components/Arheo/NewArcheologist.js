@@ -14,6 +14,7 @@ export default class NewArcheologist extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fn:[],
       firstName: "",
       lastName: "",
       birthDay: new Date(),
@@ -57,12 +58,21 @@ export default class NewArcheologist extends Component {
     }));
   };
 
-  handleDel = (e, type) => {
+  handleDeli = (e, type) => {
     if (this.state[type].length > 1) {
       const value = this.state[type];
       value.pop();
       console.log(value);
       this.setState({ [`${type}`]: value });
+    }
+  };
+
+  handleDel = e => {
+    if (this.state.works.length > 1) {
+      const works = this.state.works;
+      works.pop();
+      console.log(works);
+      this.setState({ works });
     }
   };
 
@@ -118,6 +128,7 @@ export default class NewArcheologist extends Component {
     }
   }
   acceptedFile(file) {
+    this.setState({fn:file})
     let { formData } = this.state;
     formData.append("img", file[0]);
     this.setState({ formData: formData });
@@ -127,9 +138,13 @@ export default class NewArcheologist extends Component {
       [`${field}`]: date
     });
   }
-
+renderFIleName=()=>{
+  if(this.state.fn[0]!==undefined)
+  return this.state.fn[0].name
+  else return ""
+}
   render() {
-    console.log(this.state);
+    console.log(this.state.fn);
     return (
       <div className="row">
         <div className="col">
@@ -145,6 +160,7 @@ export default class NewArcheologist extends Component {
               >
                 {({ getRootProps, getInputProps, open }) => (
                   <>
+                            <section className="container"></section>
                     <div {...getRootProps()}>
                       <input {...getInputProps()} />
                       <button
@@ -155,6 +171,12 @@ export default class NewArcheologist extends Component {
                         Open File Dialog
                       </button>
                     </div>
+                    <br/>
+                    <aside>
+              <h6>Files</h6>
+              <ul>{this.renderFIleName()}</ul>
+            </aside>
+            <br />
                   </>
                 )}
               </Dropzone>
@@ -224,7 +246,6 @@ export default class NewArcheologist extends Component {
             {this.state.institution.map(inst => {
               return (
                 <>
-                  <br /> <label htmlFor="instform">{`${inst.id}`}</label>
                   <br />
                   <div
                     id="instform"
@@ -248,9 +269,9 @@ export default class NewArcheologist extends Component {
                         {this.state.institution.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDel(e, 'institution')}
+                            onClick={e => this.handleDeli(e, 'institution')}
                             className="btn btn-danger "
-                            style={{ width: 50, height: 50 }}
+                            style={{ width: 35, height: 35 }}
                           >
                             -
                           </button>
@@ -259,7 +280,7 @@ export default class NewArcheologist extends Component {
                           type="button"
                           onClick={e => this.handleAddi(e, 'institution')}
                           className="btn btn-success ml-2"
-                          style={{ width: 50, height: 50 }}
+                          style={{ width: 35, height: 35 }}
                         >
                           +
                         </button>
@@ -275,12 +296,10 @@ export default class NewArcheologist extends Component {
             {this.state.specialization.map(spec => {
               return (
                 <>
-                  <br /> <label htmlFor="specform">{`${spec.id}`}</label>
                   <br />
                   <div
                     id="specform"
                     className="workForm col-md-11"
-                    key={spec.id}
                   >
                     <label htmlFor="title">Specializarea:</label>
                     <input
@@ -299,9 +318,9 @@ export default class NewArcheologist extends Component {
                         {this.state.specialization.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDel(e, 'specialization')}
+                            onClick={e => this.handleDeli(e, 'specialization')}
                             className="btn btn-danger "
-                            style={{ width: 50, height: 50 }}
+                            style={{ width: 35, height: 35 }}
                           >
                             -
                           </button>
@@ -310,7 +329,7 @@ export default class NewArcheologist extends Component {
                           type="button"
                           onClick={e => this.handleAddi(e, 'specialization')}
                           className="btn btn-success ml-2"
-                          style={{ width: 50, height: 50 }}
+                          style={{ width: 35, height: 35 }}
                         >
                           +
                         </button>
@@ -325,12 +344,10 @@ export default class NewArcheologist extends Component {
             {this.state.university.map(univ => {
               return (
                 <>
-                  <br /> <label htmlFor="univform">{`${univ.id}`}</label>
                   <br />
                   <div
                     id="univform"
                     className="workForm col-md-11"
-                    key={univ.id}
                   >
                     <label htmlFor="title">Universitatea:</label>
                     <input
@@ -349,9 +366,9 @@ export default class NewArcheologist extends Component {
                         {this.state.university.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDel(e, 'university')}
+                            onClick={e => this.handleDeli(e, 'university')}
                             className="btn btn-danger "
-                            style={{ width: 50, height: 50 }}
+                            style={{ width: 35, height: 35 }}
                           >
                             -
                           </button>
@@ -360,7 +377,7 @@ export default class NewArcheologist extends Component {
                           type="button"
                           onClick={e => this.handleAddi(e, 'university')}
                           className="btn btn-success ml-2"
-                          style={{ width: 50, height: 50 }}
+                          style={{ width: 35, height: 35 }}
                         >
                           +
                         </button>
@@ -375,12 +392,10 @@ export default class NewArcheologist extends Component {
             {this.state.works.map(work => {
               return (
                 <>
-                  <br /> <label htmlFor="workform">{`${work.id}`}</label>
                   <br />
                   <div
                     id="workform"
                     className="workForm col-md-11"
-                    key={work.id}
                   >
                     <label htmlFor="title">Titlu:</label>
                     <input
@@ -430,7 +445,7 @@ export default class NewArcheologist extends Component {
                             type="button"
                             onClick={this.handleDel}
                             className="btn btn-danger "
-                            style={{ width: 50, height: 50 }}
+                            style={{ width: 35, height: 35 }}
                           >
                             -
                           </button>
@@ -439,7 +454,7 @@ export default class NewArcheologist extends Component {
                           type="button"
                           onClick={this.handleAdd}
                           className="btn btn-success ml-2"
-                          style={{ width: 50, height: 50 }}
+                          style={{ width: 35, height: 35 }}
                         >
                           +
                         </button>
