@@ -19,9 +19,9 @@ export default class NewArcheologist extends Component {
       birthDay: new Date(),
       deathDay: new Date(),
       isDead: false,
-      institution: "",
-      specialization: "",
-      university: "",
+      institution: [{ id: 1, text: "" }],
+      specialization: [{ id: 1, text: "" }],
+      university: [{ id: 1, text: "" }],
       works: [
         {
           id: 1,
@@ -43,14 +43,29 @@ export default class NewArcheologist extends Component {
       this.props.history.push("/");
     }
   }
-  handleDel = e => {
-    if (this.state.works.length > 1) {
-      const works = this.state.works;
-      works.pop();
-      console.log(works);
-      this.setState({ works });
+
+  handleAddi = (e, type) => {
+    const iDi = this.state[type][this.state[type].length - 1].id + 1;
+    this.setState(prevState => ({
+      [`${type}`]: [
+        ...prevState[type],
+        {
+          id: iDi,
+          text: ""
+        }
+      ]
+    }));
+  };
+
+  handleDel = (e, type) => {
+    if (this.state[type].length > 1) {
+      const value = this.state[type];
+      value.pop();
+      console.log(value);
+      this.setState({ [`${type}`]: value });
     }
   };
+
   handleAdd = e => {
     const iD = this.state.works[this.state.works.length - 1].id + 1;
     this.setState(prevState => ({
@@ -78,19 +93,18 @@ export default class NewArcheologist extends Component {
       acc.push(currentVal);
       return acc;
     }, []);
-    console.log(JSON.stringify([this.state.institution]));
+    console.log(JSON.stringify(this.state.institution.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
     let { formData } = this.state;
     formData.append("firstName", this.state.firstName);
     formData.append("lastName", this.state.lastName);
     formData.append("birthDay", this.state.birthDay.toISOString());
-    if(this.state.isDead)
-    formData.append("deathDay", this.state.deathDay.toISOString());
-    formData.append("institution", JSON.stringify([this.state.institution]));
-    formData.append(
-      "specialization",
-      JSON.stringify([this.state.specialization])
-    );
-    formData.append("university", JSON.stringify([this.state.university]));
+    if (this.state.isDead)
+      formData.append("deathDay", this.state.deathDay.toISOString());
+
+    formData.append("institution", JSON.stringify(this.state.institution.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
+    formData.append("specialization", JSON.stringify(this.state.specialization.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
+    formData.append("university", JSON.stringify(this.state.university.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
+
     formData.append("works", JSON.stringify(works));
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
@@ -207,32 +221,155 @@ export default class NewArcheologist extends Component {
               </div>
             </div>
             <label htmlFor="institution">Institutie:</label>
-            <input
-              id="institution"
-              type="text"
-              name="institution"
-              className="form-control"
-              placeholder="Institution"
-              onChange={e => this.setState({ institution: e.target.value })}
-            />
+            {this.state.institution.map(inst => {
+              return (
+                <>
+                  <br /> <label htmlFor="instform">{`${inst.id}`}</label>
+                  <br />
+                  <div
+                    id="instform"
+                    className="workForm col-md-11"
+                    key={inst.id}
+                  >
+                    <label htmlFor="title">Institutia:</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      placeholder="Title"
+                      onChange={e => {
+                        this.state.institution[inst.id - 1].text = e.target.value;
+                        this.setState({ institution: this.state.institution });
+                      }}
+                    />
+                    {inst.id === this.state.institution.length ? (
+                      <div style={{ marginTop: "10px" }}>
+                        {this.state.institution.length > 1 ? (
+                          <button
+                            type="button"
+                            onClick={e => this.handleDel(e, 'institution')}
+                            className="btn btn-danger "
+                            style={{ width: 50, height: 50 }}
+                          >
+                            -
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={e => this.handleAddi(e, 'institution')}
+                          className="btn btn-success ml-2"
+                          style={{ width: 50, height: 50 }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })}
+
+
             <label htmlFor="specialization">Specializari:</label>
-            <input
-              id="specialization"
-              type="text"
-              name="specialization"
-              className="form-control"
-              placeholder="Specialization"
-              onChange={e => this.setState({ specialization: e.target.value })}
-            />
+            {this.state.specialization.map(spec => {
+              return (
+                <>
+                  <br /> <label htmlFor="specform">{`${spec.id}`}</label>
+                  <br />
+                  <div
+                    id="specform"
+                    className="workForm col-md-11"
+                    key={spec.id}
+                  >
+                    <label htmlFor="title">Specializarea:</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      placeholder="Title"
+                      onChange={e => {
+                        this.state.specialization[spec.id - 1].text = e.target.value;
+                        this.setState({ specialization: this.state.specialization });
+                      }}
+                    />
+                    {spec.id === this.state.specialization.length ? (
+                      <div style={{ marginTop: "10px" }}>
+                        {this.state.specialization.length > 1 ? (
+                          <button
+                            type="button"
+                            onClick={e => this.handleDel(e, 'specialization')}
+                            className="btn btn-danger "
+                            style={{ width: 50, height: 50 }}
+                          >
+                            -
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={e => this.handleAddi(e, 'specialization')}
+                          className="btn btn-success ml-2"
+                          style={{ width: 50, height: 50 }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })}
+
             <label htmlFor="university">Universitati:</label>
-            <input
-              id="university"
-              type="text"
-              name="university"
-              className="form-control"
-              placeholder="University"
-              onChange={e => this.setState({ university: e.target.value })}
-            />
+            {this.state.university.map(univ => {
+              return (
+                <>
+                  <br /> <label htmlFor="univform">{`${univ.id}`}</label>
+                  <br />
+                  <div
+                    id="univform"
+                    className="workForm col-md-11"
+                    key={univ.id}
+                  >
+                    <label htmlFor="title">Universitatea:</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      placeholder="Title"
+                      onChange={e => {
+                        this.state.university[univ.id - 1].text = e.target.value;
+                        this.setState({ university: this.state.university });
+                      }}
+                    />
+                    {univ.id === this.state.university.length ? (
+                      <div style={{ marginTop: "10px" }}>
+                        {this.state.university.length > 1 ? (
+                          <button
+                            type="button"
+                            onClick={e => this.handleDel(e, 'university')}
+                            className="btn btn-danger "
+                            style={{ width: 50, height: 50 }}
+                          >
+                            -
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={e => this.handleAddi(e, 'university')}
+                          className="btn btn-success ml-2"
+                          style={{ width: 50, height: 50 }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })}
             <label htmlFor="workform">Lucrari:</label>
             <br />
             {this.state.works.map(work => {

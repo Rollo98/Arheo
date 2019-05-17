@@ -14,7 +14,7 @@ export default class ShowArcheologist extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(
       `http://localhost:5000/archeologist/get/${this.props.firstName}/${
-        this.props.lastName
+      this.props.lastName
       }`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
@@ -43,11 +43,13 @@ export default class ShowArcheologist extends Component {
     const { institution } = this.state.archeologist;
     let x;
     if (institution !== undefined) {
-      x = institution.map(n => (
-        <div key={n._id}>
-          <p>{JSON.parse(n)}</p>
-        </div>
-      ));
+      x = institution.map(n => {
+        return (
+          <div key={n._id}>
+            <p>{n}</p>
+          </div>
+        )
+      });
     }
     return x;
   }
@@ -58,7 +60,7 @@ export default class ShowArcheologist extends Component {
     if (university !== undefined) {
       x = university.map(n => (
         <div key={n._id}>
-          <p>{JSON.parse(n)}</p>
+          <p>{n}</p>
         </div>
       ));
     }
@@ -71,7 +73,7 @@ export default class ShowArcheologist extends Component {
     if (specialization !== undefined) {
       x = specialization.map(n => (
         <div key={n._id}>
-          <p>{JSON.parse(n)}</p>
+          <p>{n}</p>
         </div>
       ));
     }
@@ -100,7 +102,7 @@ export default class ShowArcheologist extends Component {
           <p className="arheoname">
             <b>{`${this.state.archeologist.firstName} ${
               this.state.archeologist.lastName
-            }`}</b>
+              }`}</b>
           </p>
           <p>
             <b>Birth day: {moment(this.state.birthDay).format("L")}</b>

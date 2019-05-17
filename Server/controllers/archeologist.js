@@ -8,7 +8,10 @@ module.exports = {
         newPath = `./${req.file.path}_${req.file.originalname}`
       fs.renameSync(oldPath, newPath)
       const fullpath = newPath.replace('.', '')
-      const { firstName, lastName, institution, specialization, university } = req.body
+      const { firstName, lastName } = req.body
+      const institution = JSON.parse(req.body.institution)
+      const specialization = JSON.parse(req.body.specialization)
+      const university = JSON.parse(req.body.university)
       const works = JSON.parse(req.body.works)
       let user = [req.user.userName]
       let { birthDay } = req.body
