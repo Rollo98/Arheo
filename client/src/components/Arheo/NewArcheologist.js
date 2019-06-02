@@ -14,24 +14,20 @@ export default class NewArcheologist extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fn:[],
+      fn: [],
       firstName: "",
       lastName: "",
       birthDay: new Date(),
       deathDay: new Date(),
       isDead: false,
-      institution: [{ id: 1, text: "" }],
-      specialization: [{ id: 1, text: "" }],
-      university: [{ id: 1, text: "" }],
-      works: [
-        {
-          id: 1,
-          start: new Date().toISOString(),
-          end: new Date().toISOString(),
-          title: "",
-          text: ""
-        }
-      ],
+      institution: [{ id: 1, text: "", start: "", end: "" }],
+      specialization: [{ id: 1, text: "", start: "", end: "" }],
+      university: [{ id: 1, text: "", start: "", end: "" }],
+      works: "",
+      santier: [{ id: 1, text: "", start: "", end: "" }],
+      domeniu: [{ id: 1, text: "" }],
+      obs: "",
+      autor: "",
       formData: new FormData()
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -103,7 +99,14 @@ export default class NewArcheologist extends Component {
       acc.push(currentVal);
       return acc;
     }, []);
-    console.log(JSON.stringify(this.state.institution.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
+    console.log(
+      JSON.stringify(
+        this.state.institution.reduce((acc, current) => {
+          acc.push(current.text);
+          return acc;
+        }, [])
+      )
+    );
     let { formData } = this.state;
     formData.append("firstName", this.state.firstName);
     formData.append("lastName", this.state.lastName);
@@ -111,9 +114,33 @@ export default class NewArcheologist extends Component {
     if (this.state.isDead)
       formData.append("deathDay", this.state.deathDay.toISOString());
 
-    formData.append("institution", JSON.stringify(this.state.institution.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
-    formData.append("specialization", JSON.stringify(this.state.specialization.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
-    formData.append("university", JSON.stringify(this.state.university.reduce((acc, current) => { acc.push(current.text); return acc }, [])));
+    formData.append(
+      "institution",
+      JSON.stringify(
+        this.state.institution.reduce((acc, current) => {
+          acc.push(current.text);
+          return acc;
+        }, [])
+      )
+    );
+    formData.append(
+      "specialization",
+      JSON.stringify(
+        this.state.specialization.reduce((acc, current) => {
+          acc.push(current.text);
+          return acc;
+        }, [])
+      )
+    );
+    formData.append(
+      "university",
+      JSON.stringify(
+        this.state.university.reduce((acc, current) => {
+          acc.push(current.text);
+          return acc;
+        }, [])
+      )
+    );
 
     formData.append("works", JSON.stringify(works));
     const jwtToken = localStorage.getItem("zeBilet");
@@ -128,7 +155,7 @@ export default class NewArcheologist extends Component {
     }
   }
   acceptedFile(file) {
-    this.setState({fn:file})
+    this.setState({ fn: file });
     let { formData } = this.state;
     formData.append("img", file[0]);
     this.setState({ formData: formData });
@@ -138,11 +165,10 @@ export default class NewArcheologist extends Component {
       [`${field}`]: date
     });
   }
-renderFIleName=()=>{
-  if(this.state.fn[0]!==undefined)
-  return this.state.fn[0].name
-  else return ""
-}
+  renderFIleName = () => {
+    if (this.state.fn[0] !== undefined) return this.state.fn[0].name;
+    else return "";
+  };
   render() {
     console.log(this.state.fn);
     return (
@@ -160,7 +186,7 @@ renderFIleName=()=>{
               >
                 {({ getRootProps, getInputProps, open }) => (
                   <>
-                            <section className="container"></section>
+                    <section className="container" />
                     <div {...getRootProps()}>
                       <input {...getInputProps()} />
                       <button
@@ -171,17 +197,16 @@ renderFIleName=()=>{
                         Open File Dialog
                       </button>
                     </div>
-                    <br/>
+                    <br />
                     <aside>
-              <h6>Files</h6>
-              <ul>{this.renderFIleName()}</ul>
-            </aside>
-            <br />
+                      <h6>Files</h6>
+                      <ul>{this.renderFIleName()}</ul>
+                    </aside>
+                    <br />
                   </>
                 )}
               </Dropzone>
             </div>
-
             <div class="form-row">
               <div class="col">
                 <label htmlFor="firstName">Prenume:</label>
@@ -190,7 +215,6 @@ renderFIleName=()=>{
                   type="text"
                   name="firstName"
                   className="form-control"
-                  placeholder="First name"
                   onChange={e => this.setState({ firstName: e.target.value })}
                 />
               </div>
@@ -201,12 +225,10 @@ renderFIleName=()=>{
                   type="text"
                   name="lastName"
                   className="form-control"
-                  placeholder="Last name"
                   onChange={e => this.setState({ lastName: e.target.value })}
                 />
               </div>
             </div>
-
             <div class="form-row">
               <div class="col">
                 <label htmlFor="birthDay">Zi Nastere:</label>
@@ -221,28 +243,31 @@ renderFIleName=()=>{
               <div class="col">
                 <label style={{ marginRight: "10px" }}>
                   <input
-                    style={{ marginRight: '3px' }}
-                    type='checkbox'
+                    style={{ marginRight: "3px" }}
+                    type="checkbox"
                     name={"Decedat"}
                     defaultChecked={this.state.isDead}
-                    onChange={e => this.setState({ isDead: !this.state.isDead })}
-                    className='form-check-input'
+                    onChange={e =>
+                      this.setState({ isDead: !this.state.isDead })
+                    }
+                    className="form-check-input"
                   />
                   {"Decedat"}
                 </label>
-                {this.state.isDead ? <>
-                  <label htmlFor="deathDay">Decedat la:</label>
-                  <DatePicker
-                    selected={this.state.deathDay}
-                    onChange={e => {
-                      this.handleChange("deathDay", e);
-                    }}
-                  />
-                </> : null
-                }
+                {this.state.isDead ? (
+                  <>
+                    <label htmlFor="deathDay">Decedat la:</label>
+                    <DatePicker
+                      selected={this.state.deathDay}
+                      onChange={e => {
+                        this.handleChange("deathDay", e);
+                      }}
+                    />
+                  </>
+                ) : null}
               </div>
             </div>
-            <label htmlFor="institution">Institutie:</label>
+            <label htmlFor="institution">Institutii:</label>
             {this.state.institution.map(inst => {
               return (
                 <>
@@ -252,15 +277,30 @@ renderFIleName=()=>{
                     className="workForm col-md-11"
                     key={inst.id}
                   >
-                    <label htmlFor="title">Institutia:</label>
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
-                      placeholder="Title"
                       onChange={e => {
-                        this.state.institution[inst.id - 1].text = e.target.value;
+                        this.state.institution[inst.id - 1].text =
+                          e.target.value;
+                        this.setState({ institution: this.state.institution });
+                      }}
+                    />
+                    <label htmlFor="start">Inceput:</label>
+                    <input
+                      onChange={e => {
+                        this.state.institution[inst.id - 1].start =
+                          e.target.value;
+                        this.setState({ institution: this.state.institution });
+                      }}
+                    />
+                    <label htmlFor="end">Sfarsit:</label>
+                    <input
+                      onChange={e => {
+                        this.state.institution[inst.id - 1].end =
+                          e.target.value;
                         this.setState({ institution: this.state.institution });
                       }}
                     />
@@ -269,7 +309,7 @@ renderFIleName=()=>{
                         {this.state.institution.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, 'institution')}
+                            onClick={e => this.handleDeli(e, "institution")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -278,7 +318,7 @@ renderFIleName=()=>{
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, 'institution')}
+                          onClick={e => this.handleAddi(e, "institution")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -290,27 +330,43 @@ renderFIleName=()=>{
                 </>
               );
             })}
-
-
-            <label htmlFor="specialization">Specializari:</label>
+            <label htmlFor="specialization">Specializarii:</label>
             {this.state.specialization.map(spec => {
               return (
                 <>
                   <br />
-                  <div
-                    id="specform"
-                    className="workForm col-md-11"
-                  >
-                    <label htmlFor="title">Specializarea:</label>
+                  <div id="specform" className="workForm col-md-11">
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
-                      placeholder="Title"
                       onChange={e => {
-                        this.state.specialization[spec.id - 1].text = e.target.value;
-                        this.setState({ specialization: this.state.specialization });
+                        this.state.specialization[spec.id - 1].text =
+                          e.target.value;
+                        this.setState({
+                          specialization: this.state.specialization
+                        });
+                      }}
+                    />
+                    <label htmlFor="start">Inceput:</label>
+                    <input
+                      onChange={e => {
+                        this.state.specialization[spec.id - 1].start =
+                          e.target.value;
+                        this.setState({
+                          specialization: this.state.specialization
+                        });
+                      }}
+                    />
+                    <label htmlFor="end">Sfarsit:</label>
+                    <input
+                      onChange={e => {
+                        this.state.specialization[spec.id - 1].end =
+                          e.target.value;
+                        this.setState({
+                          specialization: this.state.specialization
+                        });
                       }}
                     />
                     {spec.id === this.state.specialization.length ? (
@@ -318,7 +374,7 @@ renderFIleName=()=>{
                         {this.state.specialization.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, 'specialization')}
+                            onClick={e => this.handleDeli(e, "specialization")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -327,7 +383,7 @@ renderFIleName=()=>{
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, 'specialization')}
+                          onClick={e => this.handleAddi(e, "specialization")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -339,25 +395,36 @@ renderFIleName=()=>{
                 </>
               );
             })}
-
-            <label htmlFor="university">Universitati:</label>
+            <label htmlFor="university">Studii:</label>
             {this.state.university.map(univ => {
               return (
                 <>
                   <br />
-                  <div
-                    id="univform"
-                    className="workForm col-md-11"
-                  >
-                    <label htmlFor="title">Universitatea:</label>
+                  <div id="univform" className="workForm col-md-11">
+                    {/* <label htmlFor="title">Studiu:</label> */}
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
-                      placeholder="Title"
                       onChange={e => {
-                        this.state.university[univ.id - 1].text = e.target.value;
+                        this.state.university[univ.id - 1].text =
+                          e.target.value;
+                        this.setState({ university: this.state.university });
+                      }}
+                    />
+                    <label htmlFor="start">Inceput:</label>
+                    <input
+                      onChange={e => {
+                        this.state.university[univ.id - 1].start =
+                          e.target.value;
+                        this.setState({ university: this.state.university });
+                      }}
+                    />
+                    <label htmlFor="end">Sfarsit:</label>
+                    <input
+                      onChange={e => {
+                        this.state.university[univ.id - 1].end = e.target.value;
                         this.setState({ university: this.state.university });
                       }}
                     />
@@ -366,7 +433,7 @@ renderFIleName=()=>{
                         {this.state.university.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, 'university')}
+                            onClick={e => this.handleDeli(e, "university")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -375,7 +442,7 @@ renderFIleName=()=>{
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, 'university')}
+                          onClick={e => this.handleAddi(e, "university")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -387,63 +454,42 @@ renderFIleName=()=>{
                 </>
               );
             })}
-            <label htmlFor="workform">Lucrari:</label>
-            <br />
-            {this.state.works.map(work => {
+            <label htmlFor="santier">Santier:</label>
+            {this.state.santier.map(sant => {
               return (
                 <>
                   <br />
-                  <div
-                    id="workform"
-                    className="workForm col-md-11"
-                  >
-                    <label htmlFor="title">Titlu:</label>
+                  <div id="santform" className="workForm col-md-11">
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
-                      placeholder="Title"
                       onChange={e => {
-                        this.state.works[work.id - 1].title = e.target.value;
-                        this.setState({ works: this.state.works });
-                      }}
-                    />
-                    <label htmlFor="text">Descriere:</label>
-                    <textarea
-                      type="text"
-                      id="text"
-                      name="text"
-                      className="form-control col-md-10"
-                      placeholder="Text"
-                      onChange={e => {
-                        this.state.works[work.id - 1].text = e.target.value;
-                        this.setState({ works: this.state.works });
+                        this.state.santier[sant.id - 1].text = e.target.value;
+                        this.setState({ santier: this.state.santier });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
-                    <DatePicker
-                      selected={new Date(this.state.works[work.id - 1].start)}
+                    <input
                       onChange={e => {
-                        this.state.works[work.id - 1].start = e.toISOString();
-                        this.setState({ works: this.state.works });
+                        this.state.santier[sant.id - 1].start = e.target.value;
+                        this.setState({ santier: this.state.santier });
                       }}
                     />
-
                     <label htmlFor="end">Sfarsit:</label>
-                    <DatePicker
-                      selected={new Date(this.state.works[work.id - 1].end)}
+                    <input
                       onChange={e => {
-                        this.state.works[work.id - 1].end = e.toISOString();
-                        this.setState({ works: this.state.works });
+                        this.state.santier[sant.id - 1].end = e.target.value;
+                        this.setState({ santier: this.state.santier });
                       }}
                     />
-                    {work.id === this.state.works.length ? (
+                    {sant.id === this.state.santier.length ? (
                       <div style={{ marginTop: "10px" }}>
-                        {this.state.works.length > 1 ? (
+                        {this.state.santier.length > 1 ? (
                           <button
                             type="button"
-                            onClick={this.handleDel}
+                            onClick={e => this.handleDeli(e, "santier")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -452,7 +498,7 @@ renderFIleName=()=>{
                         ) : null}
                         <button
                           type="button"
-                          onClick={this.handleAdd}
+                          onClick={e => this.handleAddi(e, "santier")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -464,6 +510,98 @@ renderFIleName=()=>{
                 </>
               );
             })}
+
+            <label htmlFor="domeniu">Domeniul specializarii:</label>
+            {this.state.domeniu.map(dom => {
+              return (
+                <>
+                  <br />
+                  <div id="domform" className="workForm col-md-11">
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      onChange={e => {
+                        this.state.domeniu[dom.id - 1].text = e.target.value;
+                        this.setState({ domeniu: this.state.domeniu });
+                      }}
+                    />
+                    {dom.id === this.state.domeniu.length ? (
+                      <div style={{ marginTop: "10px" }}>
+                        {this.state.domeniu.length > 1 ? (
+                          <button
+                            type="button"
+                            onClick={e => this.handleDeli(e, "domeniu")}
+                            className="btn btn-danger "
+                            style={{ width: 35, height: 35 }}
+                          >
+                            -
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={e => this.handleAddi(e, "domeniu")}
+                          className="btn btn-success ml-2"
+                          style={{ width: 35, height: 35 }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })}
+
+            <label htmlFor="workform">Lucrari:</label>
+            <br />
+            <>
+              <div id="workform" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ works: this.state.works });
+                  }}
+                />
+              </div>
+            </>
+
+            <label htmlFor="obsform">Observatii:</label>
+            <br />
+            <>
+              <div id="obsform" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ obs: this.state.obs });
+                  }}
+                />
+              </div>
+            </>
+
+            <label htmlFor="autorform">Autor:</label>
+            <br />
+            <>
+              <div id="autorform" className="workForm col-md-11">
+                <input
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ autor: this.state.autor });
+                  }}
+                />
+              </div>
+            </>
+
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
                 {this.props.errorMessage}

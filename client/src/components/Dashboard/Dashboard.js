@@ -63,8 +63,7 @@ export default class Dashboard extends Component {
       userList = this.renderUserList();
     }
     return (
-      <div className="dashboard">
-        Dashboard
+      <div className="mt-2 dashboard">
         <input
           autoComplete="off"
           name="search"
