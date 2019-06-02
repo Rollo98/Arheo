@@ -17,8 +17,8 @@ export default class NewArcheologist extends Component {
       fn: [],
       firstName: "",
       lastName: "",
-      birthDay: new Date(),
-      deathDay: new Date(),
+      birthDay: { day: "", month: "", year: "" },
+      deathDay: { day: "", month: "", year: "" },
       isDead: false,
       institution: [{ id: 1, text: "", start: "", end: "" }],
       specialization: [{ id: 1, text: "", start: "", end: "" }],
@@ -170,7 +170,6 @@ export default class NewArcheologist extends Component {
     else return "";
   };
   render() {
-    console.log(this.state.fn);
     return (
       <div className="row">
         <div className="col">
@@ -232,10 +231,25 @@ export default class NewArcheologist extends Component {
             <div class="form-row">
               <div class="col">
                 <label htmlFor="birthDay">Zi Nastere:</label>
-                <DatePicker
-                  selected={this.state.birthDay}
+                <input
+                  placeholder="zi"
                   onChange={e => {
-                    this.handleChange("birthDay", e);
+                    this.state.birthDay.day = e.target.value;
+                    this.setState({ birthDay: this.state.birthDay });
+                  }}
+                />
+                <input
+                  placeholder="luna"
+                  onChange={e => {
+                    this.state.birthDay.month = e.target.value;
+                    this.setState({ birthDay: this.state.birthDay });
+                  }}
+                />
+                <input
+                  placeholder="an"
+                  onChange={e => {
+                    this.state.birthDay.year = e.target.value;
+                    this.setState({ birthDay: this.state.birthDay });
                   }}
                 />
               </div>
@@ -257,10 +271,25 @@ export default class NewArcheologist extends Component {
                 {this.state.isDead ? (
                   <>
                     <label htmlFor="deathDay">Decedat la:</label>
-                    <DatePicker
-                      selected={this.state.deathDay}
+                    <input
+                      placeholder="zi"
                       onChange={e => {
-                        this.handleChange("deathDay", e);
+                        this.state.deathDay.day = e.target.value;
+                        this.setState({ deathDay: this.state.deathDay });
+                      }}
+                    />
+                    <input
+                      placeholder="luna"
+                      onChange={e => {
+                        this.state.deathDay.month = e.target.value;
+                        this.setState({ deathDay: this.state.deathDay });
+                      }}
+                    />
+                    <input
+                      placeholder="an"
+                      onChange={e => {
+                        this.state.deathDay.year = e.target.value;
+                        this.setState({ deathDay: this.state.deathDay });
                       }}
                     />
                   </>
