@@ -130,6 +130,9 @@ const archeologistSchema = new Schema({
   photo: {
     type: String
   },
+  Observatii: {
+    type: String
+  },
   author: {
     type: String,
     required: true

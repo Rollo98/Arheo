@@ -24,63 +24,34 @@ export default class ShowArcheologist extends Component {
       );
     });
   }
-
-  renderWorks() {
-    console.log(this.state.archeologist)
-    const { Specializarii } = this.state.archeologist;
+  //here add start/end 
+  renderWithTime(typeOfData) {
+    const variable = this.state.archeologist[`${typeOfData}`];
     let x;
-    if (Specializarii !== undefined) {
-      x = Specializarii.map(n => (
-        <div key={n._id}>
+    console.log("renderWtime", variable)
+    if (variable !== undefined) {
+      x = variable.map(n => (
+        <div key={n}>
           <p>{n.text}</p>
-          <p>{n.start}</p>
-          <p>{n.end}</p>
         </div>
       ));
     }
     return x;
   }
 
-  renderInstitution() {
-    const { institution } = this.state.archeologist;
+  renderWithoutTime(typeOfData) {
+    const variable = this.state.archeologist[`${typeOfData}`];
     let x;
-    if (institution !== undefined) {
-      x = institution.map(n => {
-        return (
-          <div key={n._id}>
-            <p>{n}</p>
-          </div>
-        );
-      });
-    }
-    return x;
-  }
-
-  renderUniversity() {
-    const { university } = this.state.archeologist;
-    let x;
-    if (university !== undefined) {
-      x = university.map(n => (
-        <div key={n._id}>
-          <p>{n}</p>
+    if (variable !== undefined) {
+      x = variable.map(n => (
+        <div key={n}>
+          <p>{n.text}</p>
         </div>
       ));
     }
     return x;
   }
 
-  renderSpecialization() {
-    const { specialization } = this.state.archeologist;
-    let x;
-    if (specialization !== undefined) {
-      x = specialization.map(n => (
-        <div key={n._id}>
-          <p>{n}</p>
-        </div>
-      ));
-    }
-    return x;
-  }
 
   render() {
     console.log(this.state.archeologist.deathDay);
@@ -88,18 +59,22 @@ export default class ShowArcheologist extends Component {
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
           <h3>Institutii</h3>
-          {this.renderInstitution()}
+          {this.renderWithTime("Institutii")}
           <h3>Specializari</h3>
-          {this.renderSpecialization()}
+          {this.renderWithTime("Specializarii")}
           <h3>Studii</h3>
-          {this.renderUniversity()}
-          {/* <h3>Work</h3>
-          {this.renderWorks()} */}
+          {this.renderWithTime("Studii")}
           <h3>Santier</h3>
+          {this.renderWithTime("Santier")}
           <h3>Domeniul specializarii</h3>
+          {this.renderWithoutTime("Domeniu")}
           <h3>Lucrari</h3>
+          {this.state.archeologist.Lucrari}
           <h3>Observatii</h3>
+          {this.state.archeologist.Observatii}
           <h3>Autor</h3>
+          {this.state.archeologist.author}
+
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           <img

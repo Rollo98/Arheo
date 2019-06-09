@@ -26,9 +26,8 @@ export default class NewArcheologist extends Component {
       Lucrari: "",
       Santier: [{ id: 1, text: "", start: "", end: "" }],
       Domeniu: [{ id: 1, text: "" }],
-      obs: "",
+      Observatii: "",
       autor: "",
-      formData: new FormData()
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -63,33 +62,9 @@ export default class NewArcheologist extends Component {
     }
   };
 
-  handleDel = e => {
-    if (this.state.Lucrari.length > 1) {
-      const Lucrari = this.state.Lucrari;
-      Lucrari.pop();
-      console.log(Lucrari);
-      this.setState({ Lucrari });
-    }
-  };
-
-  handleAdd = e => {
-    const iD = this.state.Lucrari[this.state.Lucrari.length - 1].id + 1;
-    this.setState(prevState => ({
-      Lucrari: [
-        ...prevState.Lucrari,
-        {
-          id: iD,
-          title: "",
-          text: "",
-          start: "",
-          end: ""
-        }
-      ]
-    }));
-  };
 
   async sendChanges() {
-    let { formData } = this.state;
+    let formData = new FormData();
     formData.append("firstName", this.state.firstName);
     formData.append("lastName", this.state.lastName);
     formData.append("birthDay", JSON.stringify(this.state.birthDay));
@@ -142,6 +117,7 @@ export default class NewArcheologist extends Component {
       )
     );
     formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
+    formData.append("Observatii", JSON.stringify(this.state.Observatii));
     formData.append("Autor", JSON.stringify(this.state.Autor));
     //logging formData
     // var formKeys = formData.keys();
@@ -623,7 +599,7 @@ export default class NewArcheologist extends Component {
                   name="text"
                   className="form-control col-md-10"
                   onChange={e => {
-                    this.setState({ Lucrari: this.state.Lucrari });
+                    this.setState({ Lucrari: e.target.value });
                   }}
                 />
               </div>
@@ -639,7 +615,7 @@ export default class NewArcheologist extends Component {
                   name="text"
                   className="form-control col-md-10"
                   onChange={e => {
-                    this.setState({ obs: this.state.obs });
+                    this.setState({ Observatii: e.target.value });
                   }}
                 />
               </div>
@@ -655,7 +631,7 @@ export default class NewArcheologist extends Component {
                   name="text"
                   className="form-control col-md-10"
                   onChange={e => {
-                    this.setState({ autor: this.state.autor });
+                    this.setState({ autor: e.target.value });
                   }}
                 />
               </div>

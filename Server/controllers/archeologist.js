@@ -15,7 +15,8 @@ module.exports = {
       const birthDay = JSON.parse(req.body.birthDay)
       const Domeniu = JSON.parse(req.body.Domeniu)
       const Santier = JSON.parse(req.body.Santier)
-      const Lucrari = req.body.Lucrari
+      const Lucrari = JSON.parse(req.body.Lucrari)
+      const Observatii = JSON.parse(req.body.Observatii)
       const Studii = JSON.parse(req.body.Studii)
       const Specializarii = JSON.parse(req.body.Specializarii)
       const Institutii = JSON.parse(req.body.Institutii)
@@ -25,7 +26,7 @@ module.exports = {
         newArcheologist = new Archeologist({
           user, firstName, lastName, birthDay,
           Domeniu, Santier, Lucrari, Studii, Specializarii,
-          Institutii, dateModified,
+          Institutii, dateModified, Observatii,
           photo: fullpath, author: user[0]
         })
       } else {
@@ -33,7 +34,7 @@ module.exports = {
         newArcheologist = new Archeologist({
           user, firstName, lastName, birthDay, deathDay,
           Domeniu, Santier, Lucrari, Studii, Specializarii,
-          Institutii, dateModified,
+          Institutii, dateModified, Observatii,
           photo: fullpath, author: user[0]
         })
       }
