@@ -27,7 +27,7 @@ export default class NewArcheologist extends Component {
       Santier: [{ id: 1, text: "", start: "", end: "" }],
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
-      autor: "",
+      autor: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -62,7 +62,6 @@ export default class NewArcheologist extends Component {
     }
   };
 
-
   async sendChanges() {
     let formData = new FormData();
     formData.append("firstName", this.state.firstName);
@@ -75,7 +74,11 @@ export default class NewArcheologist extends Component {
       "Institutii",
       JSON.stringify(
         this.state.Institutii.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
           return acc;
         }, [])
       )
@@ -84,7 +87,11 @@ export default class NewArcheologist extends Component {
       "Specializarii",
       JSON.stringify(
         this.state.Specializarii.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
           return acc;
         }, [])
       )
@@ -93,7 +100,11 @@ export default class NewArcheologist extends Component {
       "Studii",
       JSON.stringify(
         this.state.Studii.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
           return acc;
         }, [])
       )
@@ -102,7 +113,11 @@ export default class NewArcheologist extends Component {
       "Santier",
       JSON.stringify(
         this.state.Santier.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
           return acc;
         }, [])
       )
@@ -111,7 +126,11 @@ export default class NewArcheologist extends Component {
       "Domeniu",
       JSON.stringify(
         this.state.Domeniu.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
           return acc;
         }, [])
       )
@@ -322,8 +341,7 @@ export default class NewArcheologist extends Component {
                       placeholder="zi/luna/an"
                       className="text-center m-1"
                       onChange={e => {
-                        this.state.Institutii[inst.id - 1].end =
-                          e.target.value;
+                        this.state.Institutii[inst.id - 1].end = e.target.value;
                         this.setState({ Institutii: this.state.Institutii });
                       }}
                     />
@@ -435,8 +453,7 @@ export default class NewArcheologist extends Component {
                       name="title"
                       className="form-control col-md-10"
                       onChange={e => {
-                        this.state.Studii[univ.id - 1].text =
-                          e.target.value;
+                        this.state.Studii[univ.id - 1].text = e.target.value;
                         this.setState({ Studii: this.state.Studii });
                       }}
                     />
@@ -445,8 +462,7 @@ export default class NewArcheologist extends Component {
                       className="text-center m-1"
                       placeholder="zi/luna/an"
                       onChange={e => {
-                        this.state.Studii[univ.id - 1].start =
-                          e.target.value;
+                        this.state.Studii[univ.id - 1].start = e.target.value;
                         this.setState({ Studii: this.state.Studii });
                       }}
                     />

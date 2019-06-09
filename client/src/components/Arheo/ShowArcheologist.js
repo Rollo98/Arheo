@@ -14,7 +14,7 @@ export default class ShowArcheologist extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(
       `http://localhost:5000/archeologist/get/${this.props.firstName}/${
-      this.props.lastName
+        this.props.lastName
       }`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
@@ -24,15 +24,18 @@ export default class ShowArcheologist extends Component {
       );
     });
   }
-  //here add start/end 
+  //here add start/end
   renderWithTime(typeOfData) {
     const variable = this.state.archeologist[`${typeOfData}`];
     let x;
-    console.log("renderWtime", variable)
+    console.log("renderWtime", variable);
     if (variable !== undefined) {
       x = variable.map(n => (
         <div key={n}>
           <p>{n.text}</p>
+          <p>
+            {n.start} - {n.end}
+          </p>
         </div>
       ));
     }
@@ -51,7 +54,6 @@ export default class ShowArcheologist extends Component {
     }
     return x;
   }
-
 
   render() {
     console.log(this.state.archeologist.deathDay);
@@ -74,17 +76,18 @@ export default class ShowArcheologist extends Component {
           {this.state.archeologist.Observatii}
           <h3>Autor</h3>
           {this.state.archeologist.author}
-
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
-          <img
-            className="img-fluid showImg"
-            src={`http://localhost:5000${this.state.archeologist.photo}`}
-          />
+          {this.state.archeologist.photo == "" ? null : (
+            <img
+              className="img-fluid showImg"
+              src={`http://localhost:5000${this.state.archeologist.photo}`}
+            />
+          )}
           <p className="arheoname">
             <b>{`${this.state.archeologist.firstName} ${
               this.state.archeologist.lastName
-              }`}</b>
+            }`}</b>
           </p>
           <p>
             <b>Birth day: {moment(this.state.birthDay).format("L")}</b>
