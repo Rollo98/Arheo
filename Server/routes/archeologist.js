@@ -5,18 +5,19 @@ const passport = require('passport');
 const passportConf = require('../passport');
 const { validateBody, schemas } = require('../utils/utils_validators');
 const ArchController = require('../controllers/archeologist');
-multer = require('multer'),
-  upload = multer({
-    storage: multer.diskStorage({
-      destination: './uploads'
-    })
+const multer = require('multer');
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: './uploads'
   })
-
+})
 const passportJWT = passport.authenticate('jwt', { session: false });
 router.route('/add')
-  .post(passportJWT,upload.single('img'),
-  validateBody(schemas.newArcheologistSchema), 
-  ArchController.addArcheologist);
+  .post(
+    passportJWT,
+    upload.any(),
+    // validateBody(schemas.newArcheologistSchema),
+    ArchController.addArcheologist);
 
 router.route('/get')
   .get(ArchController.getArcheologist)

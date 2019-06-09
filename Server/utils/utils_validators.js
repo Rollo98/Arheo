@@ -15,7 +15,7 @@ module.exports = {
   },
 
   schemas: {
-    
+
     authSchema: Joi.object().keys({
       userName: Joi.string().required(),
       password: Joi.string().required()
@@ -27,22 +27,22 @@ module.exports = {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
       passwordVerify: Joi.string().required()
-    }),    
-    newArcheologistSchema: Joi.object().keys({
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
-      birthDay: Joi.date().required(),
-      deathDay:Joi.date(),
-      institution:Joi.array().items(Joi.string()).required(),
-      specialization:Joi.array().items(Joi.string()).required(),
-      university:Joi.array().items(Joi.string()).required(),
-      works:Joi.array().items(Joi.object().keys({
-        start: Joi.date().required(),
-        end: Joi.date().required(),
-        title:Joi.string().required(),
-        text:Joi.string().required(),
-      })).required()
     }),
+    // newArcheologistSchema: Joi.object().keys({
+    //   firstName: Joi.string().required(),
+    //   lastName: Joi.string().required(),
+    //   birthDay: Joi.date().required(),
+    //   deathDay:Joi.date(),
+    //   institution:Joi.array().items(Joi.string()).required(),
+    //   specialization:Joi.array().items(Joi.string()).required(),
+    //   university:Joi.array().items(Joi.string()).required(),
+    //   works:Joi.array().items(Joi.object().keys({
+    //     start: Joi.date().required(),
+    //     end: Joi.date().required(),
+    //     title:Joi.string().required(),
+    //     text:Joi.string().required(),
+    //   })).required()
+    // }),
     updateArcheologistSchema: Joi.object().keys({
       title: Joi.string().required(),
       body: Joi.string().required(),

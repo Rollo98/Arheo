@@ -16,35 +16,45 @@ const archeologistSchema = new Schema({
     required: true
   },
   birthDay: {
-    type: Date,
+    type: {
+      day: {
+        type: String,
+        required: true
+      },
+      month: {
+        type: String,
+        required: true
+      },
+      year: {
+        type: String,
+        required: true
+      },
+    },
     required: true
   },
   deathDay: {
-    type: Date,
+    type: {
+      day: {
+        type: String,
+        required: true
+      },
+      month: {
+        type: String,
+        required: true
+      },
+      year: {
+        type: String,
+        required: true
+      },
+    },
   },
-  institution: {
-    type: [String],
-    required: true
-  },
-  specialization: {
-    type: [String],
-    required: true
-  },
-  university: {
-    type: [String],
-    required: true
-  },
-  works: {
+  Institutii: {
     type: [{
       start: {
-        type: Date,
+        type: String,
         required: true
       },
       end: {
-        type: Date,
-        required: true
-      },
-      title: {
         type: String,
         required: true
       },
@@ -53,7 +63,65 @@ const archeologistSchema = new Schema({
         required: true
       },
     }],
-    required: true
+  },
+  Specializarii: {
+    type: [{
+      start: {
+        type: String,
+        required: true
+      },
+      end: {
+        type: String,
+        required: true
+      },
+      text: {
+        type: String,
+        required: true
+      },
+    }],
+  },
+  Studii: {
+    type: [{
+      start: {
+        type: String,
+        required: true
+      },
+      end: {
+        type: String,
+        required: true
+      },
+      text: {
+        type: String,
+        required: true
+      },
+    }],
+  },
+  Lucrari: {
+    type: String
+  },
+  Santier: {
+    type: [{
+      start: {
+        type: String,
+        required: true
+      },
+      end: {
+        type: String,
+        required: true
+      },
+      text: {
+        type: String,
+        required: true
+      },
+    }],
+  },
+  Domeniu: {
+    type: [{
+      text: {
+        type: String,
+        required: true
+      },
+    }],
   },
   dateModified: {
     type: Date,
@@ -67,7 +135,6 @@ const archeologistSchema = new Schema({
     required: true
   }
 });
-
 
 const Archeologist = mongoose.model('archeologists', archeologistSchema)
 

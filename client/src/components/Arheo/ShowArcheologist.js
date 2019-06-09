@@ -14,7 +14,7 @@ export default class ShowArcheologist extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(
       `http://localhost:5000/archeologist/get/${this.props.firstName}/${
-        this.props.lastName
+      this.props.lastName
       }`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
@@ -26,13 +26,15 @@ export default class ShowArcheologist extends Component {
   }
 
   renderWorks() {
-    const { works } = this.state.archeologist;
+    console.log(this.state.archeologist)
+    const { Specializarii } = this.state.archeologist;
     let x;
-    if (works !== undefined) {
-      x = works.map(n => (
+    if (Specializarii !== undefined) {
+      x = Specializarii.map(n => (
         <div key={n._id}>
-          <h4>{n.title}</h4>
           <p>{n.text}</p>
+          <p>{n.start}</p>
+          <p>{n.end}</p>
         </div>
       ));
     }
@@ -107,7 +109,7 @@ export default class ShowArcheologist extends Component {
           <p className="arheoname">
             <b>{`${this.state.archeologist.firstName} ${
               this.state.archeologist.lastName
-            }`}</b>
+              }`}</b>
           </p>
           <p>
             <b>Birth day: {moment(this.state.birthDay).format("L")}</b>

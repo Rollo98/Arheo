@@ -4,31 +4,37 @@ const fs = require('fs')
 module.exports = {
   addArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer")) {
-      const oldPath = `./${req.file.path}`,
-        newPath = `./${req.file.path}_${req.file.originalname}`
-      fs.renameSync(oldPath, newPath)
-      const fullpath = newPath.replace('.', '')
+      let fullpath = ""
+      if ((req.files[0] !== null) && (req.files[0] !== undefined)) {
+        const oldPath = `./${req.files[0].path}`,
+          newPath = `./${req.files[0].path}_${req.files[0].originalname}`
+        fs.renameSync(oldPath, newPath)
+        fullpath = newPath.replace('.', '')
+      }
       const { firstName, lastName } = req.body
-      const institution = JSON.parse(req.body.institution)
-      const specialization = JSON.parse(req.body.specialization)
-      const university = JSON.parse(req.body.university)
-      const works = JSON.parse(req.body.works)
+      const birthDay = JSON.parse(req.body.birthDay)
+      const Domeniu = JSON.parse(req.body.Domeniu)
+      const Santier = JSON.parse(req.body.Santier)
+      const Lucrari = req.body.Lucrari
+      const Studii = JSON.parse(req.body.Studii)
+      const Specializarii = JSON.parse(req.body.Specializarii)
+      const Institutii = JSON.parse(req.body.Institutii)
       let user = [req.user.userName]
-      let { birthDay } = req.body
       dateModified = new Date()
-      birthDay = new Date(birthDay)
       if ((req.body.deathDay === null) || (req.body.deathDay === undefined)) {
         newArcheologist = new Archeologist({
-          user, firstName, lastName, birthDay, institution,
-          specialization, university, works, dateModified,
+          user, firstName, lastName, birthDay,
+          Domeniu, Santier, Lucrari, Studii, Specializarii,
+          Institutii, dateModified,
           photo: fullpath, author: user[0]
         })
       } else {
-        const { deathDay } = req.body
+        const deathDay = JSON.parse(req.body.deathDay)
         newArcheologist = new Archeologist({
-          user, firstName, lastName, birthDay, institution,
-          specialization, university, works, dateModified,
-          deathDay, photo: fullpath, author: user[0]
+          user, firstName, lastName, birthDay, deathDay,
+          Domeniu, Santier, Lucrari, Studii, Specializarii,
+          Institutii, dateModified,
+          photo: fullpath, author: user[0]
         })
       }
       await newArcheologist.save().then(doc => {

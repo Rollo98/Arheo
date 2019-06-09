@@ -20,12 +20,12 @@ export default class NewArcheologist extends Component {
       birthDay: { day: "", month: "", year: "" },
       deathDay: { day: "", month: "", year: "" },
       isDead: false,
-      institution: [{ id: 1, text: "", start: "", end: "" }],
-      specialization: [{ id: 1, text: "", start: "", end: "" }],
-      university: [{ id: 1, text: "", start: "", end: "" }],
-      works: "",
-      santier: [{ id: 1, text: "", start: "", end: "" }],
-      domeniu: [{ id: 1, text: "" }],
+      Institutii: [{ id: 1, text: "", start: "", end: "" }],
+      Specializarii: [{ id: 1, text: "", start: "", end: "" }],
+      Studii: [{ id: 1, text: "", start: "", end: "" }],
+      Lucrari: "",
+      Santier: [{ id: 1, text: "", start: "", end: "" }],
+      Domeniu: [{ id: 1, text: "" }],
       obs: "",
       autor: "",
       formData: new FormData()
@@ -64,85 +64,93 @@ export default class NewArcheologist extends Component {
   };
 
   handleDel = e => {
-    if (this.state.works.length > 1) {
-      const works = this.state.works;
-      works.pop();
-      console.log(works);
-      this.setState({ works });
+    if (this.state.Lucrari.length > 1) {
+      const Lucrari = this.state.Lucrari;
+      Lucrari.pop();
+      console.log(Lucrari);
+      this.setState({ Lucrari });
     }
   };
 
   handleAdd = e => {
-    const iD = this.state.works[this.state.works.length - 1].id + 1;
+    const iD = this.state.Lucrari[this.state.Lucrari.length - 1].id + 1;
     this.setState(prevState => ({
-      works: [
-        ...prevState.works,
+      Lucrari: [
+        ...prevState.Lucrari,
         {
           id: iD,
           title: "",
           text: "",
-          start: new Date().toISOString(),
-          end: new Date().toISOString()
+          start: "",
+          end: ""
         }
       ]
     }));
   };
 
   async sendChanges() {
-    const works = this.state.works.reduce((acc, val) => {
-      const currentVal = {
-        start: val.start,
-        end: val.end,
-        title: val.title,
-        text: val.text
-      };
-      acc.push(currentVal);
-      return acc;
-    }, []);
-    console.log(
-      JSON.stringify(
-        this.state.institution.reduce((acc, current) => {
-          acc.push(current.text);
-          return acc;
-        }, [])
-      )
-    );
     let { formData } = this.state;
     formData.append("firstName", this.state.firstName);
     formData.append("lastName", this.state.lastName);
-    formData.append("birthDay", this.state.birthDay.toISOString());
+    formData.append("birthDay", JSON.stringify(this.state.birthDay));
     if (this.state.isDead)
-      formData.append("deathDay", this.state.deathDay.toISOString());
+      formData.append("deathDay", JSON.stringify(this.state.deathDay));
 
     formData.append(
-      "institution",
+      "Institutii",
       JSON.stringify(
-        this.state.institution.reduce((acc, current) => {
-          acc.push(current.text);
+        this.state.Institutii.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
           return acc;
         }, [])
       )
     );
     formData.append(
-      "specialization",
+      "Specializarii",
       JSON.stringify(
-        this.state.specialization.reduce((acc, current) => {
-          acc.push(current.text);
+        this.state.Specializarii.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
           return acc;
         }, [])
       )
     );
     formData.append(
-      "university",
+      "Studii",
       JSON.stringify(
-        this.state.university.reduce((acc, current) => {
-          acc.push(current.text);
+        this.state.Studii.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
           return acc;
         }, [])
       )
     );
+    formData.append(
+      "Santier",
+      JSON.stringify(
+        this.state.Santier.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
+          return acc;
+        }, [])
+      )
+    );
+    formData.append(
+      "Domeniu",
+      JSON.stringify(
+        this.state.Domeniu.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
+          return acc;
+        }, [])
+      )
+    );
+    formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
+    formData.append("Autor", JSON.stringify(this.state.Autor));
+    //logging formData
+    // var formKeys = formData.keys();
+    // var formEntries = formData.entries();
 
-    formData.append("works", JSON.stringify(works));
+    // do {
+    //   console.log(formEntries.next().value);
+    // } while (!formKeys.next().done)
+
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = await Axios.post(
@@ -302,8 +310,8 @@ export default class NewArcheologist extends Component {
                 ) : null}
               </div>
             </div>
-            <label htmlFor="institution">Institutii:</label>
-            {this.state.institution.map(inst => {
+            <label htmlFor="Institutii">Institutii:</label>
+            {this.state.Institutii.map(inst => {
               return (
                 <>
                   <br />
@@ -318,9 +326,9 @@ export default class NewArcheologist extends Component {
                       name="title"
                       className="form-control col-md-10"
                       onChange={e => {
-                        this.state.institution[inst.id - 1].text =
+                        this.state.Institutii[inst.id - 1].text =
                           e.target.value;
-                        this.setState({ institution: this.state.institution });
+                        this.setState({ Institutii: this.state.Institutii });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
@@ -328,9 +336,9 @@ export default class NewArcheologist extends Component {
                       className="text-center m-1"
                       placeholder="zi/luna/an"
                       onChange={e => {
-                        this.state.institution[inst.id - 1].start =
+                        this.state.Institutii[inst.id - 1].start =
                           e.target.value;
-                        this.setState({ institution: this.state.institution });
+                        this.setState({ Institutii: this.state.Institutii });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
@@ -338,17 +346,17 @@ export default class NewArcheologist extends Component {
                       placeholder="zi/luna/an"
                       className="text-center m-1"
                       onChange={e => {
-                        this.state.institution[inst.id - 1].end =
+                        this.state.Institutii[inst.id - 1].end =
                           e.target.value;
-                        this.setState({ institution: this.state.institution });
+                        this.setState({ Institutii: this.state.Institutii });
                       }}
                     />
-                    {inst.id === this.state.institution.length ? (
+                    {inst.id === this.state.Institutii.length ? (
                       <div style={{ marginTop: "10px" }}>
-                        {this.state.institution.length > 1 ? (
+                        {this.state.Institutii.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, "institution")}
+                            onClick={e => this.handleDeli(e, "Institutii")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -357,7 +365,7 @@ export default class NewArcheologist extends Component {
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, "institution")}
+                          onClick={e => this.handleAddi(e, "Institutii")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -369,8 +377,8 @@ export default class NewArcheologist extends Component {
                 </>
               );
             })}
-            <label htmlFor="specialization">Specializarii:</label>
-            {this.state.specialization.map(spec => {
+            <label htmlFor="Specializarii">Specializarii:</label>
+            {this.state.Specializarii.map(spec => {
               return (
                 <>
                   <br />
@@ -381,10 +389,10 @@ export default class NewArcheologist extends Component {
                       name="title"
                       className="form-control col-md-10"
                       onChange={e => {
-                        this.state.specialization[spec.id - 1].text =
+                        this.state.Specializarii[spec.id - 1].text =
                           e.target.value;
                         this.setState({
-                          specialization: this.state.specialization
+                          Specializarii: this.state.Specializarii
                         });
                       }}
                     />
@@ -393,10 +401,10 @@ export default class NewArcheologist extends Component {
                       className="text-center m-1"
                       placeholder="zi/luna/an"
                       onChange={e => {
-                        this.state.specialization[spec.id - 1].start =
+                        this.state.Specializarii[spec.id - 1].start =
                           e.target.value;
                         this.setState({
-                          specialization: this.state.specialization
+                          Specializarii: this.state.Specializarii
                         });
                       }}
                     />
@@ -405,19 +413,19 @@ export default class NewArcheologist extends Component {
                       placeholder="zi/luna/an"
                       className="text-center m-1"
                       onChange={e => {
-                        this.state.specialization[spec.id - 1].end =
+                        this.state.Specializarii[spec.id - 1].end =
                           e.target.value;
                         this.setState({
-                          specialization: this.state.specialization
+                          Specializarii: this.state.Specializarii
                         });
                       }}
                     />
-                    {spec.id === this.state.specialization.length ? (
+                    {spec.id === this.state.Specializarii.length ? (
                       <div style={{ marginTop: "10px" }}>
-                        {this.state.specialization.length > 1 ? (
+                        {this.state.Specializarii.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, "specialization")}
+                            onClick={e => this.handleDeli(e, "Specializarii")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -426,7 +434,7 @@ export default class NewArcheologist extends Component {
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, "specialization")}
+                          onClick={e => this.handleAddi(e, "Specializarii")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -438,8 +446,8 @@ export default class NewArcheologist extends Component {
                 </>
               );
             })}
-            <label htmlFor="university">Studii:</label>
-            {this.state.university.map(univ => {
+            <label htmlFor="Studii">Studii:</label>
+            {this.state.Studii.map(univ => {
               return (
                 <>
                   <br />
@@ -451,9 +459,9 @@ export default class NewArcheologist extends Component {
                       name="title"
                       className="form-control col-md-10"
                       onChange={e => {
-                        this.state.university[univ.id - 1].text =
+                        this.state.Studii[univ.id - 1].text =
                           e.target.value;
-                        this.setState({ university: this.state.university });
+                        this.setState({ Studii: this.state.Studii });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
@@ -461,9 +469,9 @@ export default class NewArcheologist extends Component {
                       className="text-center m-1"
                       placeholder="zi/luna/an"
                       onChange={e => {
-                        this.state.university[univ.id - 1].start =
+                        this.state.Studii[univ.id - 1].start =
                           e.target.value;
-                        this.setState({ university: this.state.university });
+                        this.setState({ Studii: this.state.Studii });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
@@ -471,16 +479,16 @@ export default class NewArcheologist extends Component {
                       placeholder="zi/luna/an"
                       className="text-center m-1"
                       onChange={e => {
-                        this.state.university[univ.id - 1].end = e.target.value;
-                        this.setState({ university: this.state.university });
+                        this.state.Studii[univ.id - 1].end = e.target.value;
+                        this.setState({ Studii: this.state.Studii });
                       }}
                     />
-                    {univ.id === this.state.university.length ? (
+                    {univ.id === this.state.Studii.length ? (
                       <div style={{ marginTop: "10px" }}>
-                        {this.state.university.length > 1 ? (
+                        {this.state.Studii.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, "university")}
+                            onClick={e => this.handleDeli(e, "Studii")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -489,7 +497,7 @@ export default class NewArcheologist extends Component {
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, "university")}
+                          onClick={e => this.handleAddi(e, "Studii")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -501,8 +509,8 @@ export default class NewArcheologist extends Component {
                 </>
               );
             })}
-            <label htmlFor="santier">Santier:</label>
-            {this.state.santier.map(sant => {
+            <label htmlFor="Santier">Santier:</label>
+            {this.state.Santier.map(sant => {
               return (
                 <>
                   <br />
@@ -513,8 +521,8 @@ export default class NewArcheologist extends Component {
                       name="title"
                       className="form-control col-md-10"
                       onChange={e => {
-                        this.state.santier[sant.id - 1].text = e.target.value;
-                        this.setState({ santier: this.state.santier });
+                        this.state.Santier[sant.id - 1].text = e.target.value;
+                        this.setState({ Santier: this.state.Santier });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
@@ -522,8 +530,8 @@ export default class NewArcheologist extends Component {
                       className="text-center m-1"
                       placeholder="zi/luna/an"
                       onChange={e => {
-                        this.state.santier[sant.id - 1].start = e.target.value;
-                        this.setState({ santier: this.state.santier });
+                        this.state.Santier[sant.id - 1].start = e.target.value;
+                        this.setState({ Santier: this.state.Santier });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
@@ -531,16 +539,16 @@ export default class NewArcheologist extends Component {
                       placeholder="zi/luna/an"
                       className="text-center m-1"
                       onChange={e => {
-                        this.state.santier[sant.id - 1].end = e.target.value;
-                        this.setState({ santier: this.state.santier });
+                        this.state.Santier[sant.id - 1].end = e.target.value;
+                        this.setState({ Santier: this.state.Santier });
                       }}
                     />
-                    {sant.id === this.state.santier.length ? (
+                    {sant.id === this.state.Santier.length ? (
                       <div style={{ marginTop: "10px" }}>
-                        {this.state.santier.length > 1 ? (
+                        {this.state.Santier.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, "santier")}
+                            onClick={e => this.handleDeli(e, "Santier")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -549,7 +557,7 @@ export default class NewArcheologist extends Component {
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, "santier")}
+                          onClick={e => this.handleAddi(e, "Santier")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -562,8 +570,8 @@ export default class NewArcheologist extends Component {
               );
             })}
 
-            <label htmlFor="domeniu">Domeniul specializarii:</label>
-            {this.state.domeniu.map(dom => {
+            <label htmlFor="Domeniu">Domeniul specializarii:</label>
+            {this.state.Domeniu.map(dom => {
               return (
                 <>
                   <br />
@@ -574,16 +582,16 @@ export default class NewArcheologist extends Component {
                       name="title"
                       className="form-control col-md-10"
                       onChange={e => {
-                        this.state.domeniu[dom.id - 1].text = e.target.value;
-                        this.setState({ domeniu: this.state.domeniu });
+                        this.state.Domeniu[dom.id - 1].text = e.target.value;
+                        this.setState({ Domeniu: this.state.Domeniu });
                       }}
                     />
-                    {dom.id === this.state.domeniu.length ? (
+                    {dom.id === this.state.Domeniu.length ? (
                       <div style={{ marginTop: "10px" }}>
-                        {this.state.domeniu.length > 1 ? (
+                        {this.state.Domeniu.length > 1 ? (
                           <button
                             type="button"
-                            onClick={e => this.handleDeli(e, "domeniu")}
+                            onClick={e => this.handleDeli(e, "Domeniu")}
                             className="btn btn-danger "
                             style={{ width: 35, height: 35 }}
                           >
@@ -592,7 +600,7 @@ export default class NewArcheologist extends Component {
                         ) : null}
                         <button
                           type="button"
-                          onClick={e => this.handleAddi(e, "domeniu")}
+                          onClick={e => this.handleAddi(e, "Domeniu")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -615,7 +623,7 @@ export default class NewArcheologist extends Component {
                   name="text"
                   className="form-control col-md-10"
                   onChange={e => {
-                    this.setState({ works: this.state.works });
+                    this.setState({ Lucrari: this.state.Lucrari });
                   }}
                 />
               </div>
