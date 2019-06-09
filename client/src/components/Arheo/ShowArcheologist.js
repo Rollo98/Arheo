@@ -85,14 +85,19 @@ export default class ShowArcheologist extends Component {
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
-          <h3>Institution</h3>
+          <h3>Institutii</h3>
           {this.renderInstitution()}
-          <h3>Specialization</h3>
+          <h3>Specializari</h3>
           {this.renderSpecialization()}
-          <h3>University</h3>
+          <h3>Studii</h3>
           {this.renderUniversity()}
-          <h3>Work</h3>
-          {this.renderWorks()}
+          {/* <h3>Work</h3>
+          {this.renderWorks()} */}
+          <h3>Santier</h3>
+          <h3>Domeniul specializarii</h3>
+          <h3>Lucrari</h3>
+          <h3>Observatii</h3>
+          <h3>Autor</h3>
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           <img

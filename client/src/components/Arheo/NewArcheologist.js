@@ -232,6 +232,7 @@ export default class NewArcheologist extends Component {
               <div class="col">
                 <label htmlFor="birthDay">Zi Nastere:</label>
                 <input
+                  className="dateInput m-1 text-center form-control"
                   placeholder="zi"
                   onChange={e => {
                     this.state.birthDay.day = e.target.value;
@@ -239,6 +240,7 @@ export default class NewArcheologist extends Component {
                   }}
                 />
                 <input
+                  className="dateInput m-1 text-center form-control"
                   placeholder="luna"
                   onChange={e => {
                     this.state.birthDay.month = e.target.value;
@@ -246,6 +248,7 @@ export default class NewArcheologist extends Component {
                   }}
                 />
                 <input
+                  className="dateInput m-1 text-center form-control"
                   placeholder="an"
                   onChange={e => {
                     this.state.birthDay.year = e.target.value;
@@ -272,6 +275,7 @@ export default class NewArcheologist extends Component {
                   <>
                     <label htmlFor="deathDay">Decedat la:</label>
                     <input
+                      className="dateInput m-1 text-center form-control"
                       placeholder="zi"
                       onChange={e => {
                         this.state.deathDay.day = e.target.value;
@@ -279,6 +283,7 @@ export default class NewArcheologist extends Component {
                       }}
                     />
                     <input
+                      className="dateInput m-1 text-center form-control"
                       placeholder="luna"
                       onChange={e => {
                         this.state.deathDay.month = e.target.value;
@@ -286,6 +291,7 @@ export default class NewArcheologist extends Component {
                       }}
                     />
                     <input
+                      className="dateInput m-1 text-center form-control"
                       placeholder="an"
                       onChange={e => {
                         this.state.deathDay.year = e.target.value;
@@ -319,6 +325,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
                       onChange={e => {
                         this.state.institution[inst.id - 1].start =
                           e.target.value;
@@ -327,6 +335,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
+                      placeholder="zi/luna/an"
+                      className="text-center m-1"
                       onChange={e => {
                         this.state.institution[inst.id - 1].end =
                           e.target.value;
@@ -380,6 +390,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
                       onChange={e => {
                         this.state.specialization[spec.id - 1].start =
                           e.target.value;
@@ -390,6 +402,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
+                      placeholder="zi/luna/an"
+                      className="text-center m-1"
                       onChange={e => {
                         this.state.specialization[spec.id - 1].end =
                           e.target.value;
@@ -444,6 +458,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
                       onChange={e => {
                         this.state.university[univ.id - 1].start =
                           e.target.value;
@@ -452,6 +468,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
+                      placeholder="zi/luna/an"
+                      className="text-center m-1"
                       onChange={e => {
                         this.state.university[univ.id - 1].end = e.target.value;
                         this.setState({ university: this.state.university });
@@ -501,6 +519,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
                       onChange={e => {
                         this.state.santier[sant.id - 1].start = e.target.value;
                         this.setState({ santier: this.state.santier });
@@ -508,6 +528,8 @@ export default class NewArcheologist extends Component {
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
+                      placeholder="zi/luna/an"
+                      className="text-center m-1"
                       onChange={e => {
                         this.state.santier[sant.id - 1].end = e.target.value;
                         this.setState({ santier: this.state.santier });

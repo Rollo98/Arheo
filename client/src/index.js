@@ -36,7 +36,7 @@ ReactDOM.render(
           token: jwtToken,
           isAuthenticated: jwtToken ? true : false
         },
-        arhe: {
+        form: {
           errorMessage: ""
         }
       },
