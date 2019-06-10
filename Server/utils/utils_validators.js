@@ -1,21 +1,22 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 module.exports = {
-  validateBody: (schema) => {
+  validateBody: schema => {
     return (req, res, next) => {
       const result = Joi.validate(req.body, schema);
       if (result.error) {
         return res.status(400).json(result.error);
       }
 
-      if (!req.value) { req.value = {}; }
-      req.value['body'] = result.value;
+      if (!req.value) {
+        req.value = {};
+      }
+      req.value["body"] = result.value;
       next();
-    }
+    };
   },
 
   schemas: {
-
     authSchema: Joi.object().keys({
       userName: Joi.string().required(),
       password: Joi.string().required()
@@ -24,7 +25,9 @@ module.exports = {
       userName: Joi.string().required(),
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
-      email: Joi.string().email().required(),
+      email: Joi.string()
+        .email()
+        .required(),
       password: Joi.string().required(),
       passwordVerify: Joi.string().required()
     }),
@@ -51,4 +54,4 @@ module.exports = {
       oldDate: Joi.string().required()
     })
   }
-}
+};

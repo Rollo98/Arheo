@@ -28,7 +28,6 @@ export default class NewArcheologist extends Component {
       Observatii: "",
       autor: "",
       formData: new FormData()
-
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -65,14 +64,18 @@ export default class NewArcheologist extends Component {
 
   checkFormData(field) {
     let { formData } = this.state;
-    return !formData.has(field) && (JSON.stringify(formData.get(`${field}`)) !== JSON.stringify(this.state[`${field}`]))
+    return (
+      !formData.has(field) &&
+      JSON.stringify(formData.get(`${field}`)) !==
+        JSON.stringify(this.state[`${field}`])
+    );
   }
-  //needs to be rethinked 
+  //needs to be rethinked
   async sendChanges() {
     let { formData } = this.state;
     if (this.checkFormData("firstName"))
       formData.append("firstName", this.state.firstName);
-    if (this.checkFormData("firstName"))
+    if (this.checkFormData("lastName"))
       formData.append("lastName", this.state.lastName);
     if (this.checkFormData("birthDay"))
       formData.append("birthDay", JSON.stringify(this.state.birthDay));
@@ -160,13 +163,13 @@ export default class NewArcheologist extends Component {
       formData.append("Observatii", JSON.stringify(this.state.Observatii));
     if (this.checkFormData("Autor"))
       formData.append("Autor", JSON.stringify(this.state.Autor));
-    // // logging formData
-    // var formKeys = formData.keys();
-    // var formEntries = formData.entries();
+    // logging formData
+    var formKeys = formData.keys();
+    var formEntries = formData.entries();
 
-    // do {
-    //   console.log(formEntries.next().value);
-    // } while (!formKeys.next().done)
+    do {
+      console.log(formEntries.next().value);
+    } while (!formKeys.next().done);
 
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;

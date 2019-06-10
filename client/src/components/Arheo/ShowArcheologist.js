@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import profilePic from "../Image/profilePic.png";
 var moment = require("moment");
+
 export default class ShowArcheologist extends Component {
   constructor(props) {
     super(props);
@@ -56,7 +58,7 @@ export default class ShowArcheologist extends Component {
   }
 
   render() {
-    console.log(this.state.archeologist.deathDay);
+    console.log(this.state.archeologist.birthDay);
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
@@ -78,7 +80,9 @@ export default class ShowArcheologist extends Component {
           {this.state.archeologist.author}
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
-          {this.state.archeologist.photo == "" ? null : (
+          {this.state.archeologist.photo == "" ? (
+            <img className="img-fluid showImg" src={profilePic} />
+          ) : (
             <img
               className="img-fluid showImg"
               src={`http://localhost:5000${this.state.archeologist.photo}`}
@@ -90,11 +94,23 @@ export default class ShowArcheologist extends Component {
             }`}</b>
           </p>
           <p>
-            <b>Birth day: {moment(this.state.birthDay).format("L")}</b>
+            {this.state.archeologist.birthDay !== undefined ? (
+              <b>
+                Birth day:
+                {this.state.archeologist.birthDay.day}/
+                {this.state.archeologist.birthDay.month}/
+                {this.state.archeologist.birthDay.year}
+              </b>
+            ) : null}
             <br />
-            {this.state.archeologist.deathDay === undefined ? null : (
-              <b>Death day: {moment(this.state.deathDay).format("L")}</b>
-            )}
+            {this.state.archeologist.deathDay !== undefined ? (
+              <b>
+                Death day:
+                {this.state.archeologist.deathDay.day}/
+                {this.state.archeologist.deathDay.month}/
+                {this.state.archeologist.deathDay.year}
+              </b>
+            ) : null}
           </p>
         </div>
       </div>

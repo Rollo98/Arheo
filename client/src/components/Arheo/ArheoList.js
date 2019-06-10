@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import profilePic from "../Image/profilePic.png";
 
 export default class ArheoList extends Component {
   constructor(props) {
@@ -29,11 +30,19 @@ export default class ArheoList extends Component {
         to={`/${n.firstName}:${n.lastName}`}
         key={n._id}
       >
-        <img
-          className="card-img-top profileImg mt-2"
-          src={`http://localhost:5000${n.photo}`}
-          alt="Card image cap"
-        />
+        {n.photo === "" || n.photo === undefined ? (
+          <img
+            className="card-img-top profileImg mt-2"
+            src={profilePic}
+            alt="Avatar"
+          />
+        ) : (
+          <img
+            className="card-img-top profileImg mt-2"
+            src={`http://localhost:5000${n.photo}`}
+            alt="Avatar"
+          />
+        )}
         <hr />
         <div className="card-body">
           <h5 className="card-title">
