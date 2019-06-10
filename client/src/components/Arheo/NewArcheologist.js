@@ -7,7 +7,7 @@ import props from "../../pages/App";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
-
+import formData from 'formdata-polyfill';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class NewArcheologist extends Component {
@@ -27,7 +27,9 @@ export default class NewArcheologist extends Component {
       Santier: [{ id: 1, text: "", start: "", end: "" }],
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
-      autor: ""
+      autor: "",
+      formData: new FormData()
+
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -63,7 +65,7 @@ export default class NewArcheologist extends Component {
   };
 
   async sendChanges() {
-    let formData = new FormData();
+    let  formData  = this.state;
     formData.append("firstName", this.state.firstName);
     formData.append("lastName", this.state.lastName);
     formData.append("birthDay", JSON.stringify(this.state.birthDay));
