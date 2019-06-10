@@ -28,7 +28,7 @@ export default class NewArcheologist extends Component {
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
       autor: "",
-      formData: new FormData()
+      fileObj: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -68,102 +68,59 @@ export default class NewArcheologist extends Component {
     return (
       !formData.has(field) &&
       JSON.stringify(formData.get(`${field}`)) !==
-        JSON.stringify(this.state[`${field}`])
+      JSON.stringify(this.state[`${field}`])
     );
   }
   //needs to be rethinked
   async sendChanges() {
-    let { formData } = this.state;
-    if (this.checkFormData("firstName"))
-      formData.append("firstName", this.state.firstName);
-    if (this.checkFormData("lastName"))
-      formData.append("lastName", this.state.lastName);
-    if (this.checkFormData("birthDay"))
-      formData.append("birthDay", JSON.stringify(this.state.birthDay));
+    let formData = new FormData();
+    formData.append("firstName", this.state.firstName);
+    formData.append("lastName", this.state.lastName);
+    formData.append("birthDay", JSON.stringify(this.state.birthDay));
     if (this.state.isDead)
-      if (this.checkFormData("deathDay"))
-        formData.append("deathDay", JSON.stringify(this.state.deathDay));
+      formData.append("deathDay", JSON.stringify(this.state.deathDay));
 
-    if (this.checkFormData("Institutii"))
-      formData.append(
-        "Institutii",
-        JSON.stringify(
-          this.state.Institutii.reduce((acc, current) => {
-            acc.push({
-              start: current.start,
-              end: current.end,
-              text: current.text
-            });
-            return acc;
-          }, [])
-        )
-      );
-    if (this.checkFormData("Specializarii"))
-      formData.append(
-        "Specializarii",
-        JSON.stringify(
-          this.state.Specializarii.reduce((acc, current) => {
-            acc.push({
-              start: current.start,
-              end: current.end,
-              text: current.text
-            });
-            return acc;
-          }, [])
-        )
-      );
+    formData.append("Institutii",
+      JSON.stringify(this.state.Institutii.reduce((acc, current) => {
+        acc.push({ start: current.start, end: current.end, text: current.text });
+        return acc
+      }, [])));
+    formData.append(
+      "Specializarii",
+      JSON.stringify(this.state.Specializarii.reduce((acc, current) => {
+        acc.push({ start: current.start, end: current.end, text: current.text });
+        return acc;
+      }, [])));
 
-    if (this.checkFormData("Studii"))
-      formData.append(
-        "Studii",
-        JSON.stringify(
-          this.state.Studii.reduce((acc, current) => {
-            acc.push({
-              start: current.start,
-              end: current.end,
-              text: current.text
-            });
-            return acc;
-          }, [])
-        )
-      );
+    formData.append(
+      "Studii",
+      JSON.stringify(
+        this.state.Studii.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
+          return acc
+        }, [])));
 
-    if (this.checkFormData("Santier"))
-      formData.append(
-        "Santier",
-        JSON.stringify(
-          this.state.Santier.reduce((acc, current) => {
-            acc.push({
-              start: current.start,
-              end: current.end,
-              text: current.text
-            });
-            return acc;
-          }, [])
-        )
-      );
+    formData.append(
+      "Santier",
+      JSON.stringify(
+        this.state.Santier.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
+          return acc;
+        }, [])));
 
-    if (this.checkFormData("Domeniu"))
-      formData.append(
-        "Domeniu",
-        JSON.stringify(
-          this.state.Domeniu.reduce((acc, current) => {
-            acc.push({
-              start: current.start,
-              end: current.end,
-              text: current.text
-            });
-            return acc;
-          }, [])
-        )
-      );
+    formData.append(
+      "Domeniu",
+      JSON.stringify(
+        this.state.Domeniu.reduce((acc, current) => {
+          acc.push({ start: current.start, end: current.end, text: current.text });
+          return acc
+        }, [])));
 
-    if (this.checkFormData("Lucrari"))
-      formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
-    if (this.checkFormData("Observatii"))
-      formData.append("Observatii", JSON.stringify(this.state.Observatii));
-    if (this.checkFormData("Autor"))
-      formData.append("Autor", JSON.stringify(this.state.Autor));
+    formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
+    formData.append("Observatii", JSON.stringify(this.state.Observatii));
+    formData.append("Autor", JSON.stringify(this.state.Autor));
+    formData.append("img", this.state.fileObj);
+
     // logging formData
     var formKeys = formData.keys();
     var formEntries = formData.entries();
@@ -185,9 +142,10 @@ export default class NewArcheologist extends Component {
   }
   acceptedFile(file) {
     this.setState({ fn: file });
-    let { formData } = this.state;
-    formData.append("img", file[0]);
-    this.setState({ formData: formData });
+    // let { fileObj } = this.state;
+    // formData.append("img", file[0]);    
+    // console.log(JSON.stringify(file))
+    this.setState({ fileObj: file[0] });
   }
   handleChange(field, date) {
     this.setState({

@@ -1,9 +1,9 @@
 const express = require('express'),
- morgan = require('morgan'),
- bodyParser = require('body-parser'),
- mongoose = require('mongoose'),
- conf = require('./config/index')
- var cors = require('cors')
+  morgan = require('morgan'),
+  bodyParser = require('body-parser'),
+  mongoose = require('mongoose'),
+  conf = require('./config/index')
+var cors = require('cors')
 
 mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV === 'test') {
@@ -27,7 +27,7 @@ if (!process.env.NODE_ENV == 'test') {
   app.user(morgan('dev'));
 }
 app.use(bodyParser.json());
-app.use('/uploads',express.static('uploads'))
+app.use('/uploads', express.static('uploads'))
 //Routes
 app.use('/', require('./routes/users'));
 app.use('/archeologist', require('./routes/archeologist'));

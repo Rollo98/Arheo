@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const archeologistSchema = new Schema({
   user: {
     type: [String],
-    required: true
   },
   firstName: {
     type: String,
@@ -36,15 +35,12 @@ const archeologistSchema = new Schema({
     type: {
       day: {
         type: String,
-        required: true
       },
       month: {
         type: String,
-        required: true
       },
       year: {
         type: String,
-        required: true
       },
     },
   },
@@ -52,15 +48,12 @@ const archeologistSchema = new Schema({
     type: [{
       start: {
         type: String,
-        required: true
       },
       end: {
         type: String,
-        required: true
       },
       text: {
         type: String,
-        required: true
       },
     }],
   },
@@ -68,15 +61,12 @@ const archeologistSchema = new Schema({
     type: [{
       start: {
         type: String,
-        required: true
       },
       end: {
         type: String,
-        required: true
       },
       text: {
         type: String,
-        required: true
       },
     }],
   },
@@ -84,15 +74,12 @@ const archeologistSchema = new Schema({
     type: [{
       start: {
         type: String,
-        required: true
       },
       end: {
         type: String,
-        required: true
       },
       text: {
         type: String,
-        required: true
       },
     }],
   },
@@ -103,15 +90,12 @@ const archeologistSchema = new Schema({
     type: [{
       start: {
         type: String,
-        required: true
       },
       end: {
         type: String,
-        required: true
       },
       text: {
         type: String,
-        required: true
       },
     }],
   },
@@ -119,7 +103,6 @@ const archeologistSchema = new Schema({
     type: [{
       text: {
         type: String,
-        required: true
       },
     }],
   },

@@ -22,6 +22,7 @@ module.exports = {
       const Institutii = JSON.parse(req.body.Institutii)
       let user = [req.user.userName]
       dateModified = new Date()
+
       if ((req.body.deathDay === null) || (req.body.deathDay === undefined)) {
         newArcheologist = new Archeologist({
           user, firstName, lastName, birthDay,
@@ -38,6 +39,7 @@ module.exports = {
           photo: fullpath, author: user[0]
         })
       }
+
       await newArcheologist.save().then(doc => {
         if (!doc) {
           return res.status(404)
