@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import { BE_Host } from '../../config'
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class Dashboard extends Component {
     this.setState({ currentUser });
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    let Response = await Axios.get("http://localhost:5000/");
+    let Response = await Axios.get(`http://${BE_Host}/`);
     if (Response) {
       this.setState({ users: Response.data.foundUsers, gotData: true });
     }

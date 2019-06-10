@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import profilePic from "../Image/profilePic.png";
+import { BE_Host } from '../../config'
 
 export default class ArheoList extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class ArheoList extends Component {
   componentDidMount() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    Axios.get("http://localhost:5000/archeologist/get").then(Response => {
+    Axios.get(`http://${BE_Host}/archeologist/get`).then(Response => {
       this.setState({ archeologists: Response.data.archeologists });
       console.log("Response.data", Response.data);
     });
@@ -30,26 +31,28 @@ export default class ArheoList extends Component {
         to={`/${n.firstName}:${n.lastName}`}
         key={n._id}
       >
-        {n.photo === "" || n.photo === undefined ? (
-          <img
-            className="card-img-top profileImg mt-2"
-            src={profilePic}
-            alt="Avatar"
-          />
-        ) : (
-          <img
-            className="card-img-top profileImg mt-2"
-            src={`http://localhost:5000${n.photo}`}
-            alt="Avatar"
-          />
-        )}
+        {
+          n.photo === "" || n.photo === undefined ? (
+            <img
+              className="card-img-top profileImg mt-2"
+              src={profilePic}
+              alt="Avatar"
+            />
+          ) : (
+              <img
+                className="card-img-top profileImg mt-2"
+                src={`http://${BE_Host}${n.photo}`}
+                alt="Avatar"
+              />
+            )
+        }
         <hr />
         <div className="card-body">
           <h5 className="card-title">
             {n.firstName} {n.lastName}
           </h5>
         </div>
-      </Link>
+      </Link >
     ));
     return x;
   }

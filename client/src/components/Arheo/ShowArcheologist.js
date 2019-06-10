@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import profilePic from "../Image/profilePic.png";
+import { BE_Host } from '../../config'
+
 var moment = require("moment");
 
 export default class ShowArcheologist extends Component {
@@ -15,8 +17,8 @@ export default class ShowArcheologist extends Component {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(
-      `http://localhost:5000/archeologist/get/${this.props.firstName}/${
-        this.props.lastName
+      `http://${BE_Host}/archeologist/get/${this.props.firstName}/${
+      this.props.lastName
       }`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
@@ -83,15 +85,15 @@ export default class ShowArcheologist extends Component {
           {this.state.archeologist.photo == "" ? (
             <img className="img-fluid showImg" src={profilePic} />
           ) : (
-            <img
-              className="img-fluid showImg"
-              src={`http://localhost:5000${this.state.archeologist.photo}`}
-            />
-          )}
+              <img
+                className="img-fluid showImg"
+                src={`http://${BE_Host}${this.state.archeologist.photo}`}
+              />
+            )}
           <p className="arheoname">
             <b>{`${this.state.archeologist.firstName} ${
               this.state.archeologist.lastName
-            }`}</b>
+              }`}</b>
           </p>
           <p>
             {this.state.archeologist.birthDay !== undefined ? (

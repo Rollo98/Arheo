@@ -8,6 +8,7 @@ import Dropzone from "react-dropzone";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { BE_Host } from '../../config'
 
 export default class NewArcheologist extends Component {
   constructor(props) {
@@ -174,7 +175,7 @@ export default class NewArcheologist extends Component {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = await Axios.post(
-      `http://localhost:5000/archeologist/add`,
+      `http://${BE_Host}/archeologist/add`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
