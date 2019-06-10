@@ -18,6 +18,7 @@ import authGuardWriter from "./components/HOCs/authGuardWriter";
 import NewArcheologist from "./components/Arheo/NewArcheologist";
 import Dashboard from "./components/Dashboard/Dashboard";
 import ViewAccount from "./components/Dashboard/ViewAccount";
+import EditArcheologist from "./components/Arheo/EditArcheologist";
 import "./main.scss";
 
 const userName = localStorage.getItem("uNema"),
@@ -65,9 +66,15 @@ ReactDOM.render(
         />
         {/* <Route
           exact
-          path="/:firstName_:lastName/edit"
-          component={authGuardWriter(NewArcheologist)}
-          /> */}
+          path="/:firstName::lastName/edit"
+          component={authGuardWriter(props => (
+            <EditArcheologist
+              firstName={props.match.params.firstName}
+              lastName={props.match.params.lastName}
+              {...props}
+            />
+          ))}
+        /> */}
         <Route
           exact
           path="/:firstName::lastName"

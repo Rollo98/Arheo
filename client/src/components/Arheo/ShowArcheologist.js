@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import profilePic from "../Image/profilePic.png";
-import { BE_Host } from '../../config'
+import { BE_Host } from "../../config";
+import { connect } from "react-redux";
 
 var moment = require("moment");
 
-export default class ShowArcheologist extends Component {
+class ShowArcheologist extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -18,7 +19,7 @@ export default class ShowArcheologist extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(
       `http://${BE_Host}/archeologist/get/${this.props.firstName}/${
-      this.props.lastName
+        this.props.lastName
       }`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
@@ -60,7 +61,7 @@ export default class ShowArcheologist extends Component {
   }
 
   render() {
-    console.log(this.state.archeologist.birthDay);
+    console.log("props", this.props.role);
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
@@ -80,20 +81,36 @@ export default class ShowArcheologist extends Component {
           {this.state.archeologist.Observatii}
           <h3>Autor</h3>
           {this.state.archeologist.author}
+          <br />
+          {this.props.role.includes("writer") ||
+          this.props.role.includes("admin") ? (
+            <button
+              className="btn btn-primary saveButton"
+              onClick={() =>
+                this.props.history.push(
+                  `${this.state.archeologist.firstName}:${
+                    this.state.archeologist.lastName
+                  }/edit`
+                )
+              }
+            >
+              Edit
+            </button>
+          ) : null}
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           {this.state.archeologist.photo == "" ? (
             <img className="img-fluid showImg" src={profilePic} />
           ) : (
-              <img
-                className="img-fluid showImg"
-                src={`http://${BE_Host}${this.state.archeologist.photo}`}
-              />
-            )}
+            <img
+              className="img-fluid showImg"
+              src={`http://${BE_Host}${this.state.archeologist.photo}`}
+            />
+          )}
           <p className="arheoname">
             <b>{`${this.state.archeologist.firstName} ${
               this.state.archeologist.lastName
-              }`}</b>
+            }`}</b>
           </p>
           <p>
             {this.state.archeologist.birthDay !== undefined ? (
@@ -119,3 +136,10 @@ export default class ShowArcheologist extends Component {
     );
   }
 }
+function MapStateToProps(state) {
+  return {
+    role: state.auth.role
+  };
+}
+
+export default connect(MapStateToProps)(ShowArcheologist);

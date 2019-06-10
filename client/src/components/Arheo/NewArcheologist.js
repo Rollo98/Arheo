@@ -8,7 +8,7 @@ import Dropzone from "react-dropzone";
 import Axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { BE_Host } from '../../config'
+import { BE_Host } from "../../config";
 
 export default class NewArcheologist extends Component {
   constructor(props) {
@@ -68,7 +68,7 @@ export default class NewArcheologist extends Component {
     return (
       !formData.has(field) &&
       JSON.stringify(formData.get(`${field}`)) !==
-      JSON.stringify(this.state[`${field}`])
+        JSON.stringify(this.state[`${field}`])
     );
   }
   //needs to be rethinked
@@ -80,41 +80,74 @@ export default class NewArcheologist extends Component {
     if (this.state.isDead)
       formData.append("deathDay", JSON.stringify(this.state.deathDay));
 
-    formData.append("Institutii",
-      JSON.stringify(this.state.Institutii.reduce((acc, current) => {
-        acc.push({ start: current.start, end: current.end, text: current.text });
-        return acc
-      }, [])));
+    formData.append(
+      "Institutii",
+      JSON.stringify(
+        this.state.Institutii.reduce((acc, current) => {
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
+          return acc;
+        }, [])
+      )
+    );
     formData.append(
       "Specializarii",
-      JSON.stringify(this.state.Specializarii.reduce((acc, current) => {
-        acc.push({ start: current.start, end: current.end, text: current.text });
-        return acc;
-      }, [])));
+      JSON.stringify(
+        this.state.Specializarii.reduce((acc, current) => {
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
+          return acc;
+        }, [])
+      )
+    );
 
     formData.append(
       "Studii",
       JSON.stringify(
         this.state.Studii.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
-          return acc
-        }, [])));
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
+          return acc;
+        }, [])
+      )
+    );
 
     formData.append(
       "Santier",
       JSON.stringify(
         this.state.Santier.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
           return acc;
-        }, [])));
+        }, [])
+      )
+    );
 
     formData.append(
       "Domeniu",
       JSON.stringify(
         this.state.Domeniu.reduce((acc, current) => {
-          acc.push({ start: current.start, end: current.end, text: current.text });
-          return acc
-        }, [])));
+          acc.push({
+            start: current.start,
+            end: current.end,
+            text: current.text
+          });
+          return acc;
+        }, [])
+      )
+    );
 
     formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
@@ -143,7 +176,7 @@ export default class NewArcheologist extends Component {
   acceptedFile(file) {
     this.setState({ fn: file });
     // let { fileObj } = this.state;
-    // formData.append("img", file[0]);    
+    // formData.append("img", file[0]);
     // console.log(JSON.stringify(file))
     this.setState({ fileObj: file[0] });
   }
@@ -193,8 +226,8 @@ export default class NewArcheologist extends Component {
                 )}
               </Dropzone>
             </div>
-            <div class="form-row">
-              <div class="col">
+            <div className="form-row">
+              <div className="col">
                 <label htmlFor="firstName">Prenume:</label>
                 <input
                   id="firstName"
@@ -204,7 +237,7 @@ export default class NewArcheologist extends Component {
                   onChange={e => this.setState({ firstName: e.target.value })}
                 />
               </div>
-              <div class="col">
+              <div className="col">
                 <label htmlFor="lastName">Nume Familie:</label>
                 <input
                   id="lastName"
@@ -215,8 +248,8 @@ export default class NewArcheologist extends Component {
                 />
               </div>
             </div>
-            <div class="form-row">
-              <div class="col">
+            <div className="form-row">
+              <div className="col">
                 <label htmlFor="birthDay">Zi Nastere:</label>
                 <input
                   className="dateInput m-1 text-center form-control"
@@ -244,7 +277,7 @@ export default class NewArcheologist extends Component {
                 />
               </div>
 
-              <div class="col">
+              <div className="col">
                 <label style={{ marginRight: "10px" }}>
                   <input
                     style={{ marginRight: "3px" }}
@@ -650,7 +683,7 @@ export default class NewArcheologist extends Component {
               Save
             </button> */}
             <div
-              className="btn mt-2 btn-primary"
+              className="btn mt-2 saveButton btn-primary"
               onClick={() => {
                 this.sendChanges();
               }}
