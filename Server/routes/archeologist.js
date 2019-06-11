@@ -25,9 +25,12 @@ router.route("/get").get(ArchController.getArcheologist);
 // .get((req, res, next)=>{res.status(200).end();})
 
 router
+  .route("/:firstName/:lastName/delete")
+  .delete(passportJWT, ArchController.deleteArcheologist);
+
+router
   .route("/get/:firstName/:lastName")
   .get(ArchController.getArcheologist)
-  .delete(passportJWT, ArchController.deleteArcheologist)
   .post(
     validateBody(schemas.updateArcheologistSchema),
     passportJWT,

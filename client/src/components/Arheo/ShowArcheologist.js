@@ -37,10 +37,14 @@ class ShowArcheologist extends Component {
     if (variable !== undefined) {
       x = variable.map(n => (
         <div key={n}>
-          <p>{n.text}</p>
-          <p>
-            {n.start} - {n.end}
-          </p>
+          {n.text !== "" ? (
+            <>
+              <p>{n.text}</p>
+              <p>
+                {n.start} - {n.end}
+              </p>
+            </>
+          ) : null}
         </div>
       ));
     }
@@ -52,9 +56,7 @@ class ShowArcheologist extends Component {
     let x;
     if (variable !== undefined) {
       x = variable.map(n => (
-        <div key={n}>
-          <p>{n.text}</p>
-        </div>
+        <div key={n}>{n.text !== "" ? <p>{n.text}</p> : null}</div>
       ));
     }
     return x;
@@ -105,8 +107,11 @@ class ShowArcheologist extends Component {
                       "Sunteti sigur ca doriti stergerea acestui arheolog?"
                     )
                   )
-                    //aici vine delete-ul
-                    console.log("delete lol");
+                    Axios.delete(
+                      `http://${BE_Host}/archeologist/${this.props.firstName}/${
+                        this.props.lastName
+                      }/delete`
+                    ).then(this.props.history.push("/"));
                 }}
               >
                 Delete
