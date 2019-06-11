@@ -262,6 +262,15 @@ $width: 100%;
   border: none;
 }
 
+.footer {
+  background: linear-gradient(to right, #0083b0, #00b4db);
+  width: 100%;
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
 //media queries
 @media screen and (max-width: 255px) {
   .wrapper {

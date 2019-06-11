@@ -19,6 +19,8 @@ import NewArcheologist from "./components/Arheo/NewArcheologist";
 import Dashboard from "./components/Dashboard/Dashboard";
 import ViewAccount from "./components/Dashboard/ViewAccount";
 import EditArcheologist from "./components/Arheo/EditArcheologist";
+import Despre from "./components/Despre";
+import Conditii from "./components/Conditii";
 import "./main.scss";
 
 const userName = localStorage.getItem("uNema"),
@@ -75,6 +77,9 @@ ReactDOM.render(
             />
           ))}
         /> */}
+        <Route exact path="/Despre" component={Despre} />
+        <Route exact path="/Conditii-de-utilizare" component={Conditii} />
+
         <Route
           exact
           path="/:firstName::lastName"

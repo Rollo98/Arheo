@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import ArheoList from './ArheoList';
+import ArheoList from "./ArheoList";
+import Footer from "../Footer";
 
 export default () => {
-    return (
-        <div>
-            <ArheoList />
-        </div>
-    )
-}
+  return (
+    <div>
+      <ArheoList />
+      <Footer />
+    </div>
+  );
+};

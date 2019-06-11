@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import profilePic from "../Image/profilePic.png";
-import { BE_Host } from '../../config'
+import { BE_Host } from "../../config";
 
 export default class ArheoList extends Component {
   constructor(props) {
@@ -31,28 +31,26 @@ export default class ArheoList extends Component {
         to={`/${n.firstName}:${n.lastName}`}
         key={n._id}
       >
-        {
-          n.photo === "" || n.photo === undefined ? (
-            <img
-              className="card-img-top profileImg mt-2"
-              src={profilePic}
-              alt="Avatar"
-            />
-          ) : (
-              <img
-                className="card-img-top profileImg mt-2"
-                src={`http://${BE_Host}${n.photo}`}
-                alt="Avatar"
-              />
-            )
-        }
+        {n.photo === "" || n.photo === undefined ? (
+          <img
+            className="card-img-top profileImg mt-2"
+            src={profilePic}
+            alt="Avatar"
+          />
+        ) : (
+          <img
+            className="card-img-top profileImg mt-2"
+            src={`http://${BE_Host}${n.photo}`}
+            alt="Avatar"
+          />
+        )}
         <hr />
         <div className="card-body">
           <h5 className="card-title">
             {n.firstName} {n.lastName}
           </h5>
         </div>
-      </Link >
+      </Link>
     ));
     return x;
   }
@@ -63,7 +61,7 @@ export default class ArheoList extends Component {
 
   render() {
     return (
-      <div className="row dashboard">
+      <div className="row dashboard mb-5">
         <input
           autoComplete="off"
           name="search"
