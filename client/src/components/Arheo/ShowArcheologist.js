@@ -84,22 +84,38 @@ class ShowArcheologist extends Component {
           <br />
           {this.props.role.includes("writer") ||
           this.props.role.includes("admin") ? (
-            <button
-              className="btn btn-primary saveButton"
-              onClick={() =>
-                this.props.history.push(
-                  `${this.state.archeologist.firstName}:${
-                    this.state.archeologist.lastName
-                  }/edit`
-                )
-              }
-            >
-              Edit
-            </button>
+            <>
+              <button
+                className="btn btn-primary saveButton"
+                onClick={() =>
+                  this.props.history.push(
+                    `${this.state.archeologist.firstName}:${
+                      this.state.archeologist.lastName
+                    }/edit`
+                  )
+                }
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-danger saveButton float-right"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Sunteti sigur ca doriti stergerea acestui arheolog?"
+                    )
+                  )
+                    //aici vine delete-ul
+                    console.log("delete lol");
+                }}
+              >
+                Delete
+              </button>
+            </>
           ) : null}
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
-          {this.state.archeologist.photo == "" ? (
+          {this.state.archeologist.photo === "" ? (
             <img className="img-fluid showImg" src={profilePic} />
           ) : (
             <img

@@ -1,1 +1,1 @@
-export const BE_Host = 'localhost:5000'
+export const BE_Host = "localhost:5000";

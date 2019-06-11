@@ -49,7 +49,7 @@ class SignIn extends Component {
                 {this.props.errorMessage}
               </div>
             ) : null}
-            <button type="submit" className="button">
+            <button type="submit" className="button saveButton">
               Sign In
             </button>
           </form>
