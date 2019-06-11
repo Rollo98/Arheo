@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import profilePic from "../Image/profilePic.png";
+import profilePic from "../Image/test2.svg";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
 
