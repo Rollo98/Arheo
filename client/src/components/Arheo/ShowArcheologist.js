@@ -110,20 +110,20 @@ class ShowArcheologist extends Component {
                   )
                 }
               >
-                Edit
+                Editează
               </button>
               <button
                 className="btn btn-danger saveButton float-right"
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Sunteti sigur ca doriti stergerea acestui arheolog?"
+                      "Sunteți sigur că doriți ștergerea acestui arheolog?"
                     )
                   )
                     this.handleDelte();
                 }}
               >
-                Delete
+                Șterge
               </button>
             </>
           ) : null}
@@ -145,8 +145,7 @@ class ShowArcheologist extends Component {
           <p>
             {this.state.archeologist.birthDay !== undefined ? (
               <b>
-                Birth day:
-                {this.state.archeologist.birthDay.day}/
+                Născut :{this.state.archeologist.birthDay.day}/
                 {this.state.archeologist.birthDay.month}/
                 {this.state.archeologist.birthDay.year}
               </b>
@@ -154,8 +153,7 @@ class ShowArcheologist extends Component {
             <br />
             {this.state.archeologist.deathDay !== undefined ? (
               <b>
-                Death day:
-                {this.state.archeologist.deathDay.day}/
+                Decedat :{this.state.archeologist.deathDay.day}/
                 {this.state.archeologist.deathDay.month}/
                 {this.state.archeologist.deathDay.year}
               </b>
