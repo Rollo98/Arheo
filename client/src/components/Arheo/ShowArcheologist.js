@@ -29,6 +29,19 @@ class ShowArcheologist extends Component {
       );
     });
   }
+
+  handleDelte() {
+    const jwtToken = localStorage.getItem("zeBilet");
+    Axios.defaults.headers.common["Authorization"] = jwtToken;
+    const response = Axios.delete(
+      `http://${BE_Host}/archeologist/${this.props.firstName}/${
+        this.props.lastName
+      }/delete`
+    );
+    if (!response.error) {
+      this.props.history.push("/");
+    }
+  }
   //here add start/end
   renderWithTime(typeOfData) {
     const variable = this.state.archeologist[`${typeOfData}`];
@@ -107,11 +120,7 @@ class ShowArcheologist extends Component {
                       "Sunteti sigur ca doriti stergerea acestui arheolog?"
                     )
                   )
-                    Axios.delete(
-                      `http://${BE_Host}/archeologist/${this.props.firstName}/${
-                        this.props.lastName
-                      }/delete`
-                    ).then(this.props.history.push("/"));
+                    this.handleDelte();
                 }}
               >
                 Delete
