@@ -29,6 +29,19 @@ class ShowArcheologist extends Component {
       );
     });
   }
+
+  handleDelte() {
+    const jwtToken = localStorage.getItem("zeBilet");
+    Axios.defaults.headers.common["Authorization"] = jwtToken;
+    const response = Axios.delete(
+      `http://${BE_Host}/archeologist/${this.props.firstName}/${
+        this.props.lastName
+      }/delete`
+    );
+    if (!response.error) {
+      this.props.history.push("/");
+    }
+  }
   //here add start/end
   renderWithTime(typeOfData) {
     const variable = this.state.archeologist[`${typeOfData}`];
@@ -37,10 +50,14 @@ class ShowArcheologist extends Component {
     if (variable !== undefined) {
       x = variable.map(n => (
         <div key={n}>
-          <p>{n.text}</p>
-          <p>
-            {n.start} - {n.end}
-          </p>
+          {n.text !== "" ? (
+            <>
+              <p>{n.text}</p>
+              <p>
+                {n.start} - {n.end}
+              </p>
+            </>
+          ) : null}
         </div>
       ));
     }
@@ -52,9 +69,7 @@ class ShowArcheologist extends Component {
     let x;
     if (variable !== undefined) {
       x = variable.map(n => (
-        <div key={n}>
-          <p>{n.text}</p>
-        </div>
+        <div key={n}>{n.text !== "" ? <p>{n.text}</p> : null}</div>
       ));
     }
     return x;
@@ -95,21 +110,20 @@ class ShowArcheologist extends Component {
                   )
                 }
               >
-                Edit
+                Editează
               </button>
               <button
                 className="btn btn-danger saveButton float-right"
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Sunteti sigur ca doriti stergerea acestui arheolog?"
+                      "Sunteți sigur că doriți ștergerea acestui arheolog?"
                     )
                   )
-                    //aici vine delete-ul
-                    console.log("delete lol");
+                    this.handleDelte();
                 }}
               >
-                Delete
+                Șterge
               </button>
             </>
           ) : null}
@@ -131,8 +145,7 @@ class ShowArcheologist extends Component {
           <p>
             {this.state.archeologist.birthDay !== undefined ? (
               <b>
-                Birth day:
-                {this.state.archeologist.birthDay.day}/
+                Născut :{this.state.archeologist.birthDay.day}/
                 {this.state.archeologist.birthDay.month}/
                 {this.state.archeologist.birthDay.year}
               </b>
@@ -140,8 +153,7 @@ class ShowArcheologist extends Component {
             <br />
             {this.state.archeologist.deathDay !== undefined ? (
               <b>
-                Death day:
-                {this.state.archeologist.deathDay.day}/
+                Decedat :{this.state.archeologist.deathDay.day}/
                 {this.state.archeologist.deathDay.month}/
                 {this.state.archeologist.deathDay.year}
               </b>

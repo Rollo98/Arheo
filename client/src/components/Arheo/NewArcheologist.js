@@ -195,7 +195,6 @@ export default class NewArcheologist extends Component {
         <div className="col">
           <form onSubmit={this.sendChanges}>
             <div className="dropzone">
-              <label htmlFor="dropzone">Upload Picture:</label>
               <Dropzone
                 id="dropzone"
                 multiple={false}
@@ -213,12 +212,12 @@ export default class NewArcheologist extends Component {
                         className="btn btn-primary"
                         onClick={() => open()}
                       >
-                        Open File Dialog
+                        Adauga o poza
                       </button>
                     </div>
                     <br />
                     <aside>
-                      <h6>Files</h6>
+                      <h6>Fișier...</h6>
                       <ul>{this.renderFIleName()}</ul>
                     </aside>
                     <br />
@@ -688,7 +687,7 @@ export default class NewArcheologist extends Component {
                 this.sendChanges();
               }}
             >
-              Save
+              Adaugă
             </div>
           </form>
         </div>
