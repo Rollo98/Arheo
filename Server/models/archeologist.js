@@ -6,11 +6,11 @@ const archeologistSchema = new Schema({
   user: {
     type: [String],
   },
-  firstName: {
+  prenume: {
     type: String,
     required: true
   },
-  lastName: {
+  numeDeFamilie: {
     type: String,
     required: true
   },

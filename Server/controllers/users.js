@@ -49,7 +49,7 @@ module.exports = {
       if (!user) {
         return res.status(400)
       }
-      await User.deleteOne({ userName: req.params.userName },(err)=>{
+      await User.deleteOne({ userName: req.params.userName }, (err) => {
         if (error) {
           logger.error(error)
           return res.status(500).json({ error })
@@ -61,16 +61,16 @@ module.exports = {
 
   editUser: async (req, res, next) => {
     if ((req.params.userName === null) || (req.params.userName === undefined)) {
-      const { firstName, lastName, email } = req.body;
+      const { prenume, numeDeFamilie, email } = req.body;
       let { password } = req.body
       let newVals
       if (password === "") {
-        newVals = { userName: user[0].userName, firstName, lastName, email, role }
+        newVals = { userName: user[0].userName, prenume, numeDeFamilie, email, role }
       } else {
         const salt = await bcrypt.genSalt(10);
         const passHash = await bcrypt.hash(password, salt);
         password = passHash;
-        newVals = { userName: user[0].userName, firstName, lastName, email, password, role }
+        newVals = { userName: user[0].userName, prenume, numeDeFamilie, email, password, role }
       }
       await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
@@ -89,16 +89,16 @@ module.exports = {
           return res.status(400)
         }
       }
-      const { firstName, lastName, email, role } = req.body;
+      const { prenume, numeDeFamilie, email, role } = req.body;
       let { password } = req.body
       let newVals
       if (password === "") {
-        newVals = { userName: user[0].userName, firstName, lastName, email, role }
+        newVals = { userName: user[0].userName, prenume, numeDeFamilie, email, role }
       } else {
         const salt = await bcrypt.genSalt(10);
         const passHash = await bcrypt.hash(password, salt);
         password = passHash;
-        newVals = { userName: user[0].userName, firstName, lastName, email, password, role }
+        newVals = { userName: user[0].userName, prenume, numeDeFamilie, email, password, role }
       }
       await User.update({ userName: user[0].userName }, newVals)
         .then(newUser => {
@@ -112,7 +112,7 @@ module.exports = {
   },
 
   signUp: async (req, res, next) => {
-    const { userName, firstName, lastName, email, password } = req.value.body,
+    const { userName, prenume, numeDeFamilie, email, password } = req.value.body,
       role = ["user"]
 
     let foundUser = await User.findOne({ userName });
@@ -123,7 +123,7 @@ module.exports = {
     if (foundUser) {
       return res.status(403).send("Email is in use.")
     }
-    const newUser = new User({ userName, firstName, lastName, email, password, role });
+    const newUser = new User({ userName, prenume, numeDeFamilie, email, password, role });
     await newUser.save();
 
     const token = signToken(newUser);

@@ -20,15 +20,16 @@ export default class ArheoList extends Component {
   }
 
   renderUsers() {
+    console.log(this.state.archeologists)
     const archeologists = Object.values(this.state.archeologists).filter(
       archeologist =>
-        archeologist.firstName.indexOf(this.state.search) !== -1 ||
-        archeologist.lastName.indexOf(this.state.search) !== -1
+        archeologist.prenume.indexOf(this.state.search) !== -1 ||
+        archeologist.numeDeFamilie.indexOf(this.state.search) !== -1
     );
     var x = archeologists.map(n => (
       <Link
         className="userLink card col-xl-2 col-lg-3 col-md-3 m-2"
-        to={`/${n.firstName}:${n.lastName}`}
+        to={`/arheolog/?prenume=${n.prenume}&numeDeFamilie=${n.numeDeFamilie}`}
         key={n._id}
       >
         {n.photo === "" || n.photo === undefined ? (
@@ -38,16 +39,16 @@ export default class ArheoList extends Component {
             alt="Avatar"
           />
         ) : (
-          <img
-            className="card-img-top profileImg mt-2"
-            src={`http://${BE_Host}${n.photo}`}
-            alt="Avatar"
-          />
-        )}
+            <img
+              className="card-img-top profileImg mt-2"
+              src={`http://${BE_Host}${n.photo}`}
+              alt="Avatar"
+            />
+          )}
         <hr />
         <div className="card-body">
           <h5 className="card-title">
-            {n.firstName} {n.lastName}
+            {n.prenume} {n.numeDeFamilie}
           </h5>
         </div>
       </Link>

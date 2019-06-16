@@ -50,6 +50,7 @@ ReactDOM.render(
       <App>
         {/* <Switch> */}
         <Route exact path="/" component={ArheoApp} />
+        <Route exact path="/arheolog/" component={ShowArcheologist} />
         <Route exact path="/account" component={ViewAccount} />
 
         <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
@@ -66,31 +67,9 @@ ReactDOM.render(
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
         />
-        {/* <Route
-          exact
-          path="/:firstName::lastName/edit"
-          component={authGuardWriter(props => (
-            <EditArcheologist
-              firstName={props.match.params.firstName}
-              lastName={props.match.params.lastName}
-              {...props}
-            />
-          ))}
-        /> */}
+        <Route exact path="/arheolog/edit/" component={authGuardWriter(EditArcheologist)} />
         <Route exact path="/Despre" component={Despre} />
         <Route exact path="/Conditii-de-utilizare" component={Conditii} />
-
-        <Route
-          exact
-          path="/:firstName::lastName"
-          component={props => (
-            <ShowArcheologist
-              firstName={props.match.params.firstName}
-              lastName={props.match.params.lastName}
-              {...props}
-            />
-          )}
-        />
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}
 
         <Route exact path="/SignUp" component={SignUp} />

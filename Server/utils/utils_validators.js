@@ -23,8 +23,8 @@ module.exports = {
     }),
     registerSchema: Joi.object().keys({
       userName: Joi.string().required(),
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
+      prenume: Joi.string().required(),
+      numeDeFamilie: Joi.string().required(),
       email: Joi.string()
         .email()
         .required(),
@@ -32,8 +32,8 @@ module.exports = {
       passwordVerify: Joi.string().required()
     }),
     // newArcheologistSchema: Joi.object().keys({
-    //   firstName: Joi.string().required(),
-    //   lastName: Joi.string().required(),
+    //   prenume: Joi.string().required(),
+    //   numeDeFamilie: Joi.string().required(),
     //   birthDay: Joi.date().required(),
     //   deathDay:Joi.date(),
     //   institution:Joi.array().items(Joi.string()).required(),

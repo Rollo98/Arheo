@@ -60,6 +60,7 @@ export default class Dashboard extends Component {
 
   render() {
     let userList = "";
+    console.log(this.state)
     if (this.state.gotData) {
       userList = this.renderUserList();
     }
