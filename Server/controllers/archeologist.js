@@ -81,7 +81,7 @@ module.exports = {
     ) {
       const archeologists = await Archeologist.find(
         {},
-        { firstName: 1, lastName: 1, birthDay: 1, university: 1, photo: 1 }
+        { firstName: 1, lastName: 1, birthDay: 1, Studii: 1, photo: 1 }
       );
       if (!archeologists) {
         res.status(500);
@@ -99,6 +99,13 @@ module.exports = {
     if (req.user.role.includes("writer") || req.user.role.includes("admin")) {
       console.log(req.params);
       const { firstName, lastName } = req.params;
+      try {
+        const archeologist = await Archeologist.find({ firstName, lastName }, { photo: 1 })
+        if (archeologist[0].photo !== undefined)
+          fs.unlinkSync(`.${archeologist[0].photo}`)
+      } catch (err) {
+        return res.status(500).json({ err });
+      }
       await Archeologist.deleteOne(
         {
           firstName: firstName,
