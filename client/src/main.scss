@@ -128,6 +128,25 @@ $width: 100%;
     border: 1px solid #e3e3e3;
     border-radius: 10px;
   }
+  h3 {
+    color: white;
+    background-color: $button-color;
+    border-radius: 2px;
+  }
+}
+
+.posts {
+  :hover {
+    background-color: rgb(238, 238, 238);
+  }
+  .searchBar {
+    margin-bottom: 30px;
+    border-radius: 10px;
+  }
+  .user {
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+  }
 }
 
 .arheoDetails {
@@ -252,13 +271,6 @@ $width: 100%;
   transition: 800ms ease all;
 }
 
-.dashboard {
-  h3 {
-    color: white;
-    background-color: $button-color;
-    border-radius: 2px;
-  }
-}
 .custombtn {
   border: none;
 }
