@@ -5,7 +5,6 @@ import profilePic from "../Image/test2.svg";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
 import queryString from 'query-string';
-var moment = require("moment");
 
 class ShowArcheologist extends Component {
   constructor(props) {
@@ -15,11 +14,12 @@ class ShowArcheologist extends Component {
   }
 
   async componentWillMount() {
-    console.log(this.props.location)
+    console.log(this.props.location.search)
     const values = queryString.parse(this.props.location.search)
+    console.log(values)
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    Axios.get(`http://${BE_Host}/archeologist/get/?"prenume"=${values.prenume}&"numeDeFamilie"=${values.numeDeFamilie}`
+    Axios.get(`http://${BE_Host}/archeologist/get/?prenume=${values.prenume}&numeDeFamilie=${values.numeDeFamilie}`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
       console.log(
@@ -99,9 +99,7 @@ class ShowArcheologist extends Component {
                   className="btn btn-primary saveButton"
                   onClick={() =>
                     this.props.history.push(
-                      `${this.state.archeologist.prenume}:${
-                      this.state.archeologist.numeDeFamilie
-                      }/edit`
+                      `/arheolog/edit/?prenume=${this.state.archeologist.prenume}&numeDeFamilie=${this.state.archeologist.numeDeFamilie}`
                     )
                   }
                 >

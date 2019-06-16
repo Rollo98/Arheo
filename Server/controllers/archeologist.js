@@ -76,7 +76,7 @@ module.exports = {
   getArcheologist: async (req, res, next) => {
     console.log(req.query)
     let query = {}
-    if (req.query === null)
+    if (req.query !== null)
       query = { ...req.query }
     try {
       const archeologists = await Archeologist.find(query);

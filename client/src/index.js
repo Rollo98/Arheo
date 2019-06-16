@@ -67,17 +67,7 @@ ReactDOM.render(
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
         />
-        {/* <Route
-          exact
-          path="/:prenume::numeDeFamilie/edit"
-          component={authGuardWriter(props => (
-            <EditArcheologist
-              prenume={props.match.params.prenume}
-              numeDeFamilie={props.match.params.numeDeFamilie}
-              {...props}
-            />
-          ))}
-        /> */}
+        <Route exact path="/arheolog/edit/" component={authGuardWriter(EditArcheologist)} />
         <Route exact path="/Despre" component={Despre} />
         <Route exact path="/Conditii-de-utilizare" component={Conditii} />
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}

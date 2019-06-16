@@ -1,12 +1,6 @@
 import React, { Component } from "react";
-import { Field } from "redux-form";
-import CustomInput from "./../CustomInput";
-import CustomTextarea from "./../CustomTextarea";
-import * as actions from "./../../actions";
-import props from "../../pages/App";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { BE_Host } from "../../config";
 
