@@ -44,9 +44,9 @@ class SignUp extends Component {
             </fieldset>
             <fieldset>
               <Field
-                name="firstName"
+                name="prenume"
                 type="text"
-                id="firstName"
+                id="prenume"
                 label="Enter your first name"
                 placeholder=""
                 component={CustomInput}
@@ -54,7 +54,7 @@ class SignUp extends Component {
             </fieldset>
             <fieldset>
               <Field
-                name="lastName"
+                name="numeDeFamilie"
                 type="text"
                 id="lasstName"
                 label="Enter your last name"

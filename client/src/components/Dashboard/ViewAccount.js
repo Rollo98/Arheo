@@ -10,8 +10,8 @@ class ViewAccount extends Component {
   constructor() {
     super();
     this.state = {
-      firstName: "",
-      lastName: "",
+      prenume: "",
+      numeDeFamilie: "",
       email: "",
       password: "",
       role: [],
@@ -56,8 +56,8 @@ class ViewAccount extends Component {
           });
         this.setState({ checkboxesOptions });
         this.setState({
-          firstName: Response.data.foundUser[0].firstName,
-          lastName: Response.data.foundUser[0].lastName,
+          prenume: Response.data.foundUser[0].prenume,
+          numeDeFamilie: Response.data.foundUser[0].numeDeFamilie,
           email: Response.data.foundUser[0].email,
           role: Response.data.foundUser[0].role,
           gotData: true
@@ -79,8 +79,8 @@ class ViewAccount extends Component {
           });
         this.setState({ checkboxesOptions });
         this.setState({
-          firstName: Response.data.foundUser[0].firstName,
-          lastName: Response.data.foundUser[0].lastName,
+          prenume: Response.data.foundUser[0].prenume,
+          numeDeFamilie: Response.data.foundUser[0].numeDeFamilie,
           email: Response.data.foundUser[0].email,
           gotData: true
         });
@@ -138,8 +138,8 @@ class ViewAccount extends Component {
   async sendChanges() {
     let checkboxesOptions = this.state.checkboxesOptions;
     let data = {};
-    data.firstName = this.state.firstName;
-    data.lastName = this.state.lastName;
+    data.prenume = this.state.prenume;
+    data.numeDeFamilie = this.state.numeDeFamilie;
     data.email = this.state.email;
     data.role = ["user"];
     this.state.roleDefined.map(n => {
@@ -182,8 +182,8 @@ class ViewAccount extends Component {
 
   resetState() {
     this.setState({
-      firstName: "",
-      lastName: "",
+      prenume: "",
+      numeDeFamilie: "",
       email: "",
       password: "",
       role: [],
@@ -220,9 +220,9 @@ class ViewAccount extends Component {
                     </div>
                     <input
                       className="form-control"
-                      value={this.state.lastName}
+                      value={this.state.numeDeFamilie}
                       onChange={e => {
-                        this.setState({ lastName: e.target.value });
+                        this.setState({ numeDeFamilie: e.target.value });
                       }}
                     />
                   </div>
@@ -237,9 +237,9 @@ class ViewAccount extends Component {
                     </div>
                     <input
                       className="form-control"
-                      value={this.state.firstName}
+                      value={this.state.prenume}
                       onChange={e => {
-                        this.setState({ firstName: e.target.value });
+                        this.setState({ prenume: e.target.value });
                       }}
                     />
                   </div>
@@ -300,7 +300,7 @@ class ViewAccount extends Component {
                           <b>Nume</b>
                         </span>
                       </div>
-                      <div className="form-control">{this.state.lastName}</div>
+                      <div className="form-control">{this.state.numeDeFamilie}</div>
                     </div>
                     <div className="input-group mt-2">
                       <div className="input-group-prepend">
@@ -311,7 +311,7 @@ class ViewAccount extends Component {
                           <b>Prenume</b>
                         </span>
                       </div>
-                      <div className="form-control">{this.state.firstName}</div>
+                      <div className="form-control">{this.state.prenume}</div>
                     </div>
                     <div className="input-group mt-2">
                       <div className="input-group-prepend">

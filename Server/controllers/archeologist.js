@@ -11,7 +11,7 @@ module.exports = {
         fs.renameSync(oldPath, newPath);
         fullpath = newPath.replace(".", "");
       }
-      const { firstName, lastName } = req.body;
+      const { prenume, numeDeFamilie } = req.body;
       const birthDay = JSON.parse(req.body.birthDay);
       const Domeniu = JSON.parse(req.body.Domeniu);
       const Santier = JSON.parse(req.body.Santier);
@@ -26,8 +26,8 @@ module.exports = {
       if (req.body.deathDay === null || req.body.deathDay === undefined) {
         newArcheologist = new Archeologist({
           user,
-          firstName,
-          lastName,
+          prenume,
+          numeDeFamilie,
           birthDay,
           Domeniu,
           Santier,
@@ -44,8 +44,8 @@ module.exports = {
         const deathDay = JSON.parse(req.body.deathDay);
         newArcheologist = new Archeologist({
           user,
-          firstName,
-          lastName,
+          prenume,
+          numeDeFamilie,
           birthDay,
           deathDay,
           Domeniu,
@@ -74,23 +74,16 @@ module.exports = {
   },
 
   getArcheologist: async (req, res, next) => {
-    if (
-      req.params.firstName === null ||
-      req.params.firstName === undefined ||
-      (req.params.lastName === null || req.params.lastName === undefined)
-    ) {
-      const archeologists = await Archeologist.find(
-        {},
-        { firstName: 1, lastName: 1, birthDay: 1, Studii: 1, photo: 1 }
-      );
-      if (!archeologists) {
-        res.status(500);
-      }
+    console.log(req.query)
+    let query = {}
+    if (req.query === null)
+      query = { ...req.query }
+    try {
+      const archeologists = await Archeologist.find(query);
       res.status(200).json({ archeologists });
-    } else {
-      const { firstName, lastName } = req.params;
-      const archeologists = await Archeologist.find({ firstName, lastName });
-      res.status(200).json({ archeologists });
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({ err });
     }
     res.status(400);
   },
@@ -98,24 +91,25 @@ module.exports = {
   deleteArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer") || req.user.role.includes("admin")) {
       console.log(req.params);
-      const { firstName, lastName } = req.params;
+      const { prenume, numeDeFamilie } = req.params;
       try {
-        const archeologist = await Archeologist.find({ firstName, lastName }, { photo: 1 })
-        if (archeologist[0].photo !== undefined)
+        const archeologist = await Archeologist.find({ prenume, numeDeFamilie }, { photo: 1 })
+        if (archeologist[0].photo !== undefined && archeologist[0].photo !== "")
           fs.unlinkSync(`.${archeologist[0].photo}`)
       } catch (err) {
+        console.log(err)
         return res.status(500).json({ err });
       }
       await Archeologist.deleteOne(
         {
-          firstName: firstName,
-          lastName: lastName
+          prenume: prenume,
+          numeDeFamilie: numeDeFamilie
         },
         error => {
           if (error) {
             return res.status(500).json({ error });
           }
-          return res.json({ firstName, lastName, response: "Success" });
+          return res.json({ prenume, numeDeFamilie, response: "Success" });
         }
       );
     }
@@ -124,14 +118,14 @@ module.exports = {
   updateArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer") || req.user.role.includes("admin")) {
       if (
-        req.params.firstName === null ||
-        req.params.firstName === undefined ||
-        (req.params.lastName === null || req.params.lastName === undefined)
+        req.params.prenume === null ||
+        req.params.prenume === undefined ||
+        (req.params.numeDeFamilie === null || req.params.numeDeFamilie === undefined)
       ) {
         const {
           old_user,
-          old_firstName,
-          old_lastName,
+          old_prenume,
+          old_numeDeFamilie,
           old_birthDay,
           old_institution,
           old_specialization,
@@ -141,8 +135,8 @@ module.exports = {
         } = req.body;
         oldArcheologist = new Archeologist({
           old_user,
-          old_firstName,
-          old_lastName,
+          old_prenume,
+          old_numeDeFamilie,
           old_birthDay,
           old_institution,
           old_specialization,
@@ -153,8 +147,8 @@ module.exports = {
         if (req.body.deathDay === null || req.body.deathDay === undefined) {
           const {
             user,
-            firstName,
-            lastName,
+            prenume,
+            numeDeFamilie,
             birthDay,
             deathDay,
             institution,
@@ -165,8 +159,8 @@ module.exports = {
           } = req.body;
           await Archeologist.update(oldArcheologist, {
             user,
-            firstName,
-            lastName,
+            prenume,
+            numeDeFamilie,
             birthDay,
             deathDay,
             institution,
@@ -185,8 +179,8 @@ module.exports = {
         } else {
           const {
             user,
-            firstName,
-            lastName,
+            prenume,
+            numeDeFamilie,
             birthDay,
             institution,
             specialization,
@@ -196,8 +190,8 @@ module.exports = {
           } = req.body;
           await Archeologist.update(oldArcheologist, {
             user,
-            firstName,
-            lastName,
+            prenume,
+            numeDeFamilie,
             birthDay,
             institution,
             specialization,

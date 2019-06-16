@@ -15,8 +15,8 @@ export default class NewArcheologist extends Component {
     super(props);
     this.state = {
       fn: [],
-      firstName: "",
-      lastName: "",
+      prenume: "",
+      numeDeFamilie: "",
       birthDay: { day: "", month: "", year: "" },
       deathDay: { day: "", month: "", year: "" },
       isDead: false,
@@ -68,14 +68,14 @@ export default class NewArcheologist extends Component {
     return (
       !formData.has(field) &&
       JSON.stringify(formData.get(`${field}`)) !==
-        JSON.stringify(this.state[`${field}`])
+      JSON.stringify(this.state[`${field}`])
     );
   }
   //needs to be rethinked
   async sendChanges() {
     let formData = new FormData();
-    formData.append("firstName", this.state.firstName);
-    formData.append("lastName", this.state.lastName);
+    formData.append("prenume", this.state.prenume);
+    formData.append("numeDeFamilie", this.state.numeDeFamilie);
     formData.append("birthDay", JSON.stringify(this.state.birthDay));
     if (this.state.isDead)
       formData.append("deathDay", JSON.stringify(this.state.deathDay));
@@ -227,23 +227,23 @@ export default class NewArcheologist extends Component {
             </div>
             <div className="form-row">
               <div className="col">
-                <label htmlFor="firstName">Prenume:</label>
+                <label htmlFor="prenume">Prenume:</label>
                 <input
-                  id="firstName"
+                  id="prenume"
                   type="text"
-                  name="firstName"
+                  name="prenume"
                   className="form-control"
-                  onChange={e => this.setState({ firstName: e.target.value })}
+                  onChange={e => this.setState({ prenume: e.target.value })}
                 />
               </div>
               <div className="col">
-                <label htmlFor="lastName">Nume Familie:</label>
+                <label htmlFor="numeDeFamilie">Nume Familie:</label>
                 <input
-                  id="lastName"
+                  id="numeDeFamilie"
                   type="text"
-                  name="lastName"
+                  name="numeDeFamilie"
                   className="form-control"
-                  onChange={e => this.setState({ lastName: e.target.value })}
+                  onChange={e => this.setState({ numeDeFamilie: e.target.value })}
                 />
               </div>
             </div>

@@ -8,8 +8,8 @@
 //     super(props);
 //     this.state = {
 //       fn: [],
-//       firstName: "",
-//       lastName: "",
+//       prenume: "",
+//       numeDeFamilie: "",
 //       birthDay: { day: "", month: "", year: "" },
 //       deathDay: { day: "", month: "", year: "" },
 //       isDead: false,
@@ -27,13 +27,13 @@
 
 //   componentWillMount() {
 //     Axios.get(
-//       `http://${BE_Host}/archeologist/get/${this.props.firstName}/${
-//         this.props.lastName
+//       `http://${BE_Host}/archeologist/get/${this.props.prenume}/${
+//         this.props.numeDeFamilie
 //       }`
 //     ).then(Response => {
 //       this.setState({
-//         firstName: Response.data.archeologists[0].firstName,
-//         lastName: Response.data.archeologists[0].lastName,
+//         prenume: Response.data.archeologists[0].prenume,
+//         numeDeFamilie: Response.data.archeologists[0].numeDeFamilie,
 //         birthDay: Response.data.archeologists[0].birthDay,
 //         deathDay: Response.data.archeologists[0].deathDay,
 //         Institutii: Response.data.archeologists[0].Institutii,
@@ -57,25 +57,25 @@
 //           <form onSubmit={this.sendChanges}>
 //             <div className="form-row">
 //               <div className="col">
-//                 <label htmlFor="firstName">Prenume:</label>
+//                 <label htmlFor="prenume">Prenume:</label>
 //                 <input
-//                   id="firstName"
+//                   id="prenume"
 //                   type="text"
-//                   name="firstName"
+//                   name="prenume"
 //                   className="form-control"
-//                   value={this.state.firstName}
-//                   onChange={e => this.setState({ firstName: e.target.value })}
+//                   value={this.state.prenume}
+//                   onChange={e => this.setState({ prenume: e.target.value })}
 //                 />
 //               </div>
 //               <div className="col">
-//                 <label htmlFor="lastName">Nume Familie:</label>
+//                 <label htmlFor="numeDeFamilie">Nume Familie:</label>
 //                 <input
-//                   id="lastName"
+//                   id="numeDeFamilie"
 //                   type="text"
-//                   name="lastName"
+//                   name="numeDeFamilie"
 //                   className="form-control"
-//                   value={this.state.lastName}
-//                   onChange={e => this.setState({ lastName: e.target.value })}
+//                   value={this.state.numeDeFamilie}
+//                   onChange={e => this.setState({ numeDeFamilie: e.target.value })}
 //                 />
 //               </div>
 //             </div>
