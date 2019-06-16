@@ -32,14 +32,17 @@ module.exports = {
       req.params.title === undefined ||
       (req.params.text === null || req.params.text === undefined)
     ) {
-      const posts = await Blog.find({}, { title: 1, text: 1 });
+      const posts = await Blog.find(
+        {},
+        { title: 1, text: 1, author: 1, addDate: 1 }
+      );
       if (!posts) {
         res.status(500);
       }
       res.status(200).json({ posts });
     } else {
       const { title, text } = req.params;
-      const posts = await Blog.find({ title, text });
+      const posts = await Blog.find({ title, text, author, addDate });
       res.status(200).json({ posts });
     }
     res.status(400);

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { BE_Host } from "../../config";
+import { connect } from "react-redux";
+
 // import ReadMoreAndLess from "react-read-more-less";
 
 class BlogList extends Component {
@@ -18,15 +20,40 @@ class BlogList extends Component {
     });
   }
 
+  async handleDelete(title, text) {
+    const jwtToken = localStorage.getItem("zeBilet");
+    Axios.defaults.headers.common["Authorization"] = jwtToken;
+    const response = Axios.delete(
+      `http://${BE_Host}/blog/delete/${title}/${text}`
+    );
+    // if (!response.error) {
+    //   this.props.history.push("/Blog");
+    // }
+  }
+
   renderPosts() {
     const posts = Object.values(this.state.posts).filter(
-      post =>
-        post.title.indexOf(this.state.search) !== -1 ||
-        post.text.indexOf(this.state.search) !== -1
+      post => post.title.indexOf(this.state.search) !== -1
+      // ||
+      // post.text.indexOf(this.state.search) !== -1
     );
     var x = posts.map(n => (
       <div className="card mt-3" key={n._id}>
-        <h5 className="card-header">{n.title}</h5>
+        <h5 className="card-header">
+          {n.title}
+          {this.props.role.includes("writer") ? (
+            <>
+              <button className="float-right btn btn-primary">Editează</button>
+
+              <button
+                className="float-right mr-1 btn btn-danger"
+                onClick={() => this.handleDelete(n.title, n.text)}
+              >
+                Șterge
+              </button>
+            </>
+          ) : null}
+        </h5>
         <div className="card-body">
           <p className="card-description">
             {n.text}
@@ -39,6 +66,9 @@ class BlogList extends Component {
               {n.text}
             </ReadMoreAndLess> */}
           </p>
+          <p className="text-muted blockquote-footer">
+            Autor: {n.author} | Adaugat la: {n.addDate}
+          </p>
         </div>
       </div>
     ));
@@ -50,6 +80,8 @@ class BlogList extends Component {
   };
 
   render() {
+    console.log(this.state);
+
     return (
       <div className="posts mb-5">
         <input
@@ -68,4 +100,10 @@ class BlogList extends Component {
   }
 }
 
-export default BlogList;
+function MapStateToProps(state) {
+  return {
+    role: state.auth.role
+  };
+}
+
+export default connect(MapStateToProps)(BlogList);
