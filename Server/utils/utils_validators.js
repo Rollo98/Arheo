@@ -52,6 +52,11 @@ module.exports = {
       date: Joi.string().required(),
       oldBody: Joi.string().required(),
       oldDate: Joi.string().required()
+    }),
+    updatePostSchema: Joi.object().keys({
+      title: Joi.string().required(),
+      text: Joi.string().required()
+      // date: Joi.string().required(),
     })
   }
 };
