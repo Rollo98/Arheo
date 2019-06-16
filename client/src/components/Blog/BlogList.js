@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { BE_Host } from "../../config";
-import ReadMoreAndLess from "react-read-more-less";
+// import ReadMoreAndLess from "react-read-more-less";
 
 class BlogList extends Component {
   constructor(props) {
@@ -29,14 +29,15 @@ class BlogList extends Component {
         <h5 className="card-header">{n.title}</h5>
         <div className="card-body">
           <p className="card-description">
-            <ReadMoreAndLess
+            {n.text}
+            {/* <ReadMoreAndLess
               // ref={this.ReadMore}
               charLimit={250}
               readMoreText="Citește mai mult"
               readLessText="Citește mai puțin"
             >
               {n.text}
-            </ReadMoreAndLess>
+            </ReadMoreAndLess> */}
           </p>
         </div>
       </div>

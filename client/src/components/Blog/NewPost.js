@@ -22,8 +22,6 @@ class NewPost extends Component {
   }
 
   render() {
-    console.log(this.state);
-
     return (
       <div className="row">
         <div className="col">
