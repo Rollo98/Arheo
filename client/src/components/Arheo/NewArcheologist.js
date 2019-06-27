@@ -1,4 +1,9 @@
-import React, { Component } from "react";
+import React, { useEffect, Component } from "react";
+import { Field } from "redux-form";
+import CustomInput from "./../CustomInput";
+import CustomTextarea from "./../CustomTextarea";
+import * as actions from "./../../actions";
+import props from "../../pages/App";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
@@ -166,6 +171,7 @@ export default class NewArcheologist extends Component {
     if (!response.error) {
       this.props.history.push("/");
     }
+    URL.revokeObjectURL(this.state.fn);
   }
   acceptedFile(file) {
     this.setState({ fn: file });
@@ -180,9 +186,27 @@ export default class NewArcheologist extends Component {
     });
   }
   renderFIleName = () => {
-    if (this.state.fn[0] !== undefined) return this.state.fn[0].name;
+    if (this.state.fn[0] !== undefined)
+      return (
+        <li className="list-group-item list-group-item-success">
+          {this.state.fn[0].name}
+        </li>
+      );
     else return "";
   };
+
+  previewImage = fn => {
+    console.log("this is the fn shit", fn);
+    return fn.length !== 0 ? (
+      <div className="w-100 text-center">
+        <img
+          className="previewImage"
+          src={URL.createObjectURL(new Blob(this.state.fn))}
+        />
+      </div>
+    ) : null;
+  };
+
   render() {
     return (
       <div className="row">
@@ -194,6 +218,9 @@ export default class NewArcheologist extends Component {
                 multiple={false}
                 accept={"image/*"}
                 onDrop={e => this.acceptedFile(e)}
+                onDropAccepted={e =>
+                  this.previewImage(URL.createObjectURL(new MediaSource(e)))
+                }
                 noClick
               >
                 {({ getRootProps, getInputProps, open }) => (
@@ -213,6 +240,7 @@ export default class NewArcheologist extends Component {
                     <aside>
                       <h6>Fișier...</h6>
                       <ul>{this.renderFIleName()}</ul>
+                      {this.previewImage(this.state.fn)}
                     </aside>
                     <br />
                   </>

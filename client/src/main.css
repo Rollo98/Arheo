@@ -136,6 +136,12 @@ body {
   text-decoration: none;
 }
 
+.previewImage {
+  margin: auto;
+  width: 150px !important;
+  height: 200px !important;
+}
+
 .dropdown .customButton {
   border: none;
   background: none !important;
