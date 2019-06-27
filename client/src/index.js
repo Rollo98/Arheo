@@ -23,7 +23,8 @@ import Despre from "./components/Despre";
 import Conditii from "./components/Conditii";
 import Blog from "./components/Blog/Blog";
 import NewPost from "./components/Blog/NewPost";
-import "./main.scss";
+import EditPost from "./components/Blog/EditPost";
+import "./main.css";
 
 const userName = localStorage.getItem("uNema"),
   role = JSON.parse(localStorage.getItem("pRemisiuni")),
@@ -72,8 +73,7 @@ ReactDOM.render(
         <Route exact path="/arheolog/edit/" component={authGuardWriter(EditArcheologist)} />
         <Route exact path="/Despre" component={Despre} />
         <Route exact path="/Conditii-de-utilizare" component={Conditii} />
-<<<<<<< HEAD
-=======
+
 
         <Route
           exact
@@ -89,7 +89,17 @@ ReactDOM.render(
 
         <Route exact path="/Blog" component={Blog} />
         <Route exact path="/NewPost" component={NewPost} />
->>>>>>> connected blog BE with FE
+        <Route
+          exact
+          path="/:title::text/edit"
+          component={authGuardWriter(props => (
+            <EditPost
+              title={props.match.params.title}
+              text={props.match.params.text}
+              {...props}
+            />
+          ))}
+        />
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}
 
         <Route exact path="/SignUp" component={SignUp} />
