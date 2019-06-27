@@ -20,12 +20,14 @@ class BlogList extends Component {
     });
   }
 
-  async handleDelete(title, text) {
+  async handleDelete(title, id) {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = Axios.delete(
-      `http://${BE_Host}/blog/delete/${title}/${text}`
+      `http://${BE_Host}/blog/delete/${title}/${id}`
     );
+    //Need to create a method to redirect you to /Blog
+
     // if (!response.error) {
     //   this.props.history.push("/Blog");
     // }
@@ -43,11 +45,18 @@ class BlogList extends Component {
           {n.title}
           {this.props.role.includes("writer") ? (
             <>
-              <button className="float-right btn btn-primary">Editează</button>
+              <button
+                className="float-right btn btn-primary"
+                onClick={() =>
+                  this.props.history.push(`/${n.title}:${n.id}/edit`)
+                }
+              >
+                Editează
+              </button>
 
               <button
                 className="float-right mr-1 btn btn-danger"
-                onClick={() => this.handleDelete(n.title, n.text)}
+                onClick={e => this.handleDelete(n.title, n.id)}
               >
                 Șterge
               </button>

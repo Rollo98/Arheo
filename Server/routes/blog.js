@@ -19,7 +19,7 @@ router
     BlogController.updatePost
   );
 router
-  .route("/delete/:title/:text")
+  .route("/delete/:title/:id")
   .delete(passportJWT, BlogController.deletePost);
 
 module.exports = router;

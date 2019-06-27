@@ -17,6 +17,10 @@ const blogSchema = new Schema({
   author: {
     type: String,
     required: true
+  },
+  id: {
+    type: Number,
+    required: true
   }
 });
 
