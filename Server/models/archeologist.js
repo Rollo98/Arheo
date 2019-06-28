@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Schemas for the models
 const archeologistSchema = new Schema({
   user: {
-    type: [String],
+    type: [String]
   },
   prenume: {
     type: String,
@@ -27,84 +27,94 @@ const archeologistSchema = new Schema({
       year: {
         type: String,
         required: true
-      },
+      }
     },
     required: true
   },
   deathDay: {
     type: {
       day: {
-        type: String,
+        type: String
       },
       month: {
-        type: String,
+        type: String
       },
       year: {
-        type: String,
-      },
-    },
+        type: String
+      }
+    }
   },
   Institutii: {
-    type: [{
-      start: {
-        type: String,
-      },
-      end: {
-        type: String,
-      },
-      text: {
-        type: String,
-      },
-    }],
+    type: [
+      {
+        start: {
+          type: String
+        },
+        end: {
+          type: String
+        },
+        text: {
+          type: String
+        }
+      }
+    ]
   },
   Specializarii: {
-    type: [{
-      start: {
-        type: String,
-      },
-      end: {
-        type: String,
-      },
-      text: {
-        type: String,
-      },
-    }],
+    type: [
+      {
+        start: {
+          type: String
+        },
+        end: {
+          type: String
+        },
+        text: {
+          type: String
+        }
+      }
+    ]
   },
   Studii: {
-    type: [{
-      start: {
-        type: String,
-      },
-      end: {
-        type: String,
-      },
-      text: {
-        type: String,
-      },
-    }],
+    type: [
+      {
+        start: {
+          type: String
+        },
+        end: {
+          type: String
+        },
+        text: {
+          type: String
+        }
+      }
+    ]
   },
   Lucrari: {
     type: String
   },
   Santier: {
-    type: [{
-      start: {
-        type: String,
-      },
-      end: {
-        type: String,
-      },
-      text: {
-        type: String,
-      },
-    }],
+    type: [
+      {
+        start: {
+          type: String
+        },
+        end: {
+          type: String
+        },
+        text: {
+          type: String
+        }
+      }
+    ]
   },
   Domeniu: {
-    type: [{
-      text: {
-        type: String,
-      },
-    }],
+    type: [
+      {
+        text: {
+          type: String
+        }
+      }
+    ]
   },
   dateModified: {
     type: Date,
@@ -116,13 +126,22 @@ const archeologistSchema = new Schema({
   Observatii: {
     type: String
   },
+  Licenta: {
+    type: String
+  },
+  Master: {
+    type: String
+  },
+  Doctorat: {
+    type: String
+  },
   author: {
     type: String,
     required: true
   }
 });
 
-const Archeologist = mongoose.model('archeologists', archeologistSchema)
+const Archeologist = mongoose.model("archeologists", archeologistSchema);
 
 //Export model
 module.exports = Archeologist;

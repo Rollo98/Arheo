@@ -27,7 +27,10 @@ export default class NewArcheologist extends Component {
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
       autor: "",
-      fileObj: {}
+      fileObj: {},
+      Licenta: "",
+      Master: "",
+      Doctorat: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -150,6 +153,9 @@ export default class NewArcheologist extends Component {
 
     formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
+    formData.append("Licenta", JSON.stringify(this.state.Licenta));
+    formData.append("Master", JSON.stringify(this.state.Master));
+    formData.append("Doctorat", JSON.stringify(this.state.Doctorat));
     formData.append("Autor", JSON.stringify(this.state.Autor));
     formData.append("img", this.state.fileObj);
 
@@ -196,7 +202,6 @@ export default class NewArcheologist extends Component {
   };
 
   previewImage = fn => {
-    console.log("this is the fn shit", fn);
     return fn.length !== 0 ? (
       <div className="w-100 text-center">
         <img
@@ -670,6 +675,52 @@ export default class NewArcheologist extends Component {
                   className="form-control col-md-10"
                   onChange={e => {
                     this.setState({ Observatii: e.target.value });
+                  }}
+                />
+              </div>
+            </>
+
+            <label htmlFor="licenta">Licenta:</label>
+            <br />
+            <>
+              <div id="licenta" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ Licenta: e.target.value });
+                  }}
+                />
+              </div>
+            </>
+            <label htmlFor="master">Master:</label>
+            <br />
+            <>
+              <div id="master" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ Master: e.target.value });
+                  }}
+                />
+              </div>
+            </>
+            <label htmlFor="doctorat">Doctorat:</label>
+            <br />
+            <>
+              <div id="doctorat" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ Doctorat: e.target.value });
                   }}
                 />
               </div>

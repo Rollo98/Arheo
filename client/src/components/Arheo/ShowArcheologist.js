@@ -9,7 +9,7 @@ import queryString from 'query-string';
 class ShowArcheologist extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { showDetails: false };
     this.state.archeologist = {};
   }
 
@@ -71,10 +71,11 @@ class ShowArcheologist extends Component {
   }
 
   render() {
-    console.log("props", this.props.role);
+    console.log(this.state.archeologist);
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
+<<<<<<< HEAD
           <h3>Institutii</h3>
           {this.renderWithTime("Institutii")}
           <h3>Specializari</h3>
@@ -120,6 +121,80 @@ class ShowArcheologist extends Component {
               </button>
               </>
             ) : null}
+=======
+          {this.state.showDetails ? (
+            <>
+              {this.state.archeologist.Licenta ? (
+                <>
+                  <h3>Licenta</h3>
+                  {this.state.archeologist.Licenta}
+                </>
+              ) : null}
+              {this.state.archeologist.Master ? (
+                <>
+                  <h3>Master</h3>
+                  {this.state.archeologist.Master}
+                </>
+              ) : null}
+              {this.state.archeologist.Doctorat ? (
+                <>
+                  <h3>Doctorat</h3>
+                  {this.state.archeologist.Doctorat}
+                </>
+              ) : null}
+            </>
+          ) : (
+            <>
+              <h3>Institutii</h3>
+              {this.renderWithTime("Institutii")}
+              <h3>Specializari</h3>
+              {this.renderWithTime("Specializarii")}
+              <h3>Studii</h3>
+              {this.renderWithTime("Studii")}
+              <h3>Santier</h3>
+              {this.renderWithTime("Santier")}
+              <h3>Domeniul specializarii</h3>
+              {this.renderWithoutTime("Domeniu")}
+              <h3>Lucrari</h3>
+              {this.state.archeologist.Lucrari}
+              <h3>Observatii</h3>
+              {this.state.archeologist.Observatii}
+              <h3>Autor</h3>
+              {this.state.archeologist.author}
+              <br />
+              {this.props.role.includes("writer") ||
+              this.props.role.includes("admin") ? (
+                <>
+                  <button
+                    className="btn btn-primary saveButton"
+                    onClick={() =>
+                      this.props.history.push(
+                        `${this.state.archeologist.firstName}:${
+                          this.state.archeologist.lastName
+                        }/edit`
+                      )
+                    }
+                  >
+                    Editează
+                  </button>
+                  <button
+                    className="btn btn-danger saveButton float-right"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Sunteți sigur că doriți ștergerea acestui arheolog?"
+                        )
+                      )
+                        this.handleDelte();
+                    }}
+                  >
+                    Șterge
+                  </button>
+                </>
+              ) : null}
+            </>
+          )}
+>>>>>>> added details for Licenta,Master,Doctorat for each arheo
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           {this.state.archeologist.photo === "" ? (
@@ -152,6 +227,18 @@ class ShowArcheologist extends Component {
               </b>
             ) : null}
           </p>
+          <button
+            className="btn btn-primary"
+            onClick={() =>
+              this.setState({ showDetails: !this.state.showDetails })
+            }
+          >
+            {this.state.showDetails ? (
+              <>Mai putine detalii</>
+            ) : (
+              <>Mai multe detalii</>
+            )}
+          </button>
         </div>
       </div>
     );
