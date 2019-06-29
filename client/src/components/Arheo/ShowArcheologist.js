@@ -41,7 +41,6 @@ class ShowArcheologist extends Component {
   renderWithTime(typeOfData) {
     const variable = this.state.archeologist[`${typeOfData}`];
     let x;
-    console.log("renderWtime", variable);
     if (variable !== undefined) {
       x = variable.map(n => (
         <div key={n}>
@@ -70,8 +69,54 @@ class ShowArcheologist extends Component {
     return x;
   }
 
+  renderStudii() {
+    const variable = this.state.archeologist.Studii;
+    let x;
+    if (variable !== undefined) {
+      x = variable.map(n => (
+        <div key={n}>
+          {n.text !== "" ? (
+            <>
+              <h5>{n.text}</h5>
+              <p>
+                {n.start} - {n.end}
+              </p>
+              <h5>{n.licenta_text}</h5>
+              <p>
+                {n.licenta_start} - {n.licenta_end}
+              </p>
+              <h5>{n.master_text}</h5>
+              <p>
+                {n.master_start} - {n.master_end}
+              </p>
+            </>
+          ) : null}
+        </div>
+      ));
+    }
+    return x;
+  }
+  renderDoctorat() {
+    const variable = this.state.archeologist.Doctorat;
+    let x;
+    if (variable !== undefined) {
+      x = variable.map(n => (
+        <div key={n}>
+          {n.text !== "" ? (
+            <>
+              <h4>{n.text}</h4>
+              <h5>{n.title}</h5>
+              <p>{n.coord}</p>
+              <p>{n.start}</p>
+            </>
+          ) : null}
+        </div>
+      ));
+    }
+    return x;
+  }
+
   render() {
-    console.log(this.state.archeologist);
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
@@ -150,7 +195,9 @@ class ShowArcheologist extends Component {
               <h3>Specializari</h3>
               {this.renderWithTime("Specializarii")}
               <h3>Studii</h3>
-              {this.renderWithTime("Studii")}
+              {this.renderStudii()}
+              <h3>Doctorat</h3>
+              {this.renderDoctorat()}
               <h3>Santier</h3>
               {this.renderWithTime("Santier")}
               <h3>Domeniul specializarii</h3>

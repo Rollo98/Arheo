@@ -59,6 +59,24 @@ const archeologistSchema = new Schema({
       }
     ]
   },
+  Doctorat: {
+    type: [
+      {
+        text: {
+          type: String
+        },
+        coord: {
+          type: String
+        },
+        start: {
+          type: String
+        },
+        title: {
+          type: String
+        }
+      }
+    ]
+  },
   Specializarii: {
     type: [
       {
@@ -84,6 +102,24 @@ const archeologistSchema = new Schema({
           type: String
         },
         text: {
+          type: String
+        },
+        licenta_start: {
+          type: String
+        },
+        licenta_end: {
+          type: String
+        },
+        licenta_text: {
+          type: String
+        },
+        master_start: {
+          type: String
+        },
+        master_end: {
+          type: String
+        },
+        master_text: {
           type: String
         }
       }
@@ -124,15 +160,6 @@ const archeologistSchema = new Schema({
     type: String
   },
   Observatii: {
-    type: String
-  },
-  Licenta: {
-    type: String
-  },
-  Master: {
-    type: String
-  },
-  Doctorat: {
     type: String
   },
   author: {

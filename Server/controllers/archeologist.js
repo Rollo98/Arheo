@@ -17,15 +17,12 @@ module.exports = {
       const Santier = JSON.parse(req.body.Santier);
       const Lucrari = JSON.parse(req.body.Lucrari);
       const Observatii = JSON.parse(req.body.Observatii);
-      const Licenta = JSON.parse(req.body.Licenta);
-      const Master = JSON.parse(req.body.Master);
-      const Doctorat = JSON.parse(req.body.Doctorat);
       const Studii = JSON.parse(req.body.Studii);
+      const Doctorat = JSON.parse(req.body.Doctorat);
       const Specializarii = JSON.parse(req.body.Specializarii);
       const Institutii = JSON.parse(req.body.Institutii);
       let user = [req.user.userName];
       dateModified = new Date();
-
       if (req.body.deathDay === null || req.body.deathDay === undefined) {
         newArcheologist = new Archeologist({
           user,
@@ -40,12 +37,11 @@ module.exports = {
           Institutii,
           dateModified,
           Observatii,
-          Licenta,
-          Master,
           Doctorat,
           photo: fullpath,
           author: user[0]
         });
+        console.log(newArcheologist);
       } else {
         const deathDay = JSON.parse(req.body.deathDay);
         newArcheologist = new Archeologist({
@@ -62,8 +58,6 @@ module.exports = {
           Institutii,
           dateModified,
           Observatii,
-          Licenta,
-          Master,
           Doctorat,
           photo: fullpath,
           author: user[0]
@@ -140,8 +134,6 @@ module.exports = {
           old_specialization,
           old_university,
           old_works,
-          old_Licenta,
-          old_Master,
           old_Doctorat,
           old_date
         } = req.body;
@@ -153,8 +145,6 @@ module.exports = {
           old_institution,
           old_specialization,
           old_university,
-          old_Licenta,
-          old_Master,
           old_Doctorat,
           old_works,
           old_date
@@ -170,8 +160,6 @@ module.exports = {
             specialization,
             university,
             works,
-            Licenta,
-            Master,
             Doctorat,
             date
           } = req.body;
@@ -185,8 +173,6 @@ module.exports = {
             specialization,
             university,
             works,
-            Licenta,
-            Master,
             Doctorat,
             date
           })
@@ -207,8 +193,6 @@ module.exports = {
             specialization,
             university,
             works,
-            Licenta,
-            Master,
             Doctorat,
             date
           } = req.body;
@@ -221,8 +205,6 @@ module.exports = {
             specialization,
             university,
             works,
-            Licenta,
-            Master,
             Doctorat,
             date
           })
