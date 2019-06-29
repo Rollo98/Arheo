@@ -162,6 +162,9 @@ const archeologistSchema = new Schema({
   Observatii: {
     type: String
   },
+  Bibliografie: {
+    type: String
+  },
   author: {
     type: String,
     required: true

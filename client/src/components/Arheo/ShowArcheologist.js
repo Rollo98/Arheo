@@ -4,7 +4,10 @@ import Axios from "axios";
 import profilePic from "../Image/test2.svg";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
-import queryString from 'query-string';
+
+import Popup from "./Popup";
+
+var moment = require("moment");
 
 class ShowArcheologist extends Component {
   constructor(props) {
@@ -116,132 +119,74 @@ class ShowArcheologist extends Component {
     return x;
   }
 
+  togglePopup() {
+    this.setState({ showDetails: !this.state.showDetails });
+  }
+
   render() {
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
-<<<<<<< HEAD
-          <h3>Institutii</h3>
-          {this.renderWithTime("Institutii")}
-          <h3>Specializari</h3>
-          {this.renderWithTime("Specializarii")}
-          <h3>Studii</h3>
-          {this.renderWithTime("Studii")}
-          <h3>Santier</h3>
-          {this.renderWithTime("Santier")}
-          <h3>Domeniul specializarii</h3>
-          {this.renderWithoutTime("Domeniu")}
-          <h3>Lucrari</h3>
-          {this.state.archeologist.Lucrari}
-          <h3>Observatii</h3>
-          {this.state.archeologist.Observatii}
-          <h3>Autor</h3>
-          {this.state.archeologist.author}
-          <br />
-          {this.props.role.includes("writer") ||
-            this.props.role.includes("admin") ? (
-              <>
-                <button
-                  className="btn btn-primary saveButton"
-                  onClick={() =>
-                    this.props.history.push(
-                      `/arheolog/edit/?prenume=${this.state.archeologist.prenume}&numeDeFamilie=${this.state.archeologist.numeDeFamilie}`
-                    )
-                  }
-                >
-                  Editează
-              </button>
-                <button
-                  className="btn btn-danger saveButton float-right"
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Sunteți sigur că doriți ștergerea acestui arheolog?"
-                      )
-                    )
-                      this.handleDelte();
-                  }}
-                >
-                  Șterge
-              </button>
-              </>
-            ) : null}
-=======
           {this.state.showDetails ? (
             <>
-              {this.state.archeologist.Licenta ? (
-                <>
-                  <h3>Licenta</h3>
-                  {this.state.archeologist.Licenta}
-                </>
-              ) : null}
-              {this.state.archeologist.Master ? (
-                <>
-                  <h3>Master</h3>
-                  {this.state.archeologist.Master}
-                </>
-              ) : null}
-              {this.state.archeologist.Doctorat ? (
-                <>
-                  <h3>Doctorat</h3>
-                  {this.state.archeologist.Doctorat}
-                </>
-              ) : null}
+              <Popup
+                bibliografie={this.state.archeologist.Bibliografie}
+                closePopup={() => this.togglePopup()}
+              />
             </>
           ) : (
-            <>
-              <h3>Institutii</h3>
-              {this.renderWithTime("Institutii")}
-              <h3>Specializari</h3>
-              {this.renderWithTime("Specializarii")}
-              <h3>Studii</h3>
-              {this.renderStudii()}
-              <h3>Doctorat</h3>
-              {this.renderDoctorat()}
-              <h3>Santier</h3>
-              {this.renderWithTime("Santier")}
-              <h3>Domeniul specializarii</h3>
-              {this.renderWithoutTime("Domeniu")}
-              <h3>Lucrari</h3>
-              {this.state.archeologist.Lucrari}
-              <h3>Observatii</h3>
-              {this.state.archeologist.Observatii}
-              <h3>Autor</h3>
-              {this.state.archeologist.author}
-              <br />
-              {this.props.role.includes("writer") ||
-              this.props.role.includes("admin") ? (
-                <>
-                  <button
-                    className="btn btn-primary saveButton"
-                    onClick={() =>
-                      this.props.history.push(
-                        `${this.state.archeologist.firstName}:${
-                          this.state.archeologist.lastName
-                        }/edit`
-                      )
-                    }
-                  >
-                    Editează
+              <>
+                <h3>Institutii</h3>
+                {this.renderWithTime("Institutii")}
+                <h3>Specializari</h3>
+                {this.renderWithTime("Specializarii")}
+                <h3>Studii</h3>
+                {this.renderStudii()}
+                <h3>Doctorat</h3>
+                {this.renderDoctorat()}
+                <h3>Santier</h3>
+                {this.renderWithTime("Santier")}
+                <h3>Domeniul specializarii</h3>
+                {this.renderWithoutTime("Domeniu")}
+                <h3>Lucrari</h3>
+                {this.state.archeologist.Lucrari}
+                <h3>Observatii</h3>
+                {this.state.archeologist.Observatii}
+                <h3>Autor</h3>
+                {this.state.archeologist.author}
+                <br />
+                {this.props.role.includes("writer") ||
+                  this.props.role.includes("admin") ? (
+                    <>
+                      <button
+                        className="btn btn-primary saveButton"
+                        onClick={() =>
+                          this.props.history.push(
+                            `${this.state.archeologist.firstName}:${
+                            this.state.archeologist.lastName
+                            }/edit`
+                          )
+                        }
+                      >
+                        Editează
                   </button>
-                  <button
-                    className="btn btn-danger saveButton float-right"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Sunteți sigur că doriți ștergerea acestui arheolog?"
-                        )
-                      )
-                        this.handleDelte();
-                    }}
-                  >
-                    Șterge
+                      <button
+                        className="btn btn-danger saveButton float-right"
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              "Sunteți sigur că doriți ștergerea acestui arheolog?"
+                            )
+                          )
+                            this.handleDelte();
+                        }}
+                      >
+                        Șterge
                   </button>
-                </>
-              ) : null}
-            </>
-          )}
->>>>>>> added details for Licenta,Master,Doctorat for each arheo
+                    </>
+                  ) : null}
+              </>
+            )}
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           {this.state.archeologist.photo === "" ? (
@@ -276,15 +221,9 @@ class ShowArcheologist extends Component {
           </p>
           <button
             className="btn btn-primary"
-            onClick={() =>
-              this.setState({ showDetails: !this.state.showDetails })
-            }
+            onClick={() => this.togglePopup()}
           >
-            {this.state.showDetails ? (
-              <>Mai putine detalii</>
-            ) : (
-              <>Mai multe detalii</>
-            )}
+            Bibliografie
           </button>
         </div>
       </div>

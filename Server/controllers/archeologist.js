@@ -17,6 +17,7 @@ module.exports = {
       const Santier = JSON.parse(req.body.Santier);
       const Lucrari = JSON.parse(req.body.Lucrari);
       const Observatii = JSON.parse(req.body.Observatii);
+      const Bibliografie = JSON.parse(req.body.Bibliografie);
       const Studii = JSON.parse(req.body.Studii);
       const Doctorat = JSON.parse(req.body.Doctorat);
       const Specializarii = JSON.parse(req.body.Specializarii);
@@ -37,6 +38,7 @@ module.exports = {
           Institutii,
           dateModified,
           Observatii,
+          Bibliografie,
           Doctorat,
           photo: fullpath,
           author: user[0]
@@ -58,6 +60,7 @@ module.exports = {
           Institutii,
           dateModified,
           Observatii,
+          Bibliografie,
           Doctorat,
           photo: fullpath,
           author: user[0]

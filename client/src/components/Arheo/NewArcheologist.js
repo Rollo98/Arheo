@@ -41,6 +41,7 @@ export default class NewArcheologist extends Component {
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
       autor: "",
+      Bibliografie: "",
       fileObj: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -184,6 +185,7 @@ export default class NewArcheologist extends Component {
 
     formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
+    formData.append("Bibliografie", JSON.stringify(this.state.Bibliografie));
     formData.append("Autor", JSON.stringify(this.state.Autor));
     formData.append("img", this.state.fileObj);
 
@@ -844,6 +846,21 @@ export default class NewArcheologist extends Component {
                   className="form-control col-md-10"
                   onChange={e => {
                     this.setState({ Observatii: e.target.value });
+                  }}
+                />
+              </div>
+            </>
+            <label htmlFor="biblioform">Bibliografie:</label>
+            <br />
+            <>
+              <div id="biblioform" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ Bibliografie: e.target.value });
                   }}
                 />
               </div>
