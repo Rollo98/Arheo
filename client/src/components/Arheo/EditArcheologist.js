@@ -9,8 +9,8 @@ class EditArcheologist extends Component {
     super(props);
     this.state = {
       fn: [],
-      prenume: "",
-      numeDeFamilie: "",
+      firstName: "",
+      lastName: "",
       birthDay: { day: "", month: "", year: "" },
       deathDay: { day: "", month: "", year: "" },
       isDead: false,
@@ -22,20 +22,38 @@ class EditArcheologist extends Component {
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
       autor: "",
+      Licenta: "",
+      Master: "",
+      Doctorat: "",
       fileObj: {}
     };
   }
 
   componentWillMount() {
-    console.log(this.props.location)
+    console.log(this.props.location.search)
     const values = queryString.parse(this.props.location.search)
     console.log(values)
-    console.log(values.prenume, values.numeDeFamilie)
-    Axios.get(
-      `http://${BE_Host}/archeologist/get/?prenume=${values.prenume}&numeDeFamilie=${values.numeDeFamilie}`
+
+    console.log("muie ma ")
+    Axios.get(`http://${BE_Host}/archeologist/get/?prenume=${values.prenume}&numeDeFamilie=${values.numeDeFamilie}`
     ).then(Response => {
-      if (Response.data.archeologists[0] != null)
-        this.setState({ ...Response.data.archeologists[0] });
+      this.setState({
+        firstName: Response.data.archeologists[0].firstName,
+        lastName: Response.data.archeologists[0].lastName,
+        birthDay: Response.data.archeologists[0].birthDay,
+        deathDay: Response.data.archeologists[0].deathDay,
+        Institutii: Response.data.archeologists[0].Institutii,
+        Specializarii: Response.data.archeologists[0].Specializarii,
+        Studii: Response.data.archeologists[0].Studii,
+        Lucrari: Response.data.archeologists[0].Lucrari,
+        Santier: Response.data.archeologists[0].Santier,
+        Domeniu: Response.data.archeologists[0].Domeniu,
+        Observatii: Response.data.archeologists[0].Observatii,
+        Licenta: Response.data.archeologists[0].Licenta,
+        Master: Response.data.archeologists[0].Master,
+        Doctorat: Response.data.archeologists[0].Doctorat,
+        autor: Response.data.archeologists[0].autor
+      });
     });
   }
   render() {
@@ -48,25 +66,25 @@ class EditArcheologist extends Component {
             <form onSubmit={this.sendChanges}>
               <div className="form-row">
                 <div className="col">
-                  <label htmlFor="prenume">Prenume:</label>
+                  <label htmlFor="firstName">Prenume:</label>
                   <input
-                    id="prenume"
+                    id="firstName"
                     type="text"
-                    name="prenume"
+                    name="firstName"
                     className="form-control"
-                    value={this.state.prenume}
-                    onChange={e => this.setState({ prenume: e.target.value })}
+                    value={this.state.firstName}
+                    onChange={e => this.setState({ firstName: e.target.value })}
                   />
                 </div>
                 <div className="col">
-                  <label htmlFor="numeDeFamilie">Nume Familie:</label>
+                  <label htmlFor="lastName">Nume Familie:</label>
                   <input
-                    id="numeDeFamilie"
+                    id="lastName"
                     type="text"
-                    name="numeDeFamilie"
+                    name="lastName"
                     className="form-control"
-                    value={this.state.numeDeFamilie}
-                    onChange={e => this.setState({ numeDeFamilie: e.target.value })}
+                    value={this.state.lastName}
+                    onChange={e => this.setState({ lastName: e.target.value })}
                   />
                 </div>
               </div>
@@ -367,6 +385,54 @@ class EditArcheologist extends Component {
                   />
                 </div>
               </>
+              <label htmlFor="Licenta">Licenta:</label>
+              <br />
+              <>
+                <div id="Licenta" className="workForm col-md-11">
+                  <textarea
+                    type="text"
+                    id="text"
+                    name="text"
+                    className="form-control col-md-10"
+                    value={this.state.Licenta}
+                    onChange={e => {
+                      this.setState({ Licenta: e.target.value });
+                    }}
+                  />
+                </div>
+              </>
+              <label htmlFor="Master">Master:</label>
+              <br />
+              <>
+                <div id="Master" className="workForm col-md-11">
+                  <textarea
+                    type="text"
+                    id="text"
+                    name="text"
+                    className="form-control col-md-10"
+                    value={this.state.Master}
+                    onChange={e => {
+                      this.setState({ Master: e.target.value });
+                    }}
+                  />
+                </div>
+              </>
+              <label htmlFor="Doctorat">Doctorat:</label>
+              <br />
+              <>
+                <div id="Doctorat" className="workForm col-md-11">
+                  <textarea
+                    type="text"
+                    id="text"
+                    name="text"
+                    className="form-control col-md-10"
+                    value={this.state.Doctorat}
+                    onChange={e => {
+                      this.setState({ Doctorat: e.target.value });
+                    }}
+                  />
+                </div>
+              </>
 
               <label htmlFor="autorform">Autor:</label>
               <br />
@@ -384,11 +450,13 @@ class EditArcheologist extends Component {
                   />
                 </div>
               </>
-              {this.props.errorMessage ? (
-                <div className="alert  alert-danger">
-                  {this.props.errorMessage}
-                </div>
-              ) : null}
+              {
+                this.props.errorMessage ? (
+                  <div className="alert  alert-danger">
+                    {this.props.errorMessage}
+                  </div>
+                ) : null
+              }
               <div
                 className="btn mt-2 saveButton btn-primary"
                 onClick={() => {
@@ -397,12 +465,12 @@ class EditArcheologist extends Component {
               >
                 Edit
             </div>
-            </form>
+            </form >
           ) : (
             //ends here
             this.props.history.push("/")
           )}
-      </div>
+      </div >
     );
   }
 }

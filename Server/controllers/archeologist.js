@@ -17,12 +17,13 @@ module.exports = {
       const Santier = JSON.parse(req.body.Santier);
       const Lucrari = JSON.parse(req.body.Lucrari);
       const Observatii = JSON.parse(req.body.Observatii);
+      const Bibliografie = JSON.parse(req.body.Bibliografie);
       const Studii = JSON.parse(req.body.Studii);
+      const Doctorat = JSON.parse(req.body.Doctorat);
       const Specializarii = JSON.parse(req.body.Specializarii);
       const Institutii = JSON.parse(req.body.Institutii);
       let user = [req.user.userName];
       dateModified = new Date();
-
       if (req.body.deathDay === null || req.body.deathDay === undefined) {
         newArcheologist = new Archeologist({
           user,
@@ -37,9 +38,12 @@ module.exports = {
           Institutii,
           dateModified,
           Observatii,
+          Bibliografie,
+          Doctorat,
           photo: fullpath,
           author: user[0]
         });
+        console.log(newArcheologist);
       } else {
         const deathDay = JSON.parse(req.body.deathDay);
         newArcheologist = new Archeologist({
@@ -56,6 +60,8 @@ module.exports = {
           Institutii,
           dateModified,
           Observatii,
+          Bibliografie,
+          Doctorat,
           photo: fullpath,
           author: user[0]
         });
@@ -131,6 +137,7 @@ module.exports = {
           old_specialization,
           old_university,
           old_works,
+          old_Doctorat,
           old_date
         } = req.body;
         oldArcheologist = new Archeologist({
@@ -141,6 +148,7 @@ module.exports = {
           old_institution,
           old_specialization,
           old_university,
+          old_Doctorat,
           old_works,
           old_date
         });
@@ -155,6 +163,7 @@ module.exports = {
             specialization,
             university,
             works,
+            Doctorat,
             date
           } = req.body;
           await Archeologist.update(oldArcheologist, {
@@ -167,6 +176,7 @@ module.exports = {
             specialization,
             university,
             works,
+            Doctorat,
             date
           })
             .then(ret => {
@@ -186,6 +196,7 @@ module.exports = {
             specialization,
             university,
             works,
+            Doctorat,
             date
           } = req.body;
           await Archeologist.update(oldArcheologist, {
@@ -197,6 +208,7 @@ module.exports = {
             specialization,
             university,
             works,
+            Doctorat,
             date
           })
             .then(ret => {

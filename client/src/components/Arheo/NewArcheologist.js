@@ -1,7 +1,11 @@
-import React, { Component } from "react";
+import React, { useEffect, Component } from "react";
+import { Field } from "redux-form";
+import CustomInput from "./../CustomInput";
+import CustomTextarea from "./../CustomTextarea";
+import * as actions from "./../../actions";
+import props from "../../pages/App";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
-import "react-datepicker/dist/react-datepicker.css";
 import { BE_Host } from "../../config";
 
 export default class NewArcheologist extends Component {
@@ -16,12 +20,27 @@ export default class NewArcheologist extends Component {
       isDead: false,
       Institutii: [{ id: 1, text: "", start: "", end: "" }],
       Specializarii: [{ id: 1, text: "", start: "", end: "" }],
-      Studii: [{ id: 1, text: "", start: "", end: "" }],
+      Studii: [
+        {
+          id: 1,
+          text: "",
+          start: "",
+          end: "",
+          licenta_text: "",
+          licenta_start: "",
+          licenta_end: "",
+          master_text: "",
+          master_start: "",
+          master_end: ""
+        }
+      ],
+      Doctorat: [{ id: 1, text: "", coord: "", start: "", title: "" }],
       Lucrari: "",
       Santier: [{ id: 1, text: "", start: "", end: "" }],
       Domeniu: [{ id: 1, text: "" }],
       Observatii: "",
       autor: "",
+      Bibliografie: "",
       fileObj: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -88,6 +107,20 @@ export default class NewArcheologist extends Component {
       )
     );
     formData.append(
+      "Doctorat",
+      JSON.stringify(
+        this.state.Doctorat.reduce((acc, current) => {
+          acc.push({
+            start: current.start,
+            text: current.text,
+            coord: current.coord,
+            title: current.title
+          });
+          return acc;
+        }, [])
+      )
+    );
+    formData.append(
       "Specializarii",
       JSON.stringify(
         this.state.Specializarii.reduce((acc, current) => {
@@ -108,7 +141,13 @@ export default class NewArcheologist extends Component {
           acc.push({
             start: current.start,
             end: current.end,
-            text: current.text
+            text: current.text,
+            licenta_start: current.licenta_start,
+            licenta_end: current.licenta_end,
+            licenta_text: current.licenta_text,
+            master_start: current.master_start,
+            master_end: current.master_end,
+            master_text: current.master_text
           });
           return acc;
         }, [])
@@ -145,6 +184,7 @@ export default class NewArcheologist extends Component {
 
     formData.append("Lucrari", JSON.stringify(this.state.Lucrari));
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
+    formData.append("Bibliografie", JSON.stringify(this.state.Bibliografie));
     formData.append("Autor", JSON.stringify(this.state.Autor));
     formData.append("img", this.state.fileObj);
 
@@ -166,6 +206,7 @@ export default class NewArcheologist extends Component {
     if (!response.error) {
       this.props.history.push("/");
     }
+    URL.revokeObjectURL(this.state.fn);
   }
   acceptedFile(file) {
     this.setState({ fn: file });
@@ -180,9 +221,26 @@ export default class NewArcheologist extends Component {
     });
   }
   renderFIleName = () => {
-    if (this.state.fn[0] !== undefined) return this.state.fn[0].name;
+    if (this.state.fn[0] !== undefined)
+      return (
+        <li className="list-group-item list-group-item-success">
+          {this.state.fn[0].name}
+        </li>
+      );
     else return "";
   };
+
+  previewImage = fn => {
+    return fn.length !== 0 ? (
+      <div className="w-100 text-center">
+        <img
+          className="previewImage"
+          src={URL.createObjectURL(new Blob(this.state.fn))}
+        />
+      </div>
+    ) : null;
+  };
+
   render() {
     return (
       <div className="row">
@@ -194,6 +252,9 @@ export default class NewArcheologist extends Component {
                 multiple={false}
                 accept={"image/*"}
                 onDrop={e => this.acceptedFile(e)}
+                onDropAccepted={e =>
+                  this.previewImage(URL.createObjectURL(new MediaSource(e)))
+                }
                 noClick
               >
                 {({ getRootProps, getInputProps, open }) => (
@@ -213,6 +274,7 @@ export default class NewArcheologist extends Component {
                     <aside>
                       <h6>Fișier...</h6>
                       <ul>{this.renderFIleName()}</ul>
+                      {this.previewImage(this.state.fn)}
                     </aside>
                     <br />
                   </>
@@ -485,6 +547,74 @@ export default class NewArcheologist extends Component {
                         this.setState({ Studii: this.state.Studii });
                       }}
                     />
+                    <br />
+                    <br />
+                    <label htmlFor="licenta">Licenta:</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      onChange={e => {
+                        this.state.Studii[univ.id - 1].licenta_text =
+                          e.target.value;
+                        this.setState({ Studii: this.state.Studii });
+                      }}
+                    />
+                    <label htmlFor="start">Inceput:</label>
+                    <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
+                      onChange={e => {
+                        this.state.Studii[univ.id - 1].licenta_start =
+                          e.target.value;
+                        this.setState({ Studii: this.state.Studii });
+                      }}
+                    />
+                    <label htmlFor="end">Sfarsit:</label>
+                    <input
+                      placeholder="zi/luna/an"
+                      className="text-center m-1"
+                      onChange={e => {
+                        this.state.Studii[univ.id - 1].licenta_end =
+                          e.target.value;
+                        this.setState({ Studii: this.state.Studii });
+                      }}
+                    />
+                    <br />
+                    <br />
+                    <label htmlFor="licenta">Master:</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      onChange={e => {
+                        this.state.Studii[univ.id - 1].master_text =
+                          e.target.value;
+                        this.setState({ Studii: this.state.Studii });
+                      }}
+                    />
+                    <label htmlFor="start">Inceput:</label>
+                    <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
+                      onChange={e => {
+                        this.state.Studii[univ.id - 1].master_start =
+                          e.target.value;
+                        this.setState({ Studii: this.state.Studii });
+                      }}
+                    />
+                    <label htmlFor="end">Sfarsit:</label>
+                    <input
+                      placeholder="zi/luna/an"
+                      className="text-center m-1"
+                      onChange={e => {
+                        this.state.Studii[univ.id - 1].master_end =
+                          e.target.value;
+                        this.setState({ Studii: this.state.Studii });
+                      }}
+                    />
                     {univ.id === this.state.Studii.length ? (
                       <div style={{ marginTop: "10px" }}>
                         {this.state.Studii.length > 1 ? (
@@ -500,6 +630,79 @@ export default class NewArcheologist extends Component {
                         <button
                           type="button"
                           onClick={e => this.handleAddi(e, "Studii")}
+                          className="btn btn-success ml-2"
+                          style={{ width: 35, height: 35 }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })}
+            <label htmlFor="Institutii">Doctorat:</label>
+            {this.state.Doctorat.map(doc => {
+              return (
+                <>
+                  <br />
+                  <div id="docform" className="workForm col-md-11" key={doc.id}>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      onChange={e => {
+                        this.state.Doctorat[doc.id - 1].text = e.target.value;
+                        this.setState({ Doctorat: this.state.Doctorat });
+                      }}
+                    />
+                    <br />
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      onChange={e => {
+                        this.state.Doctorat[doc.id - 1].title = e.target.value;
+                        this.setState({ Doctorat: this.state.Doctorat });
+                      }}
+                    />
+                    <br />
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control col-md-10"
+                      onChange={e => {
+                        this.state.Doctorat[doc.id - 1].coord = e.target.value;
+                        this.setState({ Doctorat: this.state.Doctorat });
+                      }}
+                    />
+                    <label htmlFor="start">An sustinere:</label>
+                    <input
+                      className="text-center m-1"
+                      placeholder="zi/luna/an"
+                      onChange={e => {
+                        this.state.Doctorat[doc.id - 1].start = e.target.value;
+                        this.setState({ Doctorat: this.state.Doctorat });
+                      }}
+                    />
+                    {doc.id === this.state.Doctorat.length ? (
+                      <div style={{ marginTop: "10px" }}>
+                        {this.state.Doctorat.length > 1 ? (
+                          <button
+                            type="button"
+                            onClick={e => this.handleDeli(e, "Doctorat")}
+                            className="btn btn-danger "
+                            style={{ width: 35, height: 35 }}
+                          >
+                            -
+                          </button>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={e => this.handleAddi(e, "Doctorat")}
                           className="btn btn-success ml-2"
                           style={{ width: 35, height: 35 }}
                         >
@@ -642,6 +845,21 @@ export default class NewArcheologist extends Component {
                   className="form-control col-md-10"
                   onChange={e => {
                     this.setState({ Observatii: e.target.value });
+                  }}
+                />
+              </div>
+            </>
+            <label htmlFor="biblioform">Bibliografie:</label>
+            <br />
+            <>
+              <div id="biblioform" className="workForm col-md-11">
+                <textarea
+                  type="text"
+                  id="text"
+                  name="text"
+                  className="form-control col-md-10"
+                  onChange={e => {
+                    this.setState({ Bibliografie: e.target.value });
                   }}
                 />
               </div>

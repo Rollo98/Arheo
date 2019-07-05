@@ -41,32 +41,37 @@ class Header extends Component {
                 </>
               ) : null}
               {this.props.role.includes("admin") ? (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/">
-                      Acasa
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/Dashboard">
-                      Dashboard
-                    </Link>
-                  </li>
-                </>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/Dashboard">
+                    Dashboard
+                  </Link>
+                </li>
               ) : null}
               {this.props.role.includes("writer") ? (
                 <>
                   {!this.props.saveState ? (
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/NewArcheologist">
-                        New Archeologist
-                      </Link>
-                    </li>
+                    <>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/NewArcheologist">
+                          <b>+</b> Arheolog
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/NewPost">
+                          <b>+</b> Postare
+                        </Link>
+                      </li>
+                    </>
                   ) : null}
                 </>
               ) : null}
               {this.props.isAuth ? (
                 <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/Blog">
+                      Blog
+                    </Link>
+                  </li>
                   <li className="nav-item">
                     <div className="dropdown">
                       <button

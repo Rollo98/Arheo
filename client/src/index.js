@@ -21,7 +21,10 @@ import ViewAccount from "./components/Dashboard/ViewAccount";
 import EditArcheologist from "./components/Arheo/EditArcheologist";
 import Despre from "./components/Despre";
 import Conditii from "./components/Conditii";
-import "./main.scss";
+import Blog from "./components/Blog/Blog";
+import NewPost from "./components/Blog/NewPost";
+import EditPost from "./components/Blog/EditPost";
+import "./main.css";
 
 const userName = localStorage.getItem("uNema"),
   role = JSON.parse(localStorage.getItem("pRemisiuni")),
@@ -51,6 +54,8 @@ ReactDOM.render(
         {/* <Switch> */}
         <Route exact path="/" component={ArheoApp} />
         <Route exact path="/arheolog/" component={ShowArcheologist} />
+        <Route exact path="/arheolog/edit" component={authGuardWriter(EditArcheologist)} />
+
         <Route exact path="/account" component={ViewAccount} />
 
         <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
@@ -67,9 +72,47 @@ ReactDOM.render(
           path="/NewArcheologist"
           component={authGuardWriter(NewArcheologist)}
         />
-        <Route exact path="/arheolog/edit/" component={authGuardWriter(EditArcheologist)} />
+        {/* <Route
+          exact
+          path="/:firstName::lastName/edit"
+          component={authGuardWriter(props => (
+            <EditArcheologist
+              firstName={props.match.params.firstName}
+              lastName={props.match.params.lastName}
+              {...props}
+            />
+          ))}
+        /> */}
+
         <Route exact path="/Despre" component={Despre} />
         <Route exact path="/Conditii-de-utilizare" component={Conditii} />
+
+
+        <Route
+          exact
+          path="/:firstName::lastName"
+          component={props => (
+            <ShowArcheologist
+              firstName={props.match.params.firstName}
+              lastName={props.match.params.lastName}
+              {...props}
+            />
+          )}
+        />
+
+        <Route exact path="/Blog" component={Blog} />
+        <Route exact path="/NewPost" component={NewPost} />
+        <Route
+          exact
+          path="/:title::id/edit"
+          component={authGuardWriter(props => (
+            <EditPost
+              title={props.match.params.title}
+              id={props.match.params.id}
+              {...props}
+            />
+          ))}
+        />
         {/* <Route exact path="/edit" component={editCurrentUser} /> */}
 
         <Route exact path="/SignUp" component={SignUp} />
