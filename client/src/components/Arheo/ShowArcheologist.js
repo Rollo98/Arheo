@@ -4,7 +4,7 @@ import Axios from "axios";
 import profilePic from "../Image/test2.svg";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
-
+import queryString from 'query-string'
 import Popup from "./Popup";
 
 var moment = require("moment");
@@ -42,6 +42,8 @@ class ShowArcheologist extends Component {
   }
   //here add start/end
   renderWithTime(typeOfData) {
+    if (this.state.archeologist === undefined || this.state.archeologist[`${typeOfData}`] === undefined || this.state.archeologist[`${typeOfData}`].length == 0)
+      return ""
     const variable = this.state.archeologist[`${typeOfData}`];
     let x;
     if (variable !== undefined) {
@@ -62,6 +64,8 @@ class ShowArcheologist extends Component {
   }
 
   renderWithoutTime(typeOfData) {
+    if (this.state.archeologist === undefined || this.state.archeologist.Studii === undefined || this.state.archeologist.Studii.length == 0)
+      return ""
     const variable = this.state.archeologist[`${typeOfData}`];
     let x;
     if (variable !== undefined) {
@@ -73,6 +77,8 @@ class ShowArcheologist extends Component {
   }
 
   renderStudii() {
+    if (this.state.archeologist === undefined || this.state.archeologist.Studii === undefined || this.state.archeologist.Studii.length == 0)
+      return ""
     const variable = this.state.archeologist.Studii;
     let x;
     if (variable !== undefined) {
@@ -100,6 +106,8 @@ class ShowArcheologist extends Component {
     return x;
   }
   renderDoctorat() {
+    if (this.state.archeologist === undefined || this.state.archeologist.Doctorat === undefined || this.state.archeologist.Doctorat.length == 0)
+      return ""
     const variable = this.state.archeologist.Doctorat;
     let x;
     if (variable !== undefined) {
@@ -162,9 +170,11 @@ class ShowArcheologist extends Component {
                         className="btn btn-primary saveButton"
                         onClick={() =>
                           this.props.history.push(
-                            `${this.state.archeologist.firstName}:${
-                            this.state.archeologist.lastName
-                            }/edit`
+                            `/arheolog/edit/?prenume=${
+                            this.state.archeologist.prenume
+                            }&numeDeFamilie=${
+                            this.state.archeologist.numeDeFamilie
+                            }`
                           )
                         }
                       >

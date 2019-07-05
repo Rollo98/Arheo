@@ -6,7 +6,6 @@ import * as actions from "./../../actions";
 import props from "../../pages/App";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
-import "react-datepicker/dist/react-datepicker.css";
 import { BE_Host } from "../../config";
 
 export default class NewArcheologist extends Component {

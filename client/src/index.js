@@ -54,6 +54,8 @@ ReactDOM.render(
         {/* <Switch> */}
         <Route exact path="/" component={ArheoApp} />
         <Route exact path="/arheolog/" component={ShowArcheologist} />
+        <Route exact path="/arheolog/edit" component={authGuardWriter(EditArcheologist)} />
+
         <Route exact path="/account" component={ViewAccount} />
 
         <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
