@@ -7,6 +7,7 @@ import props from "../../pages/App";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
 import { BE_Host } from "../../config";
+import id from "short-id";
 
 export default class NewArcheologist extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ export default class NewArcheologist extends Component {
       Observatii: "",
       autor: "",
       Bibliografie: "",
-      fileObj: {}
+      fileObj: {},
+      imageURL: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -81,7 +83,7 @@ export default class NewArcheologist extends Component {
     return (
       !formData.has(field) &&
       JSON.stringify(formData.get(`${field}`)) !==
-      JSON.stringify(this.state[`${field}`])
+        JSON.stringify(this.state[`${field}`])
     );
   }
   //needs to be rethinked
@@ -186,6 +188,7 @@ export default class NewArcheologist extends Component {
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
     formData.append("Bibliografie", JSON.stringify(this.state.Bibliografie));
     formData.append("Autor", JSON.stringify(this.state.Autor));
+    // Need to create another way to send photos to mongo
     formData.append("img", this.state.fileObj);
 
     // logging formData
@@ -231,12 +234,38 @@ export default class NewArcheologist extends Component {
   };
 
   previewImage = fn => {
+    console.log("prev", fn);
     return fn.length !== 0 ? (
-      <div className="w-100 text-center">
-        <img
-          className="previewImage"
-          src={URL.createObjectURL(new Blob(this.state.fn))}
-        />
+      <div className="w-100 preview text-center">
+        <span
+          className="del-img"
+          onClick={() => this.setState({ imageURL: "" })}
+        >
+          &times;
+        </span>
+        <img className="previewImage" src={fn} />
+        {console.log("image", fn)}
+      </div>
+    ) : null;
+  };
+  previewImageMultiple = fn => {
+    console.log("asdasd", fn);
+    return fn.length !== 0 ? (
+      <div className="col-3 preview">
+        <span
+          className="del-img"
+          onClick={() => {
+            let arr = this.state.imagesURL;
+            delete arr[arr.indexOf(fn)];
+            this.setState({
+              imagesURL: arr
+            });
+          }}
+        >
+          &times;
+        </span>
+        <img className="thumbnail" src={fn.url} />
+        {console.log("image", fn)}
       </div>
     ) : null;
   };
@@ -252,30 +281,27 @@ export default class NewArcheologist extends Component {
                 multiple={false}
                 accept={"image/*"}
                 onDrop={e => this.acceptedFile(e)}
-                onDropAccepted={e =>
-                  this.previewImage(URL.createObjectURL(new MediaSource(e)))
+                onDropAccepted={
+                  e =>
+                    this.setState({
+                      imageURL: URL.createObjectURL(new Blob(e))
+                    })
+                  // this.previewImage(URL.createObjectURL(new MediaSource(e)))
                 }
-                noClick
               >
                 {({ getRootProps, getInputProps, open }) => (
                   <>
-                    <section className="container" />
-                    <div {...getRootProps()}>
-                      <input {...getInputProps()} />
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => open()}
-                      >
-                        Adauga o poza
-                      </button>
-                    </div>
+                    <section className="drag-n-drop">
+                      <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p>
+                          Trageti fisierele aici sau click pentru a adauga
+                          fisiere
+                        </p>
+                      </div>
+                    </section>
                     <br />
-                    <aside>
-                      <h6>Fișier...</h6>
-                      <ul>{this.renderFIleName()}</ul>
-                      {this.previewImage(this.state.fn)}
-                    </aside>
+                    <aside>{this.previewImage(this.state.imageURL)}</aside>
                     <br />
                   </>
                 )}
@@ -299,7 +325,9 @@ export default class NewArcheologist extends Component {
                   type="text"
                   name="numeDeFamilie"
                   className="form-control"
-                  onChange={e => this.setState({ numeDeFamilie: e.target.value })}
+                  onChange={e =>
+                    this.setState({ numeDeFamilie: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -893,6 +921,62 @@ export default class NewArcheologist extends Component {
             >
               Save
             </button> */}
+            <br />
+            <Dropzone
+              id="dropzone"
+              multiple={true}
+              accept={"image/*"}
+              onDrop={e => this.acceptedFile(e)}
+              onDropAccepted={
+                e => {
+                  console.log(e);
+                  if (
+                    this.state.imagesURL !== undefined &&
+                    this.state.imagesURL.length >= 0
+                  ) {
+                    let images = this.state.imagesURL;
+                    console.log(images);
+                    images.push({
+                      url: URL.createObjectURL(new Blob(e)),
+                      id: id.generate()
+                    });
+                    this.setState({ imagesURL: images });
+                  } else {
+                    this.setState({
+                      imagesURL: [
+                        {
+                          url: URL.createObjectURL(new Blob(e)),
+                          id: id.generate()
+                        }
+                      ]
+                    });
+                  }
+                }
+                // this.previewImage(URL.createObjectURL(new MediaSource(e)))
+              }
+            >
+              {({ getRootProps, getInputProps, open }) => (
+                <>
+                  <section className="drag-n-drop">
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <p>
+                        Trageti fisierele aici sau click pentru a adauga fisiere
+                      </p>
+                    </div>
+                  </section>
+                  <br />
+                  <aside className="row">
+                    {this.state.imagesURL !== undefined
+                      ? this.state.imagesURL.map(n => {
+                          return this.previewImageMultiple(n);
+                        })
+                      : null}
+                  </aside>
+                  <br />
+                </>
+              )}
+            </Dropzone>
             <div
               className="btn mt-2 saveButton btn-primary"
               onClick={() => {

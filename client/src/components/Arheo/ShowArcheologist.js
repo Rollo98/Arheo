@@ -4,7 +4,7 @@ import Axios from "axios";
 import profilePic from "../Image/test2.svg";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
-import queryString from 'query-string'
+import queryString from "query-string";
 import Popup from "./Popup";
 
 var moment = require("moment");
@@ -17,12 +17,15 @@ class ShowArcheologist extends Component {
   }
 
   async componentWillMount() {
-    console.log(this.props.location.search)
-    const values = queryString.parse(this.props.location.search)
-    console.log(values)
+    console.log(this.props.location.search);
+    const values = queryString.parse(this.props.location.search);
+    console.log(values);
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    Axios.get(`http://${BE_Host}/archeologist/get/?prenume=${values.prenume}&numeDeFamilie=${values.numeDeFamilie}`
+    Axios.get(
+      `http://${BE_Host}/archeologist/get/?prenume=${
+        values.prenume
+      }&numeDeFamilie=${values.numeDeFamilie}`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
       console.log(
@@ -35,15 +38,23 @@ class ShowArcheologist extends Component {
   handleDelte() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    const response = Axios.delete(`http://${BE_Host}/archeologist/${this.state.archeologist.prenume}/${this.state.archeologist.numeDeFamilie}/delete`);
+    const response = Axios.delete(
+      `http://${BE_Host}/archeologist/${this.state.archeologist.prenume}/${
+        this.state.archeologist.numeDeFamilie
+      }/delete`
+    );
     if (!response.error) {
       this.props.history.push("/");
     }
   }
   //here add start/end
   renderWithTime(typeOfData) {
-    if (this.state.archeologist === undefined || this.state.archeologist[`${typeOfData}`] === undefined || this.state.archeologist[`${typeOfData}`].length == 0)
-      return ""
+    if (
+      this.state.archeologist === undefined ||
+      this.state.archeologist[`${typeOfData}`] === undefined ||
+      this.state.archeologist[`${typeOfData}`].length == 0
+    )
+      return "";
     const variable = this.state.archeologist[`${typeOfData}`];
     let x;
     if (variable !== undefined) {
@@ -64,8 +75,12 @@ class ShowArcheologist extends Component {
   }
 
   renderWithoutTime(typeOfData) {
-    if (this.state.archeologist === undefined || this.state.archeologist.Studii === undefined || this.state.archeologist.Studii.length == 0)
-      return ""
+    if (
+      this.state.archeologist === undefined ||
+      this.state.archeologist.Studii === undefined ||
+      this.state.archeologist.Studii.length == 0
+    )
+      return "";
     const variable = this.state.archeologist[`${typeOfData}`];
     let x;
     if (variable !== undefined) {
@@ -77,8 +92,12 @@ class ShowArcheologist extends Component {
   }
 
   renderStudii() {
-    if (this.state.archeologist === undefined || this.state.archeologist.Studii === undefined || this.state.archeologist.Studii.length == 0)
-      return ""
+    if (
+      this.state.archeologist === undefined ||
+      this.state.archeologist.Studii === undefined ||
+      this.state.archeologist.Studii.length == 0
+    )
+      return "";
     const variable = this.state.archeologist.Studii;
     let x;
     if (variable !== undefined) {
@@ -106,8 +125,12 @@ class ShowArcheologist extends Component {
     return x;
   }
   renderDoctorat() {
-    if (this.state.archeologist === undefined || this.state.archeologist.Doctorat === undefined || this.state.archeologist.Doctorat.length == 0)
-      return ""
+    if (
+      this.state.archeologist === undefined ||
+      this.state.archeologist.Doctorat === undefined ||
+      this.state.archeologist.Doctorat.length == 0
+    )
+      return "";
     const variable = this.state.archeologist.Doctorat;
     let x;
     if (variable !== undefined) {
@@ -132,6 +155,7 @@ class ShowArcheologist extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
@@ -143,74 +167,76 @@ class ShowArcheologist extends Component {
               />
             </>
           ) : (
-              <>
-                <h3>Institutii</h3>
-                {this.renderWithTime("Institutii")}
-                <h3>Specializari</h3>
-                {this.renderWithTime("Specializarii")}
-                <h3>Studii</h3>
-                {this.renderStudii()}
-                <h3>Doctorat</h3>
-                {this.renderDoctorat()}
-                <h3>Santier</h3>
-                {this.renderWithTime("Santier")}
-                <h3>Domeniul specializarii</h3>
-                {this.renderWithoutTime("Domeniu")}
-                <h3>Lucrari</h3>
-                {this.state.archeologist.Lucrari}
+            <>
+              {/* <h3>Institutii</h3> */}
+              {this.renderWithTime("Institutii")}
+              <h3>Specializari</h3>
+              {this.renderWithTime("Specializarii")}
+              <h3>Studii</h3>
+              {this.renderStudii()}
+              <h3>Doctorat</h3>
+              {this.renderDoctorat()}
+              <h3>Santier</h3>
+              {this.renderWithTime("Santier")}
+              <h3>Domeniul specializarii</h3>
+              {this.renderWithoutTime("Domeniu")}
+              {this.state.archeologist.Lucrari !== "" ? <h3>Lucrari</h3> : null}
+              {this.state.archeologist.Lucrari}
+              {this.state.archeologist.Observatii !== "" ? (
                 <h3>Observatii</h3>
-                {this.state.archeologist.Observatii}
-                <h3>Autor</h3>
-                {this.state.archeologist.author}
-                <br />
-                {this.props.role.includes("writer") ||
-                  this.props.role.includes("admin") ? (
-                    <>
-                      <button
-                        className="btn btn-primary saveButton"
-                        onClick={() =>
-                          this.props.history.push(
-                            `/arheolog/edit/?prenume=${
-                            this.state.archeologist.prenume
-                            }&numeDeFamilie=${
-                            this.state.archeologist.numeDeFamilie
-                            }`
-                          )
-                        }
-                      >
-                        Editează
+              ) : null}
+              {this.state.archeologist.Observatii}
+              <h3>Authorization</h3>
+              {this.state.archeologist.author}
+              <br />
+              {this.props.role.includes("writer") ||
+              this.props.role.includes("admin") ? (
+                <>
+                  <button
+                    className="btn btn-primary saveButton"
+                    onClick={() =>
+                      this.props.history.push(
+                        `/arheolog/edit/?prenume=${
+                          this.state.archeologist.prenume
+                        }&numeDeFamilie=${
+                          this.state.archeologist.numeDeFamilie
+                        }`
+                      )
+                    }
+                  >
+                    Editează
                   </button>
-                      <button
-                        className="btn btn-danger saveButton float-right"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              "Sunteți sigur că doriți ștergerea acestui arheolog?"
-                            )
-                          )
-                            this.handleDelte();
-                        }}
-                      >
-                        Șterge
+                  <button
+                    className="btn btn-danger saveButton float-right"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Sunteți sigur că doriți ștergerea acestui arheolog?"
+                        )
+                      )
+                        this.handleDelte();
+                    }}
+                  >
+                    Șterge
                   </button>
-                    </>
-                  ) : null}
-              </>
-            )}
+                </>
+              ) : null}
+            </>
+          )}
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           {this.state.archeologist.photo === "" ? (
             <img className="img-fluid showImg" src={profilePic} />
           ) : (
-              <img
-                className="img-fluid showImg"
-                src={`http://${BE_Host}${this.state.archeologist.photo}`}
-              />
-            )}
+            <img
+              className="img-fluid showImg"
+              src={`http://${BE_Host}${this.state.archeologist.photo}`}
+            />
+          )}
           <p className="arheoname">
             <b>{`${this.state.archeologist.prenume} ${
               this.state.archeologist.numeDeFamilie
-              }`}</b>
+            }`}</b>
           </p>
           <p>
             {this.state.archeologist.birthDay !== undefined ? (
