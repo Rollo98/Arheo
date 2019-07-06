@@ -20,7 +20,7 @@ export default class ArheoList extends Component {
   }
 
   renderUsers() {
-    const archeologists = Object.values(this.state.archeologists)
+    const archeologists = Object.values(this.state.archeologists);
     // .filter(
     //   // archeologist =>
     //   //   archeologist.firstName.indexOf(this.state.search) !== -1 ||
@@ -39,12 +39,12 @@ export default class ArheoList extends Component {
             alt="Avatar"
           />
         ) : (
-            <img
-              className="card-img-top profileImg mt-2"
-              src={`http://${BE_Host}${n.photo}`}
-              alt="Avatar"
-            />
-          )}
+          <img
+            className="card-img-top profileImg mt-2"
+            src={`http://${BE_Host}${n.photo}`}
+            alt="Avatar"
+          />
+        )}
         <hr />
         <div className="card-body">
           <h5 className="card-title">

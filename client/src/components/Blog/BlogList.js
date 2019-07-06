@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
-
-// import ReadMoreAndLess from "react-read-more-less";
+import ReadMoreReact from "read-more-react";
 
 class BlogList extends Component {
   constructor(props) {
@@ -20,24 +19,22 @@ class BlogList extends Component {
     });
   }
   componentDidMount() {
-    this.init()
+    this.init();
   }
 
   async handleDelete(uid) {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
-    const response = await Axios.delete(
-      `http://${BE_Host}/blog/delete/${uid}`
-    );
+    const response = await Axios.delete(`http://${BE_Host}/blog/delete/${uid}`);
     //Need to create a method to redirect you to /Blog
-    console.log(response)
+    console.log(response);
     if (!response.error) {
-      this.init()
+      this.init();
     }
   }
   redirectToEdit(uid) {
-    console.log(this.props.history)
-    this.props.history.push(`/edit/${uid}`)
+    console.log(this.props.history);
+    this.props.history.push(`/edit/${uid}`);
   }
   renderPosts() {
     const posts = Object.values(this.state.posts).filter(
@@ -55,8 +52,9 @@ class BlogList extends Component {
                 className="float-right btn btn-primary"
                 onClick={() => {
                   console.log(this.props);
-                  this.redirectToEdit(n.uid)
-                }}      >
+                  this.redirectToEdit(n.uid);
+                }}
+              >
                 Editează
               </button>
 
@@ -71,15 +69,13 @@ class BlogList extends Component {
         </h5>
         <div className="card-body">
           <p className="card-description">
-            {n.text}
-            {/* <ReadMoreAndLess
-              // ref={this.ReadMore}
-              charLimit={250}
+            <ReadMoreReact
+              text={n.text}
+              min={150}
+              ideal={200}
+              max={250}
               readMoreText="Citește mai mult"
-              readLessText="Citește mai puțin"
-            >
-              {n.text}
-            </ReadMoreAndLess> */}
+            />
           </p>
           <p className="text-muted blockquote-footer">
             Autor: {n.author} | Adaugat la: {n.addDate}

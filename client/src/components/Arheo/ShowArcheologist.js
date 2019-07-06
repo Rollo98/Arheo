@@ -35,7 +35,7 @@ class ShowArcheologist extends Component {
     });
   }
 
-  handleDelte() {
+  async handleDelte() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = Axios.delete(
@@ -154,8 +154,15 @@ class ShowArcheologist extends Component {
     this.setState({ showDetails: !this.state.showDetails });
   }
 
+  renderTitle(typeOfData) {
+    const variable = this.state.archeologist[`${typeOfData}`];
+    if (variable !== undefined) {
+      if (variable[0].text !== "") return <h3>{typeOfData}</h3>;
+      return "";
+    }
+  }
+
   render() {
-    console.log(this.state);
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
@@ -168,17 +175,17 @@ class ShowArcheologist extends Component {
             </>
           ) : (
             <>
-              {/* <h3>Institutii</h3> */}
+              {this.renderTitle("Institutii")}
               {this.renderWithTime("Institutii")}
-              <h3>Specializari</h3>
+              {this.renderTitle("Specializari")}
               {this.renderWithTime("Specializarii")}
-              <h3>Studii</h3>
+              {this.renderTitle("Studii")}
               {this.renderStudii()}
-              <h3>Doctorat</h3>
+              {this.renderTitle("Doctorat")}
               {this.renderDoctorat()}
-              <h3>Santier</h3>
+              {this.renderTitle("Santier")}
               {this.renderWithTime("Santier")}
-              <h3>Domeniul specializarii</h3>
+              {this.renderTitle("Domeniu")}
               {this.renderWithoutTime("Domeniu")}
               {this.state.archeologist.Lucrari !== "" ? <h3>Lucrari</h3> : null}
               {this.state.archeologist.Lucrari}
@@ -186,7 +193,7 @@ class ShowArcheologist extends Component {
                 <h3>Observatii</h3>
               ) : null}
               {this.state.archeologist.Observatii}
-              <h3>Authorization</h3>
+              <h3>Autor</h3>
               {this.state.archeologist.author}
               <br />
               {this.props.role.includes("writer") ||
@@ -208,7 +215,7 @@ class ShowArcheologist extends Component {
                   </button>
                   <button
                     className="btn btn-danger saveButton float-right"
-                    onClick={() => {
+                    onClick={e => {
                       if (
                         window.confirm(
                           "Sunteți sigur că doriți ștergerea acestui arheolog?"
@@ -255,12 +262,14 @@ class ShowArcheologist extends Component {
               </b>
             ) : null}
           </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => this.togglePopup()}
-          >
-            Bibliografie
-          </button>
+          {this.state.archeologist.Bibliografie !== "" ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => this.togglePopup()}
+            >
+              Bibliografie
+            </button>
+          ) : null}
         </div>
       </div>
     );
