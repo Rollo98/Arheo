@@ -4,6 +4,7 @@ import Axios from "axios";
 import { BE_Host } from "../../config";
 import { connect } from "react-redux";
 import ReadMoreReact from "read-more-react";
+import ReactTinyLink from "react-tiny-link";
 
 class BlogList extends Component {
   constructor(props) {
@@ -77,8 +78,19 @@ class BlogList extends Component {
               readMoreText="Citește mai mult"
             />
           </p>
+          {n.url !== "" ? (
+            <ReactTinyLink
+              className="link-preview"
+              cardSize="small"
+              width="100%"
+              showGraphic={true}
+              maxLine={2}
+              minLine={1}
+              url={n.url.toString()}
+            />
+          ) : null}
           <p className="text-muted blockquote-footer">
-            Autor: {n.author} | Adaugat la: {n.addDate}
+            Autor: {n.author} | Adaugat la: {new Date(n.addDate).toDateString()}
           </p>
         </div>
       </div>

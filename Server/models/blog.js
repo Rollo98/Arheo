@@ -21,7 +21,8 @@ const blogSchema = new Schema({
   author: {
     type: String,
     required: true
-  }
+  },
+  url: { type: String }
 });
 
 // Create model

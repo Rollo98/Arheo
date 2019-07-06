@@ -3,21 +3,21 @@ import { BE_Host } from "../../config";
 import Axios from "axios";
 import id from "short-id";
 
-
 class NewPost extends Component {
   constructor(props) {
     super(props);
-    this.state = { title: "", text: "" };
+    this.state = { title: "", text: "", url: "" };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  async onSubmit(title, text) {
+  async onSubmit(title, text, url) {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = await Axios.post(`http://${BE_Host}/blog/add`, {
       title,
       text,
-      uid: id.generate()
+      uid: id.generate(),
+      url
     });
     if (!response.error) {
       this.props.history.push("/Blog");
@@ -49,6 +49,16 @@ class NewPost extends Component {
                 onChange={e => this.setState({ text: e.target.value })}
               />
             </div>
+            <div className="col">
+              <label htmlFor="url">Url stire:</label>
+              <input
+                id="url"
+                type="text"
+                name="url"
+                className="form-control"
+                onChange={e => this.setState({ url: e.target.value })}
+              />
+            </div>
             {this.props.errorMessage ? (
               <div className="alert  alert-danger">
                 {this.props.errorMessage}
@@ -57,7 +67,11 @@ class NewPost extends Component {
             <div
               className="btn mt-2 saveButton btn-primary"
               onClick={() => {
-                this.onSubmit(this.state.title, this.state.text);
+                this.onSubmit(
+                  this.state.title,
+                  this.state.text,
+                  this.state.url
+                );
               }}
             >
               Adaugă
