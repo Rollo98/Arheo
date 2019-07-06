@@ -40,6 +40,11 @@ class Header extends Component {
                   </li>
                 </>
               ) : null}
+              <li className="nav-item">
+                <Link className="nav-link" to="/Blog">
+                  Blog
+                    </Link>
+              </li>
               {this.props.role.includes("admin") ? (
                 <li className="nav-item">
                   <Link className="nav-link" to="/Dashboard">
@@ -67,11 +72,6 @@ class Header extends Component {
               ) : null}
               {this.props.isAuth ? (
                 <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/Blog">
-                      Blog
-                    </Link>
-                  </li>
                   <li className="nav-item">
                     <div className="dropdown">
                       <button

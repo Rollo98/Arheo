@@ -9,17 +9,13 @@ const BlogController = require("../controllers/blog");
 const passportJWT = passport.authenticate("jwt", { session: false });
 
 router.route("/add").post(passportJWT, BlogController.addPost);
-router.route("/get").get(BlogController.getPosts);
 router
-  .route("/get/:title/:text")
+  .route("/get/:uid?")
   .get(BlogController.getPosts)
-  .post(
-    validateBody(schemas.updatePostSchema),
-    passportJWT,
-    BlogController.updatePost
-  );
+router.route("/edit/:uid")
+  .post(passportJWT, BlogController.updatePost);
 router
-  .route("/delete/:title/:id")
+  .route("/delete/:uid")
   .delete(passportJWT, BlogController.deletePost);
 
 module.exports = router;

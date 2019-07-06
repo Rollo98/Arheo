@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schemas for the models
 const blogSchema = new Schema({
+  uid: {
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     required: true
@@ -16,10 +20,6 @@ const blogSchema = new Schema({
   },
   author: {
     type: String,
-    required: true
-  },
-  id: {
-    type: Number,
     required: true
   }
 });

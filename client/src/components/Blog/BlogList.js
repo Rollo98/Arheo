@@ -12,27 +12,33 @@ class BlogList extends Component {
     this.state = { posts: [], search: "" };
   }
 
-  componentDidMount() {
+  init() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(`http://${BE_Host}/blog/get`).then(Response => {
       this.setState({ posts: Response.data.posts });
     });
   }
-
-  async handleDelete(title, id) {
-    const jwtToken = localStorage.getItem("zeBilet");
-    Axios.defaults.headers.common["Authorization"] = jwtToken;
-    const response = Axios.delete(
-      `http://${BE_Host}/blog/delete/${title}/${id}`
-    );
-    //Need to create a method to redirect you to /Blog
-
-    // if (!response.error) {
-    //   this.props.history.push("/Blog");
-    // }
+  componentDidMount() {
+    this.init()
   }
 
+  async handleDelete(uid) {
+    const jwtToken = localStorage.getItem("zeBilet");
+    Axios.defaults.headers.common["Authorization"] = jwtToken;
+    const response = await Axios.delete(
+      `http://${BE_Host}/blog/delete/${uid}`
+    );
+    //Need to create a method to redirect you to /Blog
+    console.log(response)
+    if (!response.error) {
+      this.init()
+    }
+  }
+  redirectToEdit(uid) {
+    console.log(this.props.history)
+    this.props.history.push(`/edit/${uid}`)
+  }
   renderPosts() {
     const posts = Object.values(this.state.posts).filter(
       post => post.title.indexOf(this.state.search) !== -1
@@ -47,16 +53,16 @@ class BlogList extends Component {
             <>
               <button
                 className="float-right btn btn-primary"
-                onClick={() =>
-                  this.props.history.push(`/${n.title}:${n.id}/edit`)
-                }
-              >
+                onClick={() => {
+                  console.log(this.props);
+                  this.redirectToEdit(n.uid)
+                }}      >
                 Editează
               </button>
 
               <button
                 className="float-right mr-1 btn btn-danger"
-                onClick={e => this.handleDelete(n.title, n.id)}
+                onClick={e => this.handleDelete(n.uid)}
               >
                 Șterge
               </button>

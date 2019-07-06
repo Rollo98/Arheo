@@ -3,10 +3,10 @@ import React from "react";
 import BlogList from "./BlogList";
 import Footer from "../Footer";
 
-export default () => {
+export default (props) => {
   return (
     <div>
-      <BlogList />
+      <BlogList {...props} />
       <Footer />
     </div>
   );

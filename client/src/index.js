@@ -51,14 +51,18 @@ ReactDOM.render(
   >
     <BrowserRouter>
       <App>
-        {/* <Switch> */}
+        <Route exact path="/SignUp" component={SignUp} />
+        <Route exact path="/SignIn" component={SignIn} />
+
+        <Route exact path="/account" component={ViewAccount} />
+        <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
+        <Route exact path="/Despre" component={Despre} />
+        <Route exact path="/Conditii-de-utilizare" component={Conditii} />
+
+
         <Route exact path="/" component={ArheoApp} />
         <Route exact path="/arheolog/" component={ShowArcheologist} />
         <Route exact path="/arheolog/edit" component={authGuardWriter(EditArcheologist)} />
-
-        <Route exact path="/account" component={ViewAccount} />
-
-        <Route exact path="/Dashboard" component={authGuardAdmin(Dashboard)} />
         <Route
           exact
           path="/Dashboard/:userName"
@@ -67,57 +71,15 @@ ReactDOM.render(
           ))}
         />
 
-        <Route
-          exact
-          path="/NewArcheologist"
-          component={authGuardWriter(NewArcheologist)}
-        />
-        {/* <Route
-          exact
-          path="/:firstName::lastName/edit"
-          component={authGuardWriter(props => (
-            <EditArcheologist
-              firstName={props.match.params.firstName}
-              lastName={props.match.params.lastName}
-              {...props}
-            />
-          ))}
-        /> */}
-
-        <Route exact path="/Despre" component={Despre} />
-        <Route exact path="/Conditii-de-utilizare" component={Conditii} />
-
-
-        <Route
-          exact
-          path="/:firstName::lastName"
-          component={props => (
-            <ShowArcheologist
-              firstName={props.match.params.firstName}
-              lastName={props.match.params.lastName}
-              {...props}
-            />
-          )}
-        />
+        <Route exact path="/NewArcheologist" component={authGuardWriter(NewArcheologist)} />
 
         <Route exact path="/Blog" component={Blog} />
         <Route exact path="/NewPost" component={NewPost} />
         <Route
           exact
-          path="/:title::id/edit"
-          component={authGuardWriter(props => (
-            <EditPost
-              title={props.match.params.title}
-              id={props.match.params.id}
-              {...props}
-            />
-          ))}
+          path="/edit/:uid"
+          component={authGuardWriter(props => <EditPost uid={props.match.params.uid}  {...props} />)}
         />
-        {/* <Route exact path="/edit" component={editCurrentUser} /> */}
-
-        <Route exact path="/SignUp" component={SignUp} />
-        <Route exact path="/SignIn" component={SignIn} />
-        {/* </Switch> */}
       </App>
     </BrowserRouter>
   </Provider>,

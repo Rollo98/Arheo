@@ -7,11 +7,10 @@ var cors = require("cors");
 
 mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV === "test") {
-  mongoose.connect(`${conf.mongoURL}/arheoAppTEST`);
+  mongoose.connect(`${conf.mongoURL}/arheoAppTEST`, { useNewUrlParser: true, useFindAndModify: true, useCreateIndex: true });
 } else {
-  mongoose.connect(`${conf.mongoURL}/arheoApp`);
+  mongoose.connect(`${conf.mongoURL}/arheoApp`, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
 }
-
 const app = express();
 app.use(cors());
 // const CORS = (req, res, next) => {

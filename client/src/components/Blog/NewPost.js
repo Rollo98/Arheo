@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BE_Host } from "../../config";
 import Axios from "axios";
+import id from "short-id";
+
 
 class NewPost extends Component {
   constructor(props) {
@@ -14,7 +16,8 @@ class NewPost extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = await Axios.post(`http://${BE_Host}/blog/add`, {
       title,
-      text
+      text,
+      uid: id.generate()
     });
     if (!response.error) {
       this.props.history.push("/Blog");
