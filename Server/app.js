@@ -31,5 +31,6 @@ app.use("/uploads", express.static("uploads"));
 app.use("/", require("./routes/users"));
 app.use("/archeologist", require("./routes/archeologist"));
 app.use("/blog", require("./routes/blog"));
+app.use("/gallery", require("./routes/gallery"));
 
 module.exports = app;
