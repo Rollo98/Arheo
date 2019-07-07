@@ -10,15 +10,15 @@ module.exports = {
         fs.renameSync(oldPath, newPath);
         fullpath = newPath.replace(".", "");
       }
-      const { arheologist } = req.body;
-      newPost = new Gallery({ arheologist, photo: fullpath });
-      await newPost
+      const { arheologist, text } = req.body;
+      newEntry = new Gallery({ arheologist, photo: fullpath, text });
+      await newEntry
         .save()
         .then(doc => {
           if (!doc) {
             return res.status(404);
           }
-          return res.status(200).json({ title, text, addDate, author });
+          return res.status(200).json({ id: newEntry._id });
         })
         .catch(err => next(err));
     }

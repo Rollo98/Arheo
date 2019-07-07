@@ -3,19 +3,18 @@ const router = require("express-promise-router")();
 const passport = require("passport");
 
 const passportConf = require("../passport");
-const { validateBody, schemas } = require("../utils/utils_validators");
-const GalleryController = require("../controllers/blog");
+const GalleryController = require("../controllers/gallery");
 
 const passportJWT = passport.authenticate("jwt", { session: false });
 
-router.route("/add").post(passportJWT, GalleryController.addPost);
+router.route("/add").post(passportJWT, GalleryController.addGallery);
 router
   .route("/get/:uid?")
-  .get(GalleryController.getPosts)
+  .get(GalleryController.getGallery)
 router.route("/edit/:uid")
-  .post(passportJWT, GalleryController.updatePost);
+  .post(passportJWT, GalleryController.updateGallery);
 router
   .route("/delete/:uid")
-  .delete(passportJWT, GalleryController.deletePost);
+  .delete(passportJWT, GalleryController.deleteGallery);
 
 module.exports = router;

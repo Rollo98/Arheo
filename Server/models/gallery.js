@@ -10,6 +10,9 @@ const gallerySchema = new Schema({
   photo: {
     type: String,
     required: true
+  },
+  text: {
+    type: String
   }
 });
 
