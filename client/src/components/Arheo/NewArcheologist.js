@@ -200,8 +200,7 @@ export default class NewArcheologist extends Component {
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-
-    formDataImg.append("imgs", this.state.fns);
+    this.state.fns.map((val, index) => { formDataImg.append(`${index}`, val) })
     formDataImg.append("arheologist", "arheo");
 
     const responseImg = await Axios.post(
@@ -973,8 +972,8 @@ export default class NewArcheologist extends Component {
                   <aside className="row">
                     {this.state.imagesURL !== undefined
                       ? this.state.imagesURL.map(n => {
-                          return this.previewImageMultiple(n);
-                        })
+                        return this.previewImageMultiple(n);
+                      })
                       : null}
                   </aside>
                   <br />

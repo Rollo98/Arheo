@@ -44,7 +44,6 @@ module.exports = {
           photo: fullpath,
           author: user[0]
         });
-        console.log(newArcheologist);
       } else {
         const deathDay = JSON.parse(req.body.deathDay);
         newArcheologist = new Archeologist({
