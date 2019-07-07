@@ -208,9 +208,9 @@ export default class NewArcheologist extends Component {
       formDataImg,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    if (!response.error && !responseImg.error) {
-      this.props.history.push("/");
-    }
+    // if (!response.error && !responseImg.error) {
+    //   this.props.history.push("/");
+    // }
     console.log("asdasodiajwdoi", responseImg.error);
 
     URL.revokeObjectURL(this.state.fn);
@@ -222,7 +222,10 @@ export default class NewArcheologist extends Component {
     // console.log(JSON.stringify(file))
   }
   acceptedFileMultiple(files) {
-    this.setState({ fns: files });
+    let fns = this.state.fns
+    files.map((val) => { fns.push(val) })
+    this.setState({ fns: fns });
+
   }
   handleChange(field, date) {
     this.setState({
