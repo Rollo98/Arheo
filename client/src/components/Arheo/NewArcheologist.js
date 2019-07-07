@@ -208,9 +208,9 @@ export default class NewArcheologist extends Component {
       formDataImg,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    // if (!response.error && !responseImg.error) {
-    //   this.props.history.push("/");
-    // }
+    if (!response.error && !responseImg.error) {
+      this.props.history.push("/");
+    }
     console.log("asdasodiajwdoi", responseImg.error);
 
     URL.revokeObjectURL(this.state.fn);
