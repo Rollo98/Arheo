@@ -11,6 +11,10 @@ class NewPost extends Component {
   }
 
   async onSubmit(title, text, url) {
+    let lol = /^http:\/\/|https:\/\//;
+    if (lol.test(url) == false) {
+      url = "http://" + url;
+    }
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = await Axios.post(`http://${BE_Host}/blog/add`, {

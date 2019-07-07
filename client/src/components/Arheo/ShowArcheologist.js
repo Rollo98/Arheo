@@ -24,7 +24,7 @@ class ShowArcheologist extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     Axios.get(
       `http://${BE_Host}/archeologist/get/?prenume=${
-      values.prenume
+        values.prenume
       }&numeDeFamilie=${values.numeDeFamilie}`
     ).then(Response => {
       this.setState({ archeologist: Response.data.archeologists[0] });
@@ -40,7 +40,7 @@ class ShowArcheologist extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     const response = Axios.delete(
       `http://${BE_Host}/archeologist/${this.state.archeologist.prenume}/${
-      this.state.archeologist.numeDeFamilie
+        this.state.archeologist.numeDeFamilie
       }/delete`
     );
     if (!response.error) {
@@ -174,76 +174,76 @@ class ShowArcheologist extends Component {
               />
             </>
           ) : (
-              <>
-                {this.renderTitle("Institutii")}
-                {this.renderWithTime("Institutii")}
-                {this.renderTitle("Specializarii")}
-                {this.renderWithTime("Specializarii")}
-                {this.renderTitle("Studii")}
-                {this.renderStudii()}
-                {this.renderTitle("Doctorat")}
-                {this.renderDoctorat()}
-                {this.renderTitle("Santier")}
-                {this.renderWithTime("Santier")}
-                {this.renderTitle("Domeniu")}
-                {this.renderWithoutTime("Domeniu")}
-                {this.state.archeologist.Lucrari !== "" ? <h3>Lucrari</h3> : null}
-                {this.state.archeologist.Lucrari}
-                {this.state.archeologist.Observatii !== "" ? (
-                  <h3>Observatii</h3>
-                ) : null}
-                {this.state.archeologist.Observatii}
-                <h3>Autor</h3>
-                {this.state.archeologist.author}
-                <br />
-                {this.props.role.includes("writer") ||
-                  this.props.role.includes("admin") ? (
-                    <>
-                      <button
-                        className="btn btn-primary saveButton"
-                        onClick={() =>
-                          this.props.history.push(
-                            `/arheolog/edit/?prenume=${
-                            this.state.archeologist.prenume
-                            }&numeDeFamilie=${
-                            this.state.archeologist.numeDeFamilie
-                            }`
-                          )
-                        }
-                      >
-                        Editează
+            <>
+              {this.renderTitle("Institutii")}
+              {this.renderWithTime("Institutii")}
+              {this.renderTitle("Specializarii")}
+              {this.renderWithTime("Specializarii")}
+              {this.renderTitle("Studii")}
+              {this.renderStudii()}
+              {this.renderTitle("Doctorat")}
+              {this.renderDoctorat()}
+              {this.renderTitle("Santier")}
+              {this.renderWithTime("Santier")}
+              {this.renderTitle("Domeniu")}
+              {this.renderWithoutTime("Domeniu")}
+              {this.state.archeologist.Lucrari !== "" ? <h3>Lucrari</h3> : null}
+              {this.state.archeologist.Lucrari}
+              {this.state.archeologist.Observatii !== "" ? (
+                <h3>Observatii</h3>
+              ) : null}
+              {this.state.archeologist.Observatii}
+              <h3>Autor</h3>
+              {this.state.archeologist.author}
+              <br />
+              {this.props.role.includes("writer") ||
+              this.props.role.includes("admin") ? (
+                <>
+                  <button
+                    className="btn btn-primary saveButton"
+                    onClick={() =>
+                      this.props.history.push(
+                        `/arheolog/edit/?prenume=${
+                          this.state.archeologist.prenume
+                        }&numeDeFamilie=${
+                          this.state.archeologist.numeDeFamilie
+                        }`
+                      )
+                    }
+                  >
+                    Editează
                   </button>
-                      <button
-                        className="btn btn-danger saveButton float-right"
-                        onClick={e => {
-                          if (
-                            window.confirm(
-                              "Sunteți sigur că doriți ștergerea acestui arheolog?"
-                            )
-                          )
-                            this.handleDelte();
-                        }}
-                      >
-                        Șterge
+                  <button
+                    className="btn btn-danger saveButton float-right"
+                    onClick={e => {
+                      if (
+                        window.confirm(
+                          "Sunteți sigur că doriți ștergerea acestui arheolog?"
+                        )
+                      )
+                        this.handleDelte();
+                    }}
+                  >
+                    Șterge
                   </button>
-                    </>
-                  ) : null}
-              </>
-            )}
+                </>
+              ) : null}
+            </>
+          )}
         </div>
         <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
           {this.state.archeologist.photo === "" ? (
             <img className="img-fluid showImg" src={profilePic} />
           ) : (
-              <img
-                className="img-fluid showImg"
-                src={`http://${BE_Host}${this.state.archeologist.photo}`}
-              />
-            )}
+            <img
+              className="img-fluid showImg"
+              src={`http://${BE_Host}${this.state.archeologist.photo}`}
+            />
+          )}
           <p className="arheoname">
             <b>{`${this.state.archeologist.prenume} ${
               this.state.archeologist.numeDeFamilie
-              }`}</b>
+            }`}</b>
           </p>
           <p>
             {this.state.archeologist.birthDay !== undefined ? (
