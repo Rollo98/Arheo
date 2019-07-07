@@ -14,6 +14,7 @@ export default class NewArcheologist extends Component {
     super(props);
     this.state = {
       fn: [],
+      fns: [],
       prenume: "",
       numeDeFamilie: "",
       birthDay: { day: "", month: "", year: "" },
@@ -42,7 +43,6 @@ export default class NewArcheologist extends Component {
       Observatii: "",
       autor: "",
       Bibliografie: "",
-      fileObj: {},
       imageURL: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -81,6 +81,7 @@ export default class NewArcheologist extends Component {
   //needs to be rethinked
   async sendChanges() {
     let formData = new FormData();
+    let formDataImg = new FormData();
     formData.append("prenume", this.state.prenume);
     formData.append("numeDeFamilie", this.state.numeDeFamilie);
     formData.append("birthDay", JSON.stringify(this.state.birthDay));
@@ -180,9 +181,9 @@ export default class NewArcheologist extends Component {
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
     formData.append("Bibliografie", JSON.stringify(this.state.Bibliografie));
     formData.append("Autor", JSON.stringify(this.state.Autor));
-    formData.append("uid", id.generate())
+    formData.append("uid", id.generate());
     // Need to create another way to send photos to mongo
-    formData.append("img", this.state.fileObj);
+    formData.append("img", this.state.fn[0]);
 
     // logging formData
     var formKeys = formData.keys();
@@ -199,17 +200,30 @@ export default class NewArcheologist extends Component {
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    if (!response.error) {
+
+    formDataImg.append("imgs", this.state.fns);
+    formDataImg.append("arheologist", "arheo");
+
+    const responseImg = await Axios.post(
+      `http://${BE_Host}/gallery/add`,
+      formDataImg,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    if (!response.error && !responseImg.error) {
       this.props.history.push("/");
     }
+    console.log("asdasodiajwdoi", responseImg.error);
+
     URL.revokeObjectURL(this.state.fn);
+    URL.revokeObjectURL(this.state.fns);
   }
   acceptedFile(file) {
     this.setState({ fn: file });
-    // let { fileObj } = this.state;
     // formData.append("img", file[0]);
     // console.log(JSON.stringify(file))
-    this.setState({ fileObj: file[0] });
+  }
+  acceptedFileMultiple(files) {
+    this.setState({ fns: files });
   }
   handleChange(field, date) {
     this.setState({
@@ -916,7 +930,7 @@ export default class NewArcheologist extends Component {
               id="dropzone"
               multiple={true}
               accept={"image/*"}
-              onDrop={e => this.acceptedFile(e)}
+              onDrop={e => this.acceptedFileMultiple(e)}
               onDropAccepted={
                 e => {
                   console.log(e);
@@ -959,8 +973,8 @@ export default class NewArcheologist extends Component {
                   <aside className="row">
                     {this.state.imagesURL !== undefined
                       ? this.state.imagesURL.map(n => {
-                        return this.previewImageMultiple(n);
-                      })
+                          return this.previewImageMultiple(n);
+                        })
                       : null}
                   </aside>
                   <br />

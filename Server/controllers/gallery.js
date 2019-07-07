@@ -13,19 +13,18 @@ module.exports = {
           fs.renameSync(oldPath, newPath);
           fullpath = newPath.replace(".", "");
         }
-        const { arheologist, text } = req.body;
-        newEntry = new Gallery({ arheologist, photo: fullpath, text });
-        await newEntry
-          .save()
-          .then(doc => {
-            if (!doc) {
-              return res.status(404);
-            }
-            return res.status(200).json({ id: newEntry._id });
-          })
-          .catch(err => next(err));
+        try {
+          const { arheologist, text } = req.body;
+          newEntry = new Gallery({ arheologist, photo: fullpath, text });
+          await newEntry.save();
+        } catch (err) {
+          console.log(err);
+          return res.status(500).json({ err });
+        }
+        return res.status(200).json({ id: newEntry._id });
       }
     }
+    return res.status(400);
   },
   getGallery: async (req, res, next) => {
     let query = {};
