@@ -78,14 +78,6 @@ export default class NewArcheologist extends Component {
     }
   };
 
-  checkFormData(field) {
-    let { formData } = this.state;
-    return (
-      !formData.has(field) &&
-      JSON.stringify(formData.get(`${field}`)) !==
-        JSON.stringify(this.state[`${field}`])
-    );
-  }
   //needs to be rethinked
   async sendChanges() {
     let formData = new FormData();
@@ -188,6 +180,7 @@ export default class NewArcheologist extends Component {
     formData.append("Observatii", JSON.stringify(this.state.Observatii));
     formData.append("Bibliografie", JSON.stringify(this.state.Bibliografie));
     formData.append("Autor", JSON.stringify(this.state.Autor));
+    formData.append("uid", id.generate())
     // Need to create another way to send photos to mongo
     formData.append("img", this.state.fileObj);
 
@@ -276,6 +269,7 @@ export default class NewArcheologist extends Component {
         <div className="col">
           <form onSubmit={this.sendChanges}>
             <div className="dropzone">
+              <label htmlFor="autorform">Poza profil:</label>
               <Dropzone
                 id="dropzone"
                 multiple={false}
@@ -914,14 +908,10 @@ export default class NewArcheologist extends Component {
                 {this.props.errorMessage}
               </div>
             ) : null}
-            {/* <button 
-            // type="submit" 
-            className="btn mt-2 btn-primary"
-            onClick={this.sendChanges}
-            >
-              Save
-            </button> */}
+
             <br />
+            <label htmlFor="autorform">Galerie:</label>
+
             <Dropzone
               id="dropzone"
               multiple={true}
@@ -969,8 +959,8 @@ export default class NewArcheologist extends Component {
                   <aside className="row">
                     {this.state.imagesURL !== undefined
                       ? this.state.imagesURL.map(n => {
-                          return this.previewImageMultiple(n);
-                        })
+                        return this.previewImageMultiple(n);
+                      })
                       : null}
                   </aside>
                   <br />

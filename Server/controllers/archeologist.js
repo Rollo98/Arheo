@@ -11,7 +11,7 @@ module.exports = {
         fs.renameSync(oldPath, newPath);
         fullpath = newPath.replace(".", "");
       }
-      const { prenume, numeDeFamilie } = req.body;
+      const { uid, prenume, numeDeFamilie } = req.body;
       const birthDay = JSON.parse(req.body.birthDay);
       const Domeniu = JSON.parse(req.body.Domeniu);
       const Santier = JSON.parse(req.body.Santier);
@@ -26,6 +26,7 @@ module.exports = {
       dateModified = new Date();
       if (req.body.deathDay === null || req.body.deathDay === undefined) {
         newArcheologist = new Archeologist({
+          uid,
           user,
           prenume,
           numeDeFamilie,
@@ -47,6 +48,7 @@ module.exports = {
       } else {
         const deathDay = JSON.parse(req.body.deathDay);
         newArcheologist = new Archeologist({
+          uid,
           user,
           prenume,
           numeDeFamilie,
@@ -123,102 +125,82 @@ module.exports = {
 
   updateArcheologist: async (req, res, next) => {
     if (req.user.role.includes("writer") || req.user.role.includes("admin")) {
-      if (
-        req.params.prenume === null ||
-        req.params.prenume === undefined ||
-        (req.params.numeDeFamilie === null || req.params.numeDeFamilie === undefined)
-      ) {
-        const {
-          old_user,
-          old_prenume,
-          old_numeDeFamilie,
-          old_birthDay,
-          old_institution,
-          old_specialization,
-          old_university,
-          old_works,
-          old_Doctorat,
-          old_date
-        } = req.body;
-        oldArcheologist = new Archeologist({
-          old_user,
-          old_prenume,
-          old_numeDeFamilie,
-          old_birthDay,
-          old_institution,
-          old_specialization,
-          old_university,
-          old_Doctorat,
-          old_works,
-          old_date
-        });
-        if (req.body.deathDay === null || req.body.deathDay === undefined) {
-          const {
+      let fullpath = "";
+      if (req.files[0] !== null && req.files[0] !== undefined) {
+        const oldPath = `./${req.files[0].path}`,
+          newPath = `./${req.files[0].path}_${req.files[0].originalname}`;
+        fs.renameSync(oldPath, newPath);
+        fullpath = newPath.replace(".", "");
+      }
+      const {
+        uid,
+        user,
+        prenume,
+        numeDeFamilie,
+        dateModified,
+      } = req.body;
+      const birthDay = JSON.parse(req.body.birthDay);
+      const Domeniu = JSON.parse(req.body.Domeniu);
+      const Santier = JSON.parse(req.body.Santier);
+      const Lucrari = JSON.parse(req.body.Lucrari);
+      const Observatii = JSON.parse(req.body.Observatii);
+      const Bibliografie = JSON.parse(req.body.Bibliografie);
+      const Studii = JSON.parse(req.body.Studii);
+      const Doctorat = JSON.parse(req.body.Doctorat);
+      const Specializarii = JSON.parse(req.body.Specializarii);
+      const Institutii = JSON.parse(req.body.Institutii);
+
+      if (req.body.deathDay === null || req.body.deathDay === undefined) {
+        try {
+          await Archeologist.findOneAndUpdate({ uid }, {
             user,
             prenume,
             numeDeFamilie,
             birthDay,
-            deathDay,
-            institution,
-            specialization,
-            university,
-            works,
+            Domeniu,
+            Santier,
+            Lucrari,
+            Studii,
+            Specializarii,
+            Institutii,
+            dateModified,
+            Observatii,
+            Bibliografie,
             Doctorat,
-            date
-          } = req.body;
-          await Archeologist.update(oldArcheologist, {
-            user,
-            prenume,
-            numeDeFamilie,
-            birthDay,
-            deathDay,
-            institution,
-            specialization,
-            university,
-            works,
-            Doctorat,
-            date
+            photo: fullpath
+
           })
-            .then(ret => {
-              if (!ret) {
-                return res.status(400);
-              }
-              return res.status(200);
-            })
-            .catch(err => next(err));
-        } else {
-          const {
-            user,
-            prenume,
-            numeDeFamilie,
-            birthDay,
-            institution,
-            specialization,
-            university,
-            works,
-            Doctorat,
-            date
-          } = req.body;
-          await Archeologist.update(oldArcheologist, {
-            user,
-            prenume,
-            numeDeFamilie,
-            birthDay,
-            institution,
-            specialization,
-            university,
-            works,
-            Doctorat,
-            date
-          })
-            .then(ret => {
-              if (!ret) {
-                return res.status(400);
-              }
-              return res.status(200);
-            })
-            .catch(err => next(err));
+        } catch (err) {
+          console.log(err)
+          return res.status(500).json({ err });
         }
+        return res.status(200).json({ ok: 1 });
+      } else {
+        const deathDay = JSON.parse(req.body.deathDay);
+        try {
+          await Archeologist.findOneAndUpdate({ uid }, {
+            user,
+            prenume,
+            numeDeFamilie,
+            birthDay,
+            deathDay,
+            Domeniu,
+            Santier,
+            Lucrari,
+            Studii,
+            Specializarii,
+            Institutii,
+            dateModified,
+            Observatii,
+            Bibliografie,
+            Doctorat,
+            photo: fullpath
+          })
+        } catch (err) {
+          console.log(err)
+          return res.status(500).json({ err });
+        }
+        return res.status(200).json({ ok: 1 });
       }
     }
     res.status(400);

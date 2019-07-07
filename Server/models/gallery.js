@@ -7,13 +7,10 @@ const gallerySchema = new Schema({
     type: String,
     required: true
   },
-  photo: [{
-    type: {
-      url: {
-        type: string
-      }
-    }
-  }]
+  photo: {
+    type: String,
+    required: true
+  }
 });
 
 // Create model

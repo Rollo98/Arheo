@@ -12,29 +12,20 @@ const upload = multer({
   })
 });
 const passportJWT = passport.authenticate("jwt", { session: false });
-router.route("/add").post(
-  passportJWT,
-  upload.any(),
-  // validateBody(schemas.newArcheologistSchema),
-  ArchController.addArcheologist
-);
+router.route("/add").post(passportJWT, upload.any(), ArchController.addArcheologist);
 
 router.route("/get").get(ArchController.getArcheologist);
 
-// router.route('/') -> this doesn't work for some reason amazingly
-// .get((req, res, next)=>{res.status(200).end();})
-
-router
-  .route("/:prenume/:numeDeFamilie/delete")
-  .delete(passportJWT, ArchController.deleteArcheologist);
+router.route("/:prenume/:numeDeFamilie/delete").delete(passportJWT, ArchController.deleteArcheologist);
 
 router.route("/get").get(ArchController.getArcheologist)
 
 router
-  .route("/get/:prenume/:numeDeFamilie")
+  .route("/update")
   .post(
-    validateBody(schemas.updateArcheologistSchema),
+    // validateBody(schemas.updateArcheologistSchema),
     passportJWT,
+    upload.any(),
     ArchController.updateArcheologist
   );
 

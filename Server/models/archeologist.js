@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schemas for the models
 const archeologistSchema = new Schema({
+  uid: {
+    type: String,
+    required: true
+  },
   user: {
     type: [String]
   },
