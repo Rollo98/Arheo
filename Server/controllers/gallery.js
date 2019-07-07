@@ -1,4 +1,6 @@
 const Gallery = require("../models/gallery");
+const fs = require("fs");
+const mongo = require("mongodb");
 
 module.exports = {
   addGallery: async (req, res, next) => {
@@ -26,14 +28,13 @@ module.exports = {
     }
   },
   getGallery: async (req, res, next) => {
-    let query = {}
-    if (req.params.uid !== undefined)
-      query = { uid: req.params.uid }
+    let query = {};
+    if (req.params._id !== undefined) query = { _id: req.params._id };
     try {
       const posts = await Gallery.find(query);
       res.status(200).json({ posts });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({ err });
     }
     res.status(400);
@@ -42,7 +43,8 @@ module.exports = {
   deleteGallery: async (req, res, next) => {
     if (req.user.role.includes("writer")) {
       const { uid } = req.params;
-      await Gallery.deleteOne({ uid }, error => {
+      console.log(uid);
+      await Gallery.deleteOne({ _id: new mongo.ObjectId(uid) }, error => {
         if (error) {
           return res.status(500).json({ error });
         }
@@ -55,14 +57,18 @@ module.exports = {
     if (req.user.role.includes("writer") || req.user.role.includes("admin")) {
       const { uid } = req.params;
       const { photo, text } = req.body;
+      console.log(photo, text);
       try {
-        await Gallery.findOneAndUpdate({ uid }, {
-          uid,
-          photo,
-          text
-        })
+        await Gallery.findOneAndUpdate(
+          { _id: new mongo.ObjectId(uid) },
+          {
+            uid,
+            photo,
+            text
+          }
+        );
       } catch (err) {
-        console.log(err)
+        console.log(err);
         return res.status(500).json({ error });
       }
       return res.json({ response: "Success" });

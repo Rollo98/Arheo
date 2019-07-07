@@ -12,12 +12,11 @@ const upload = multer({
 });
 const passportJWT = passport.authenticate("jwt", { session: false });
 
-router.route("/add").post(passportJWT, upload.any(), GalleryController.addGallery);
 router
-  .route("/get/:uid?")
-  .get(GalleryController.getGallery)
-router.route("/edit/:uid")
-  .post(passportJWT, GalleryController.updateGallery);
+  .route("/add")
+  .post(passportJWT, upload.any(), GalleryController.addGallery);
+router.route("/get/:uid?").get(GalleryController.getGallery);
+router.route("/edit/:uid").post(passportJWT, GalleryController.updateGallery);
 router
   .route("/delete/:uid")
   .delete(passportJWT, GalleryController.deleteGallery);
