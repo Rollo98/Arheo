@@ -5,7 +5,7 @@ const mongo = require("mongodb");
 module.exports = {
   addGallery: async (req, res, next) => {
     if (req.user.role.includes("writer") || req.user.role.includes("admin")) {
-      let arrids = []
+      let arrids = [];
       for (let i = 0; i < req.files.length; i++) {
         let fullpath = "";
         if (req.files[i] !== null && req.files[i] !== undefined) {
@@ -22,24 +22,25 @@ module.exports = {
           console.log(err);
           return res.status(500).json({ err });
         }
-        arrids.push({ id: newEntry._id })
+        arrids.push({ id: newEntry._id });
       }
       return res.status(200).json({ ids: arrids });
     }
     return res.status(400);
   },
-  
+
   getGallery: async (req, res, next) => {
     let query = {};
-    if (req.params._id !== undefined) query = { _id: req.params._id };
+    let posts;
+    if (req.params.uid !== undefined)
+      query = { arheologist: new mongo.ObjectId(req.params.uid) };
     try {
-      const posts = await Gallery.find(query);
-      res.status(200).json({ posts });
+      posts = await Gallery.find(query);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err });
     }
-    res.status(400);
+    return res.status(200).json({ posts });
   },
 
   deleteGallery: async (req, res, next) => {

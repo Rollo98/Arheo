@@ -6,6 +6,7 @@ import { BE_Host } from "../../config";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import Popup from "./Popup";
+import Gallery from "react-grid-gallery";
 
 var moment = require("moment");
 
@@ -14,6 +15,7 @@ class ShowArcheologist extends Component {
     super(props);
     this.state = { showDetails: false };
     this.state.archeologist = {};
+    this.state.images = [{}];
   }
 
   async componentWillMount() {
@@ -32,9 +34,16 @@ class ShowArcheologist extends Component {
         "Response from details archeo",
         Response.data.archeologists[0]
       );
+      if (this.state.archeologist._id !== undefined) {
+        Axios.get(
+          `http://${BE_Host}/gallery/get/${this.state.archeologist._id}`
+        ).then(Response => {
+          this.setState({ images: Response.data.posts });
+          console.log("Images", this.state.images);
+        });
+      }
     });
   }
-
   async handleDelte() {
     const jwtToken = localStorage.getItem("zeBilet");
     Axios.defaults.headers.common["Authorization"] = jwtToken;
@@ -162,6 +171,21 @@ class ShowArcheologist extends Component {
     return "";
   }
 
+  renderGallery() {
+    const images = this.state.images;
+    if (images.length > 0) {
+      images.map(n => {
+        n.thumbnailWidth = 200;
+        n.thumbnailHeight = 150;
+        n.src = `http://${BE_Host}${n.photo}`;
+        n.thumbnail = `http://${BE_Host}${n.photo}`;
+      });
+      console.log(images);
+
+      return <Gallery images={images} />;
+    }
+  }
+
   render() {
     return (
       <div className="arheoDetails row">
@@ -196,42 +220,10 @@ class ShowArcheologist extends Component {
               <h3>Autor</h3>
               {this.state.archeologist.author}
               <br />
-              {this.props.role.includes("writer") ||
-              this.props.role.includes("admin") ? (
-                <>
-                  <button
-                    className="btn btn-primary saveButton"
-                    onClick={() =>
-                      this.props.history.push(
-                        `/arheolog/edit/?prenume=${
-                          this.state.archeologist.prenume
-                        }&numeDeFamilie=${
-                          this.state.archeologist.numeDeFamilie
-                        }`
-                      )
-                    }
-                  >
-                    Editează
-                  </button>
-                  <button
-                    className="btn btn-danger saveButton float-right"
-                    onClick={e => {
-                      if (
-                        window.confirm(
-                          "Sunteți sigur că doriți ștergerea acestui arheolog?"
-                        )
-                      )
-                        this.handleDelte();
-                    }}
-                  >
-                    Șterge
-                  </button>
-                </>
-              ) : null}
             </>
           )}
         </div>
-        <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 lol">
+        <div className="text-center mt-2 col-xl-4 col-lg-4 col-md-12 profile">
           {this.state.archeologist.photo === "" ? (
             <img className="img-fluid showImg" src={profilePic} />
           ) : (
@@ -269,6 +261,39 @@ class ShowArcheologist extends Component {
             >
               Bibliografie
             </button>
+          ) : null}
+        </div>
+        <div className="col-12 gallery">{this.renderGallery()}</div>
+        <div className="col-12">
+          {this.props.role.includes("writer") ||
+          this.props.role.includes("admin") ? (
+            <>
+              <button
+                className="btn btn-primary saveButton"
+                onClick={() =>
+                  this.props.history.push(
+                    `/arheolog/edit/?prenume=${
+                      this.state.archeologist.prenume
+                    }&numeDeFamilie=${this.state.archeologist.numeDeFamilie}`
+                  )
+                }
+              >
+                Editează
+              </button>
+              <button
+                className="btn btn-danger saveButton float-right"
+                onClick={e => {
+                  if (
+                    window.confirm(
+                      "Sunteți sigur că doriți ștergerea acestui arheolog?"
+                    )
+                  )
+                    this.handleDelte();
+                }}
+              >
+                Șterge
+              </button>
+            </>
           ) : null}
         </div>
       </div>

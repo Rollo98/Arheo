@@ -200,8 +200,11 @@ export default class NewArcheologist extends Component {
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    this.state.fns.map((val, index) => { formDataImg.append(`${index}`, val) })
-    formDataImg.append("arheologist", "arheo");
+    this.state.fns.map((val, index) => {
+      formDataImg.append(`${index}`, val);
+    });
+
+    formDataImg.append("arheologist", response.data._id);
 
     const responseImg = await Axios.post(
       `http://${BE_Host}/gallery/add`,
@@ -211,7 +214,6 @@ export default class NewArcheologist extends Component {
     if (!response.error && !responseImg.error) {
       this.props.history.push("/");
     }
-    console.log("asdasodiajwdoi", responseImg.error);
 
     URL.revokeObjectURL(this.state.fn);
     URL.revokeObjectURL(this.state.fns);
@@ -222,10 +224,11 @@ export default class NewArcheologist extends Component {
     // console.log(JSON.stringify(file))
   }
   acceptedFileMultiple(files) {
-    let fns = this.state.fns
-    files.map((val) => { fns.push(val) })
+    let fns = this.state.fns;
+    files.map(val => {
+      fns.push(val);
+    });
     this.setState({ fns: fns });
-
   }
   handleChange(field, date) {
     this.setState({
@@ -975,8 +978,8 @@ export default class NewArcheologist extends Component {
                   <aside className="row">
                     {this.state.imagesURL !== undefined
                       ? this.state.imagesURL.map(n => {
-                        return this.previewImageMultiple(n);
-                      })
+                          return this.previewImageMultiple(n);
+                        })
                       : null}
                   </aside>
                   <br />

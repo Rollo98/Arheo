@@ -205,7 +205,9 @@ body {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
+.gallery {
+  margin-top: 50px;
+}
 .dateInput {
   width: 60px;
 }
@@ -291,7 +293,12 @@ body {
   border-radius: 20px;
   background: white;
 }
-
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background-color: white;
+}
 .drag-n-drop {
   background-color: rgb(230, 227, 220);
   border-color: rgb(170, 170, 170);
@@ -330,7 +337,7 @@ body {
   }
 }
 @media screen and (max-width: 991px) {
-  .lol {
+  .profile {
     top: 1;
     position: absolute;
   }
