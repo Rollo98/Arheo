@@ -81,7 +81,7 @@ class EditArcheologist extends Component {
       });
       if (arheo.photo !== "")
         this.setState({
-          imageURL: `http://localhost:5000${arheo.photo}`
+          imageURL: `http://${BE_Host}:5000${arheo.photo}`
         })
     });
   }
