@@ -15,6 +15,7 @@ export default class NewArcheologist extends Component {
     this.state = {
       fn: [],
       fns: [],
+      texts: {},
       prenume: "",
       numeDeFamilie: "",
       birthDay: { day: "", month: "", year: "" },
@@ -204,6 +205,7 @@ export default class NewArcheologist extends Component {
       formDataImg.append(`${index}`, val);
     });
 
+    formDataImg.append("text", this.state.texts);
     formDataImg.append("arheologist", response.data._id);
 
     const responseImg = await Axios.post(
@@ -246,7 +248,6 @@ export default class NewArcheologist extends Component {
   };
 
   previewImage = fn => {
-    console.log("prev", fn);
     return fn.length !== 0 ? (
       <div className="w-100 preview text-center">
         <span
@@ -256,14 +257,13 @@ export default class NewArcheologist extends Component {
           &times;
         </span>
         <img className="previewImage" src={fn} />
-        {console.log("image", fn)}
       </div>
     ) : null;
   };
+
   previewImageMultiple = fn => {
-    console.log("asdasd", fn);
     return fn.length !== 0 ? (
-      <div className="col-3 preview">
+      <div key={fn.id} className="col-3 preview">
         <span
           className="del-img"
           onClick={() => {
@@ -277,12 +277,23 @@ export default class NewArcheologist extends Component {
           &times;
         </span>
         <img className="thumbnail" src={fn.url} />
-        {console.log("image", fn)}
+        <input
+          type="text"
+          onChange={e => {
+            console.log("fn", fn);
+            console.log("name", fn.name);
+            const text = this.state.texts;
+            text[fn.name] = e.target.value;
+            this.setState({ texts: text });
+          }}
+        />
       </div>
     ) : null;
   };
 
   render() {
+    console.log(this.state.fns);
+    console.log(this.state.texts);
     return (
       <div className="row">
         <div className="col">
@@ -936,33 +947,32 @@ export default class NewArcheologist extends Component {
               multiple={true}
               accept={"image/*"}
               onDrop={e => this.acceptedFileMultiple(e)}
-              onDropAccepted={
-                e => {
-                  console.log(e);
-                  if (
-                    this.state.imagesURL !== undefined &&
-                    this.state.imagesURL.length >= 0
-                  ) {
-                    let images = this.state.imagesURL;
-                    console.log(images);
-                    images.push({
-                      url: URL.createObjectURL(new Blob(e)),
-                      id: id.generate()
-                    });
-                    this.setState({ imagesURL: images });
-                  } else {
-                    this.setState({
-                      imagesURL: [
-                        {
-                          url: URL.createObjectURL(new Blob(e)),
-                          id: id.generate()
-                        }
-                      ]
-                    });
-                  }
+              onDropAccepted={e => {
+                console.log(e);
+                if (
+                  this.state.imagesURL !== undefined &&
+                  this.state.imagesURL.length >= 0
+                ) {
+                  let images = this.state.imagesURL;
+                  // console.log(images);
+                  images.push({
+                    url: URL.createObjectURL(new Blob(e)),
+                    id: id.generate(),
+                    name: e[0].name
+                  });
+                  this.setState({ imagesURL: images });
+                } else {
+                  this.setState({
+                    imagesURL: [
+                      {
+                        url: URL.createObjectURL(new Blob(e)),
+                        id: id.generate(),
+                        name: e[0].name
+                      }
+                    ]
+                  });
                 }
-                // this.previewImage(URL.createObjectURL(new MediaSource(e)))
-              }
+              }}
             >
               {({ getRootProps, getInputProps, open }) => (
                 <>
