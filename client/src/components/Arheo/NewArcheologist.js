@@ -35,7 +35,8 @@ export default class NewArcheologist extends Component {
       Observatii: "",
       autor: "",
       Bibliografie: "",
-      imageURL: ""
+      imageURL: "",
+      imagesURL: []
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -254,10 +255,15 @@ export default class NewArcheologist extends Component {
         <span
           className="del-img"
           onClick={() => {
-            let arr = this.state.imagesURL;
+            let arr = [...this.state.imagesURL];
+            let fns = [...this.state.fns];
             delete arr[arr.indexOf(fn)];
+            delete fns[
+              fns.indexOf(fns.filter(photo => photo.name === fn.name))
+            ];
             this.setState({
-              imagesURL: arr
+              imagesURL: arr,
+              fns
             });
           }}
         >
@@ -927,30 +933,17 @@ export default class NewArcheologist extends Component {
               accept={"image/*"}
               onDrop={e => this.acceptedFileMultiple(e)}
               onDropAccepted={e => {
-                console.log(e);
-                if (
-                  this.state.imagesURL !== undefined &&
-                  this.state.imagesURL.length >= 0
-                ) {
-                  let images = this.state.imagesURL;
-                  // console.log(images);
-                  images.push({
-                    url: URL.createObjectURL(new Blob(e)),
+                const arr = [...this.state.imagesURL];
+                // console.log(images);
+                e.map(n => {
+                  arr.push({
+                    url: URL.createObjectURL(new Blob([n])),
                     id: id.generate(),
-                    name: e[0].name
+                    name: n.name
                   });
-                  this.setState({ imagesURL: images });
-                } else {
-                  this.setState({
-                    imagesURL: [
-                      {
-                        url: URL.createObjectURL(new Blob(e)),
-                        id: id.generate(),
-                        name: e[0].name
-                      }
-                    ]
-                  });
-                }
+                  console.log("asda", this.state);
+                  this.setState({ imagesURL: arr });
+                });
               }}
             >
               {({ getRootProps, getInputProps, open }) => (
