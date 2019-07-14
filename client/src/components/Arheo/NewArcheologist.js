@@ -1,9 +1,4 @@
-import React, { useEffect, Component } from "react";
-import { Field } from "redux-form";
-import CustomInput from "./../CustomInput";
-import CustomTextarea from "./../CustomTextarea";
-import * as actions from "./../../actions";
-import props from "../../pages/App";
+import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
 import { BE_Host } from "../../config";
@@ -18,6 +13,7 @@ export default class NewArcheologist extends Component {
       texts: {},
       prenume: "",
       numeDeFamilie: "",
+      alteNume: "",
       birthDay: { day: "", month: "", year: "" },
       deathDay: { day: "", month: "", year: "" },
       isDead: false,
@@ -29,12 +25,7 @@ export default class NewArcheologist extends Component {
           text: "",
           start: "",
           end: "",
-          licenta_text: "",
-          licenta_start: "",
-          licenta_end: "",
-          master_text: "",
-          master_start: "",
-          master_end: ""
+          tip: ""
         }
       ],
       Doctorat: [{ id: 1, text: "", coord: "", start: "", title: "" }],
@@ -85,6 +76,7 @@ export default class NewArcheologist extends Component {
     let formDataImg = new FormData();
     formData.append("prenume", this.state.prenume);
     formData.append("numeDeFamilie", this.state.numeDeFamilie);
+    formData.append("alteNume", this.state.alteNume);
     formData.append("birthDay", JSON.stringify(this.state.birthDay));
     if (this.state.isDead)
       formData.append("deathDay", JSON.stringify(this.state.deathDay));
@@ -138,12 +130,7 @@ export default class NewArcheologist extends Component {
             start: current.start,
             end: current.end,
             text: current.text,
-            licenta_start: current.licenta_start,
-            licenta_end: current.licenta_end,
-            licenta_text: current.licenta_text,
-            master_start: current.master_start,
-            master_end: current.master_end,
-            master_text: current.master_text
+            tip: current.tip
           });
           return acc;
         }, [])
@@ -201,7 +188,7 @@ export default class NewArcheologist extends Component {
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-    this.state.fns.map((val, index) => {
+    this.state.fns.forEach((val, index) => {
       formDataImg.append(`${index}`, val);
     });
 
@@ -227,7 +214,7 @@ export default class NewArcheologist extends Component {
   }
   acceptedFileMultiple(files) {
     let fns = this.state.fns;
-    files.map(val => {
+    files.forEach(val => {
       fns.push(val);
     });
     this.setState({ fns: fns });
@@ -256,7 +243,7 @@ export default class NewArcheologist extends Component {
         >
           &times;
         </span>
-        <img className="previewImage" src={fn} />
+        <img className="previewImage" src={fn} alt="" />
       </div>
     ) : null;
   };
@@ -276,7 +263,7 @@ export default class NewArcheologist extends Component {
         >
           &times;
         </span>
-        <img className="thumbnail" src={fn.url} />
+        <img className="thumbnail" src={fn.url} alt="" />
         <input
           type="text"
           onChange={e => {
@@ -292,8 +279,7 @@ export default class NewArcheologist extends Component {
   };
 
   render() {
-    console.log(this.state.fns);
-    console.log(this.state.texts);
+    console.log(this.state);
     return (
       <div className="row">
         <div className="col">
@@ -354,6 +340,16 @@ export default class NewArcheologist extends Component {
                   }
                 />
               </div>
+              <div className="col">
+                <label htmlFor="alteNume">Alte nume:</label>
+                <input
+                  id="alteNume"
+                  type="text"
+                  name="alteNume"
+                  className="form-control"
+                  onChange={e => this.setState({ alteNume: e.target.value })}
+                />
+              </div>
             </div>
             <div className="form-row">
               <div className="col">
@@ -361,25 +357,31 @@ export default class NewArcheologist extends Component {
                 <input
                   className="dateInput m-1 text-center form-control"
                   placeholder="zi"
+                  value={this.state.birthDay.day}
                   onChange={e => {
-                    this.state.birthDay.day = e.target.value;
-                    this.setState({ birthDay: this.state.birthDay });
+                    const birthDayObj = { ...this.state.birthDay };
+                    birthDayObj.day = e.target.value;
+                    this.setState({ birthDay: birthDayObj });
                   }}
                 />
                 <input
                   className="dateInput m-1 text-center form-control"
                   placeholder="luna"
+                  value={this.state.birthDay.month}
                   onChange={e => {
-                    this.state.birthDay.month = e.target.value;
-                    this.setState({ birthDay: this.state.birthDay });
+                    const birthDayObj = { ...this.state.birthDay };
+                    birthDayObj.month = e.target.value;
+                    this.setState({ birthDay: birthDayObj });
                   }}
                 />
                 <input
                   className="dateInput m-1 text-center form-control"
                   placeholder="an"
+                  value={this.state.birthDay.year}
                   onChange={e => {
-                    this.state.birthDay.year = e.target.value;
-                    this.setState({ birthDay: this.state.birthDay });
+                    const birthDayObj = { ...this.state.birthDay };
+                    birthDayObj.year = e.target.value;
+                    this.setState({ birthDay: birthDayObj });
                   }}
                 />
               </div>
@@ -404,25 +406,31 @@ export default class NewArcheologist extends Component {
                     <input
                       className="dateInput m-1 text-center form-control"
                       placeholder="zi"
+                      value={this.state.deathDay.day}
                       onChange={e => {
-                        this.state.deathDay.day = e.target.value;
-                        this.setState({ deathDay: this.state.deathDay });
+                        const deathDayObj = { ...this.state.deathDay };
+                        deathDayObj.day = e.target.value;
+                        this.setState({ deathDay: deathDayObj });
                       }}
                     />
                     <input
                       className="dateInput m-1 text-center form-control"
                       placeholder="luna"
+                      value={this.state.deathDay.month}
                       onChange={e => {
-                        this.state.deathDay.month = e.target.value;
-                        this.setState({ deathDay: this.state.deathDay });
+                        const deathDayObj = { ...this.state.deathDay };
+                        deathDayObj.month = e.target.value;
+                        this.setState({ deathDay: deathDayObj });
                       }}
                     />
                     <input
                       className="dateInput m-1 text-center form-control"
                       placeholder="an"
+                      value={this.state.deathDay.year}
                       onChange={e => {
-                        this.state.deathDay.year = e.target.value;
-                        this.setState({ deathDay: this.state.deathDay });
+                        const deathDayObj = { ...this.state.deathDay };
+                        deathDayObj.year = e.target.value;
+                        this.setState({ deathDay: deathDayObj });
                       }}
                     />
                   </>
@@ -444,29 +452,33 @@ export default class NewArcheologist extends Component {
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Institutii[inst.id - 1].text}
                       onChange={e => {
-                        this.state.Institutii[inst.id - 1].text =
-                          e.target.value;
-                        this.setState({ Institutii: this.state.Institutii });
+                        const InstitutiiObj = [...this.state.Institutii];
+                        InstitutiiObj[inst.id - 1].text = e.target.value;
+                        this.setState({ Institutii: InstitutiiObj });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
                       className="text-center m-1"
                       placeholder="zi/luna/an"
+                      value={this.state.Institutii[inst.id - 1].start}
                       onChange={e => {
-                        this.state.Institutii[inst.id - 1].start =
-                          e.target.value;
-                        this.setState({ Institutii: this.state.Institutii });
+                        const InstitutiiObj = [...this.state.Institutii];
+                        InstitutiiObj[inst.id - 1].start = e.target.value;
+                        this.setState({ Institutii: InstitutiiObj });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
                       placeholder="zi/luna/an"
                       className="text-center m-1"
+                      value={this.state.Institutii[inst.id - 1].end}
                       onChange={e => {
-                        this.state.Institutii[inst.id - 1].end = e.target.value;
-                        this.setState({ Institutii: this.state.Institutii });
+                        const InstitutiiObj = [...this.state.Institutii];
+                        InstitutiiObj[inst.id - 1].end = e.target.value;
+                        this.setState({ Institutii: InstitutiiObj });
                       }}
                     />
                     {inst.id === this.state.Institutii.length ? (
@@ -506,36 +518,33 @@ export default class NewArcheologist extends Component {
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Specializarii[spec.id - 1].text}
                       onChange={e => {
-                        this.state.Specializarii[spec.id - 1].text =
-                          e.target.value;
-                        this.setState({
-                          Specializarii: this.state.Specializarii
-                        });
+                        const SpecializariiObj = [...this.state.Specializarii];
+                        SpecializariiObj[spec.id - 1].text = e.target.value;
+                        this.setState({ Specializarii: SpecializariiObj });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
                       className="text-center m-1"
                       placeholder="zi/luna/an"
+                      value={this.state.Specializarii[spec.id - 1].start}
                       onChange={e => {
-                        this.state.Specializarii[spec.id - 1].start =
-                          e.target.value;
-                        this.setState({
-                          Specializarii: this.state.Specializarii
-                        });
+                        const SpecializariiObj = [...this.state.Specializarii];
+                        SpecializariiObj[spec.id - 1].start = e.target.value;
+                        this.setState({ Specializarii: SpecializariiObj });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
                       placeholder="zi/luna/an"
                       className="text-center m-1"
+                      value={this.state.Specializarii[spec.id - 1].end}
                       onChange={e => {
-                        this.state.Specializarii[spec.id - 1].end =
-                          e.target.value;
-                        this.setState({
-                          Specializarii: this.state.Specializarii
-                        });
+                        const SpecializariiObj = [...this.state.Specializarii];
+                        SpecializariiObj[spec.id - 1].end = e.target.value;
+                        this.setState({ Specializarii: SpecializariiObj });
                       }}
                     />
                     {spec.id === this.state.Specializarii.length ? (
@@ -571,102 +580,53 @@ export default class NewArcheologist extends Component {
                   <br />
                   <div id="univform" className="workForm col-md-11">
                     {/* <label htmlFor="title">Studiu:</label> */}
+                    <label htmlFor="licenta">Studiu:</label>
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Studii[univ.id - 1].text}
                       onChange={e => {
-                        this.state.Studii[univ.id - 1].text = e.target.value;
-                        this.setState({ Studii: this.state.Studii });
+                        const StudiiObj = [...this.state.Studii];
+                        StudiiObj[univ.id - 1].text = e.target.value;
+                        this.setState({ Studii: StudiiObj });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
                       className="text-center m-1"
                       placeholder="zi/luna/an"
+                      value={this.state.Studii[univ.id - 1].start}
                       onChange={e => {
-                        this.state.Studii[univ.id - 1].start = e.target.value;
-                        this.setState({ Studii: this.state.Studii });
+                        const StudiiObj = [...this.state.Studii];
+                        StudiiObj[univ.id - 1].start = e.target.value;
+                        this.setState({ Studii: StudiiObj });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
                       placeholder="zi/luna/an"
                       className="text-center m-1"
+                      value={this.state.Studii[univ.id - 1].end}
                       onChange={e => {
-                        this.state.Studii[univ.id - 1].end = e.target.value;
-                        this.setState({ Studii: this.state.Studii });
+                        const StudiiObj = [...this.state.Studii];
+                        StudiiObj[univ.id - 1].end = e.target.value;
+                        this.setState({ Studii: StudiiObj });
                       }}
                     />
-                    <br />
-                    <br />
-                    <label htmlFor="licenta">Licenta:</label>
+                    <label htmlFor="tip">Tip:</label>
                     <input
-                      type="text"
-                      id="title"
-                      name="title"
-                      className="form-control col-md-10"
-                      onChange={e => {
-                        this.state.Studii[univ.id - 1].licenta_text =
-                          e.target.value;
-                        this.setState({ Studii: this.state.Studii });
-                      }}
-                    />
-                    <label htmlFor="start">Inceput:</label>
-                    <input
+                      placeholder="Licenta/Master"
                       className="text-center m-1"
-                      placeholder="zi/luna/an"
+                      value={this.state.Studii[univ.id - 1].tip}
                       onChange={e => {
-                        this.state.Studii[univ.id - 1].licenta_start =
-                          e.target.value;
-                        this.setState({ Studii: this.state.Studii });
+                        const StudiiObj = [...this.state.Studii];
+                        StudiiObj[univ.id - 1].tip = e.target.value;
+                        this.setState({ Studii: StudiiObj });
                       }}
                     />
-                    <label htmlFor="end">Sfarsit:</label>
-                    <input
-                      placeholder="zi/luna/an"
-                      className="text-center m-1"
-                      onChange={e => {
-                        this.state.Studii[univ.id - 1].licenta_end =
-                          e.target.value;
-                        this.setState({ Studii: this.state.Studii });
-                      }}
-                    />
-                    <br />
-                    <br />
-                    <label htmlFor="licenta">Master:</label>
-                    <input
-                      type="text"
-                      id="title"
-                      name="title"
-                      className="form-control col-md-10"
-                      onChange={e => {
-                        this.state.Studii[univ.id - 1].master_text =
-                          e.target.value;
-                        this.setState({ Studii: this.state.Studii });
-                      }}
-                    />
-                    <label htmlFor="start">Inceput:</label>
-                    <input
-                      className="text-center m-1"
-                      placeholder="zi/luna/an"
-                      onChange={e => {
-                        this.state.Studii[univ.id - 1].master_start =
-                          e.target.value;
-                        this.setState({ Studii: this.state.Studii });
-                      }}
-                    />
-                    <label htmlFor="end">Sfarsit:</label>
-                    <input
-                      placeholder="zi/luna/an"
-                      className="text-center m-1"
-                      onChange={e => {
-                        this.state.Studii[univ.id - 1].master_end =
-                          e.target.value;
-                        this.setState({ Studii: this.state.Studii });
-                      }}
-                    />
+
                     {univ.id === this.state.Studii.length ? (
                       <div style={{ marginTop: "10px" }}>
                         {this.state.Studii.length > 1 ? (
@@ -699,45 +659,56 @@ export default class NewArcheologist extends Component {
                 <>
                   <br />
                   <div id="docform" className="workForm col-md-11" key={doc.id}>
+                    <label htmlFor="title">Universitate:</label>
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Doctorat[doc.id - 1].text}
                       onChange={e => {
-                        this.state.Doctorat[doc.id - 1].text = e.target.value;
-                        this.setState({ Doctorat: this.state.Doctorat });
+                        const DoctoratObj = [...this.state.Doctorat];
+                        DoctoratObj[doc.id - 1].text = e.target.value;
+                        this.setState({ Doctorat: DoctoratObj });
                       }}
                     />
                     <br />
+                    <label htmlFor="title">Titlu lucrare:</label>
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Doctorat[doc.id - 1].title}
                       onChange={e => {
-                        this.state.Doctorat[doc.id - 1].title = e.target.value;
-                        this.setState({ Doctorat: this.state.Doctorat });
+                        const DoctoratObj = [...this.state.Doctorat];
+                        DoctoratObj[doc.id - 1].title = e.target.value;
+                        this.setState({ Doctorat: DoctoratObj });
                       }}
                     />
                     <br />
+                    <label htmlFor="title">Coordonator doctorat:</label>
                     <input
                       type="text"
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Doctorat[doc.id - 1].coord}
                       onChange={e => {
-                        this.state.Doctorat[doc.id - 1].coord = e.target.value;
-                        this.setState({ Doctorat: this.state.Doctorat });
+                        const DoctoratObj = [...this.state.Doctorat];
+                        DoctoratObj[doc.id - 1].coord = e.target.value;
+                        this.setState({ Doctorat: DoctoratObj });
                       }}
                     />
                     <label htmlFor="start">An sustinere:</label>
                     <input
                       className="text-center m-1"
                       placeholder="zi/luna/an"
+                      value={this.state.Doctorat[doc.id - 1].start}
                       onChange={e => {
-                        this.state.Doctorat[doc.id - 1].start = e.target.value;
-                        this.setState({ Doctorat: this.state.Doctorat });
+                        const DoctoratObj = [...this.state.Doctorat];
+                        DoctoratObj[doc.id - 1].start = e.target.value;
+                        this.setState({ Doctorat: DoctoratObj });
                       }}
                     />
                     {doc.id === this.state.Doctorat.length ? (
@@ -777,27 +748,33 @@ export default class NewArcheologist extends Component {
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Santier[sant.id - 1].text}
                       onChange={e => {
-                        this.state.Santier[sant.id - 1].text = e.target.value;
-                        this.setState({ Santier: this.state.Santier });
+                        const SantierObj = [...this.state.Santier];
+                        SantierObj[sant.id - 1].text = e.target.value;
+                        this.setState({ Santier: SantierObj });
                       }}
                     />
                     <label htmlFor="start">Inceput:</label>
                     <input
                       className="text-center m-1"
                       placeholder="zi/luna/an"
+                      value={this.state.Santier[sant.id - 1].start}
                       onChange={e => {
-                        this.state.Santier[sant.id - 1].start = e.target.value;
-                        this.setState({ Santier: this.state.Santier });
+                        const SantierObj = [...this.state.Santier];
+                        SantierObj[sant.id - 1].start = e.target.value;
+                        this.setState({ Santier: SantierObj });
                       }}
                     />
                     <label htmlFor="end">Sfarsit:</label>
                     <input
                       placeholder="zi/luna/an"
                       className="text-center m-1"
+                      value={this.state.Santier[sant.id - 1].end}
                       onChange={e => {
-                        this.state.Santier[sant.id - 1].end = e.target.value;
-                        this.setState({ Santier: this.state.Santier });
+                        const SantierObj = [...this.state.Santier];
+                        SantierObj[sant.id - 1].end = e.target.value;
+                        this.setState({ Santier: SantierObj });
                       }}
                     />
                     {sant.id === this.state.Santier.length ? (
@@ -838,9 +815,11 @@ export default class NewArcheologist extends Component {
                       id="title"
                       name="title"
                       className="form-control col-md-10"
+                      value={this.state.Domeniu[dom.id - 1].text}
                       onChange={e => {
-                        this.state.Domeniu[dom.id - 1].text = e.target.value;
-                        this.setState({ Domeniu: this.state.Domeniu });
+                        const DomeniuObj = [...this.state.Domeniu];
+                        DomeniuObj[dom.id - 1].text = e.target.value;
+                        this.setState({ Domeniu: DomeniuObj });
                       }}
                     />
                     {dom.id === this.state.Domeniu.length ? (

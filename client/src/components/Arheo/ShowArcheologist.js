@@ -73,7 +73,7 @@ class ShowArcheologist extends Component {
             <>
               <p>{n.text}</p>
               <p>
-                {n.start} - {n.end}
+                {n.start} {n.start ? <>-</> : null} {n.end}
               </p>
             </>
           ) : null}
@@ -114,17 +114,12 @@ class ShowArcheologist extends Component {
         <div key={n}>
           {n.text !== "" ? (
             <>
-              <h5>{n.text}</h5>
+              <h6 className="d-inline">{n.tip}</h6>
+              <h5 className="d-inline"> {n.text}</h5>
+              {/* <h6>{n.text}</h6> */}
               <p>
-                {n.start} - {n.end}
-              </p>
-              <h5>{n.licenta_text}</h5>
-              <p>
-                {n.licenta_start} - {n.licenta_end}
-              </p>
-              <h5>{n.master_text}</h5>
-              <p>
-                {n.master_start} - {n.master_end}
+                {n.start} {n.start ? <>-</> : null}
+                {n.end}
               </p>
             </>
           ) : null}
@@ -147,8 +142,11 @@ class ShowArcheologist extends Component {
         <div key={n}>
           {n.text !== "" ? (
             <>
-              <h4>{n.text}</h4>
+              <h5>Universitate</h5>
+              <h5>{n.text}</h5>
+              <h5>Titlu lucrare</h5>
               <h5>{n.title}</h5>
+              <h5>Coordonator doctorat</h5>
               <p>{n.coord}</p>
               <p>{n.start}</p>
             </>
@@ -187,6 +185,8 @@ class ShowArcheologist extends Component {
   }
 
   render() {
+    const birth_day = this.state.archeologist.birthDay;
+    const death_day = this.state.archeologist.deathDay;
     return (
       <div className="arheoDetails row">
         <div className="col-xl-8 col-lg-8 col-md-12 details">
@@ -233,25 +233,48 @@ class ShowArcheologist extends Component {
             />
           )}
           <p className="arheoname">
-            <b>{`${this.state.archeologist.prenume} ${
-              this.state.archeologist.numeDeFamilie
-            }`}</b>
+            <b>
+              {this.state.archeologist.prenume}{" "}
+              {this.state.archeologist.numeDeFamilie}
+            </b>
+            <br />
+            <b>
+              {this.state.archeologist.alteNume !== undefined ? (
+                <>({this.state.archeologist.alteNume})</>
+              ) : null}
+            </b>
           </p>
           <p>
-            {this.state.archeologist.birthDay !== undefined ? (
-              <b>
-                Născut :{this.state.archeologist.birthDay.day}/
-                {this.state.archeologist.birthDay.month}/
-                {this.state.archeologist.birthDay.year}
-              </b>
+            {birth_day !== undefined ? (
+              <>
+                {birth_day.day !== "" ||
+                birth_day.month !== "" ||
+                birth_day.year !== "" ? (
+                  <b>
+                    Născut :{birth_day.day}
+                    {birth_day.day && birth_day.month ? "/" : null}
+                    {birth_day.month}
+                    {birth_day.month && birth_day.year ? "/" : null}
+                    {birth_day.year}
+                  </b>
+                ) : null}
+              </>
             ) : null}
             <br />
-            {this.state.archeologist.deathDay !== undefined ? (
-              <b>
-                Decedat :{this.state.archeologist.deathDay.day}/
-                {this.state.archeologist.deathDay.month}/
-                {this.state.archeologist.deathDay.year}
-              </b>
+            {death_day !== undefined ? (
+              <>
+                {death_day.day !== "" ||
+                death_day.month !== "" ||
+                death_day.year !== "" ? (
+                  <b>
+                    Decedat :{death_day.day}
+                    {death_day.day && death_day.month ? "/" : null}
+                    {death_day.month}
+                    {death_day.month && death_day.year ? "/" : null}
+                    {death_day.year}
+                  </b>
+                ) : null}
+              </>
             ) : null}
           </p>
           {this.state.archeologist.Bibliografie !== "" ? (
@@ -259,7 +282,7 @@ class ShowArcheologist extends Component {
               className="btn btn-primary"
               onClick={() => this.togglePopup()}
             >
-              Bibliografie
+              Lista lucrari
             </button>
           ) : null}
         </div>

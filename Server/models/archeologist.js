@@ -108,22 +108,7 @@ const archeologistSchema = new Schema({
         text: {
           type: String
         },
-        licenta_start: {
-          type: String
-        },
-        licenta_end: {
-          type: String
-        },
-        licenta_text: {
-          type: String
-        },
-        master_start: {
-          type: String
-        },
-        master_end: {
-          type: String
-        },
-        master_text: {
+        tip: {
           type: String
         }
       }
@@ -155,6 +140,9 @@ const archeologistSchema = new Schema({
         }
       }
     ]
+  },
+  alteNume: {
+    type: String
   },
   dateModified: {
     type: Date,
