@@ -1,13 +1,12 @@
 import React from "react";
 
-import ArheoList from "./ArheoList";
+import BlogList from "./BlogList";
 import Footer from "../Footer";
 
 export default (props) => {
-  console.log(props.location)
   return (
     <div>
-      <ArheoList />
+      <BlogList {...props} />
       <Footer />
     </div>
   );

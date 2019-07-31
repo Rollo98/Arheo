@@ -20,7 +20,7 @@ class SignIn extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="row text-center">
+      <div className="row signing text-center">
         <div className="col">
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
@@ -49,7 +49,7 @@ class SignIn extends Component {
                 {this.props.errorMessage}
               </div>
             ) : null}
-            <button type="submit" className="button">
+            <button type="submit" className="button saveButton">
               Sign In
             </button>
           </form>

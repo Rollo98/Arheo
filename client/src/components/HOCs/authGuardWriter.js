@@ -23,7 +23,7 @@ export default (OriginalComponent) => {
 
     function MapStateToProps(state) {
         return {
-            role:state.auth.role,
+            role: state.auth.role,
             isAuth: state.auth.isAuthenticated,
             jwtToken: state.auth.token
         }

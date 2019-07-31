@@ -19,7 +19,7 @@ class SignUp extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="row text-center">
+      <div className="row signing text-center">
         <div className="col">
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
@@ -44,9 +44,9 @@ class SignUp extends Component {
             </fieldset>
             <fieldset>
               <Field
-                name="firstName"
+                name="prenume"
                 type="text"
-                id="firstName"
+                id="prenume"
                 label="Enter your first name"
                 placeholder=""
                 component={CustomInput}
@@ -54,7 +54,7 @@ class SignUp extends Component {
             </fieldset>
             <fieldset>
               <Field
-                name="lastName"
+                name="numeDeFamilie"
                 type="text"
                 id="lasstName"
                 label="Enter your last name"
@@ -87,7 +87,7 @@ class SignUp extends Component {
                 {this.props.errorMessage}
               </div>
             ) : null}
-            <button type="submit" className="button">
+            <button type="submit" className="button saveButton">
               Sign Up
             </button>
           </form>

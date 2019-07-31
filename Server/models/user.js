@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
 // Create Schemas for the models
@@ -8,11 +8,11 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  firstName: {
+  prenume: {
     type: String,
     required: true
   },
-  lastName: {
+  numeDeFamilie: {
     type: String,
     required: true
   },
@@ -32,7 +32,7 @@ const userSchema = new Schema({
   }
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function(next) {
   try {
     const salt = await bcrypt.genSalt(10);
     const passHash = await bcrypt.hash(this.password, salt);
@@ -42,17 +42,16 @@ userSchema.pre('save', async function (next) {
     next(error);
   }
 });
-userSchema.methods.passValid = async function (inpassword) {
+userSchema.methods.passValid = async function(inpassword) {
   try {
     return await bcrypt.compare(inpassword, this.password);
   } catch (error) {
     throw new Error(error);
   }
-}
-
+};
 
 // Create model
-const User = mongoose.model('user', userSchema)
+const User = mongoose.model("user", userSchema);
 
 //Export model
 module.exports = User;

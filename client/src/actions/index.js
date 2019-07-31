@@ -5,11 +5,12 @@ import {
   AUTH_SIGN_OUT,
   AUTH_ERROR,
 } from "./types";
+import { BE_Host } from '../config'
 
 export const SignUp = data => {
   return async dispatch => {
     try {
-      const res = await Axios.post('http://localhost:5000/signup', data)
+      const res = await Axios.post(`http://${BE_Host}/signup`, data)
       dispatch({
         type: AUTH_SIGN_UP,
         payload: res.data.token,
@@ -38,7 +39,7 @@ export const SignUp = data => {
 export const SignIn = data => {
   return async dispatch => {
     try {
-      const res = await Axios.post('http://localhost:5000/signin', data)
+      const res = await Axios.post(`http://${BE_Host}/signin`, data)
       dispatch({
         type: AUTH_SIGN_IN,
         payload: res.data.token,

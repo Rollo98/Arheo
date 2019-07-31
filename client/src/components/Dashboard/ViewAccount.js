@@ -3,14 +3,15 @@ import { Modal, Button } from "react-bootstrap";
 import Axios from "axios";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import Checkbox from "./checkbox";
+import Checkbox from "../checkbox";
+import { BE_Host } from '../../config'
 
 class ViewAccount extends Component {
   constructor() {
     super();
     this.state = {
-      firstName: "",
-      lastName: "",
+      prenume: "",
+      numeDeFamilie: "",
       email: "",
       password: "",
       role: [],
@@ -45,7 +46,7 @@ class ViewAccount extends Component {
       this.setState({ userName });
       const jwtToken = localStorage.getItem("zeBilet");
       Axios.defaults.headers.common["Authorization"] = jwtToken;
-      let Response = await Axios.get(`http://localhost:5000/${userName}`);
+      let Response = await Axios.get(`http://${BE_Host}/${userName}`);
       if (Response) {
         const roles = Object.values(Response.data.foundUser[0].role);
         let checkboxesOptions = this.state.checkboxesOptions;
@@ -55,8 +56,8 @@ class ViewAccount extends Component {
           });
         this.setState({ checkboxesOptions });
         this.setState({
-          firstName: Response.data.foundUser[0].firstName,
-          lastName: Response.data.foundUser[0].lastName,
+          prenume: Response.data.foundUser[0].prenume,
+          numeDeFamilie: Response.data.foundUser[0].numeDeFamilie,
           email: Response.data.foundUser[0].email,
           role: Response.data.foundUser[0].role,
           gotData: true
@@ -67,7 +68,7 @@ class ViewAccount extends Component {
       const jwtToken = localStorage.getItem("zeBilet");
       Axios.defaults.headers.common["Authorization"] = jwtToken;
       let Response = await Axios.get(
-        `http://localhost:5000/${this.props.userName}`
+        `http://${BE_Host}/${this.props.userName}`
       );
       if (Response) {
         const roles = Object.values(Response.data.foundUser[0].role);
@@ -78,8 +79,8 @@ class ViewAccount extends Component {
           });
         this.setState({ checkboxesOptions });
         this.setState({
-          firstName: Response.data.foundUser[0].firstName,
-          lastName: Response.data.foundUser[0].lastName,
+          prenume: Response.data.foundUser[0].prenume,
+          numeDeFamilie: Response.data.foundUser[0].numeDeFamilie,
           email: Response.data.foundUser[0].email,
           gotData: true
         });
@@ -117,17 +118,17 @@ class ViewAccount extends Component {
               ) : null}
             </>
           ) : (
-            <>
-              <div key={key} style={{ marginLeft: "10px", marginTop: "10px" }}>
-                <Checkbox
-                  label={n}
-                  isSelected={this.state.checkboxesOptions[n]}
-                  onCheckboxChange={this.handleCheckboxChange}
-                  key={n}
-                />
-              </div>
-            </>
-          )}
+              <>
+                <div key={key} style={{ marginLeft: "10px", marginTop: "10px" }}>
+                  <Checkbox
+                    label={n}
+                    isSelected={this.state.checkboxesOptions[n]}
+                    onCheckboxChange={this.handleCheckboxChange}
+                    key={n}
+                  />
+                </div>
+              </>
+            )}
         </>
       ));
     }
@@ -137,8 +138,8 @@ class ViewAccount extends Component {
   async sendChanges() {
     let checkboxesOptions = this.state.checkboxesOptions;
     let data = {};
-    data.firstName = this.state.firstName;
-    data.lastName = this.state.lastName;
+    data.prenume = this.state.prenume;
+    data.numeDeFamilie = this.state.numeDeFamilie;
     data.email = this.state.email;
     data.role = ["user"];
     this.state.roleDefined.map(n => {
@@ -151,10 +152,10 @@ class ViewAccount extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     let Response;
     if (this.props.userName === null || this.props.userName === undefined) {
-      Response = await Axios.post(`http://localhost:5000/edit`, data);
+      Response = await Axios.post(`http://${BE_Host}/edit`, data);
     } else {
       Response = await Axios.post(
-        `http://localhost:5000/${this.props.userName}/edit`,
+        `http://${BE_Host}/${this.props.userName}/edit`,
         data
       );
     }
@@ -168,10 +169,10 @@ class ViewAccount extends Component {
     Axios.defaults.headers.common["Authorization"] = jwtToken;
     let Response;
     if (this.props.userName === null || this.props.userName === undefined) {
-      Response = await Axios.delete(`http://localhost:5000/`);
+      Response = await Axios.delete(`http://${BE_Host}/`);
     } else {
       Response = await Axios.delete(
-        `http://localhost:5000/${this.props.userName}`
+        `http://${BE_Host}/${this.props.userName}`
       );
     }
     if (Response.status === 200) {
@@ -181,8 +182,8 @@ class ViewAccount extends Component {
 
   resetState() {
     this.setState({
-      firstName: "",
-      lastName: "",
+      prenume: "",
+      numeDeFamilie: "",
       email: "",
       password: "",
       role: [],
@@ -196,202 +197,202 @@ class ViewAccount extends Component {
         {this.props.userName ? (
           <Redirect to="/dashboard" />
         ) : (
-          <Redirect to="/" />
-        )}
+            <Redirect to="/" />
+          )}
       </>
     ) : (
-      <>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton={true} onHide={this.handleClose}>
-            <Modal.Title>{this.state.userName}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {this.state.edit ? (
-              <>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
+        <>
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton={true} onHide={this.handleClose}>
+              <Modal.Title>{this.state.userName}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {this.state.edit ? (
+                <>
+                  <div className="input-group mt-2">
+                    <div className="input-group-prepend">
+                      <span
+                        className="spanCustom input-group-text"
+                        id="inputGroup-sizing-sm"
+                      >
+                        <b>Nume</b>
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      value={this.state.numeDeFamilie}
+                      onChange={e => {
+                        this.setState({ numeDeFamilie: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <div className="input-group mt-2">
+                    <div className="input-group-prepend">
+                      <span
+                        className="spanCustom input-group-text"
+                        id="inputGroup-sizing-sm"
+                      >
+                        <b>Prenume</b>
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      value={this.state.prenume}
+                      onChange={e => {
+                        this.setState({ prenume: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <div className="input-group mt-2">
+                    <div className="input-group-prepend">
+                      <span
+                        className="spanCustom input-group-text"
+                        id="inputGroup-sizing-sm"
+                      >
+                        <b>Email</b>
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      value={this.state.email}
+                      onChange={e => {
+                        this.setState({ email: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <div className="input-group mt-2">
+                    <div className="input-group-prepend">
+                      <span
+                        className="spanCustom input-group-text"
+                        id="inputGroup-sizing-sm"
+                      >
+                        <b>Parola</b>
+                      </span>
+                    </div>
+                    <input
+                      className="form-control"
+                      value={this.state.password}
+                      onChange={e => {
+                        this.setState({ password: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <div className="input-group mt-2">
                     <span
-                      className="spanCustom input-group-text"
+                      className="input-group-text modalSpan"
                       id="inputGroup-sizing-sm"
                     >
-                      <b>Nume</b>
+                      <b>Rol:</b>
                     </span>
+                    {this.props.userName
+                      ? this.roleRender(true)
+                      : this.roleRender(false)}
                   </div>
-                  <input
-                    className="form-control"
-                    value={this.state.lastName}
-                    onChange={e => {
-                      this.setState({ lastName: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
-                    <span
-                      className="spanCustom input-group-text"
-                      id="inputGroup-sizing-sm"
-                    >
-                      <b>Prenume</b>
-                    </span>
-                  </div>
-                  <input
-                    className="form-control"
-                    value={this.state.firstName}
-                    onChange={e => {
-                      this.setState({ firstName: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
-                    <span
-                      className="spanCustom input-group-text"
-                      id="inputGroup-sizing-sm"
-                    >
-                      <b>Email</b>
-                    </span>
-                  </div>
-                  <input
-                    className="form-control"
-                    value={this.state.email}
-                    onChange={e => {
-                      this.setState({ email: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
-                    <span
-                      className="spanCustom input-group-text"
-                      id="inputGroup-sizing-sm"
-                    >
-                      <b>Parola</b>
-                    </span>
-                  </div>
-                  <input
-                    className="form-control"
-                    value={this.state.password}
-                    onChange={e => {
-                      this.setState({ password: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="input-group mt-2">
-                  <span
-                    className="input-group-text modalSpan"
-                    id="inputGroup-sizing-sm"
-                  >
-                    <b>Rol:</b>
-                  </span>
-                  {this.props.userName
-                    ? this.roleRender(true)
-                    : this.roleRender(false)}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
-                    <span
-                      className="spanCustom input-group-text"
-                      id="inputGroup-sizing-sm"
-                    >
-                      <b>Nume</b>
-                    </span>
-                  </div>
-                  <div className="form-control">{this.state.lastName}</div>
-                </div>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
-                    <span
-                      className="spanCustom input-group-text"
-                      id="inputGroup-sizing-sm"
-                    >
-                      <b>Prenume</b>
-                    </span>
-                  </div>
-                  <div className="form-control">{this.state.firstName}</div>
-                </div>
-                <div className="input-group mt-2">
-                  <div className="input-group-prepend">
-                    <span
-                      className="spanCustom input-group-text"
-                      id="inputGroup-sizing-sm"
-                    >
-                      <b>Email</b>
-                    </span>
-                  </div>
-                  <div className="form-control">{this.state.email}</div>
-                </div>
+                </>
+              ) : (
+                  <>
+                    <div className="input-group mt-2">
+                      <div className="input-group-prepend">
+                        <span
+                          className="spanCustom input-group-text"
+                          id="inputGroup-sizing-sm"
+                        >
+                          <b>Nume</b>
+                        </span>
+                      </div>
+                      <div className="form-control">{this.state.numeDeFamilie}</div>
+                    </div>
+                    <div className="input-group mt-2">
+                      <div className="input-group-prepend">
+                        <span
+                          className="spanCustom input-group-text"
+                          id="inputGroup-sizing-sm"
+                        >
+                          <b>Prenume</b>
+                        </span>
+                      </div>
+                      <div className="form-control">{this.state.prenume}</div>
+                    </div>
+                    <div className="input-group mt-2">
+                      <div className="input-group-prepend">
+                        <span
+                          className="spanCustom input-group-text"
+                          id="inputGroup-sizing-sm"
+                        >
+                          <b>Email</b>
+                        </span>
+                      </div>
+                      <div className="form-control">{this.state.email}</div>
+                    </div>
 
-                <div className="input-group mt-2">
-                  <span
-                    className="input-group-text modalSpan"
-                    id="inputGroup-sizing-sm"
-                  >
-                    <b>Rol</b>
-                  </span>
-                  {this.roleRender(false)}
-                </div>
-              </>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <button
-              variant="primary"
-              type="button"
-              className="btn btn-danger "
-              style={{ marginRight: "auto" }}
-              onClick={() => {
-                this.sendDeleteAcc();
-              }}
-            >
-              Sterge Contul
+                    <div className="input-group mt-2">
+                      <span
+                        className="input-group-text modalSpan"
+                        id="inputGroup-sizing-sm"
+                      >
+                        <b>Rol</b>
+                      </span>
+                      {this.roleRender(false)}
+                    </div>
+                  </>
+                )}
+            </Modal.Body>
+            <Modal.Footer>
+              <button
+                variant="primary"
+                type="button"
+                className="btn btn-danger "
+                style={{ marginRight: "auto" }}
+                onClick={() => {
+                  this.sendDeleteAcc();
+                }}
+              >
+                Sterge Contul
             </button>
-            {!this.state.edit ? (
-              <>
-                <button
-                  variant="primary"
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    this.toggleEdit();
-                  }}
-                >
-                  Editeaza
+              {!this.state.edit ? (
+                <>
+                  <button
+                    variant="primary"
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      this.toggleEdit();
+                    }}
+                  >
+                    Editeaza
                 </button>
-              </>
-            ) : (
-              <>
-                <button
-                  variant="primary"
-                  type="button"
-                  className="btn btn-success "
-                  onClick={() => {
-                    this.sendChanges();
-                  }}
-                >
-                  Salveaza
+                </>
+              ) : (
+                  <>
+                    <button
+                      variant="primary"
+                      type="button"
+                      className="btn btn-success "
+                      onClick={() => {
+                        this.sendChanges();
+                      }}
+                    >
+                      Salveaza
                 </button>
-                <button
-                  variant="primary"
-                  type="button"
-                  className="btn btn-danger "
-                  onClick={() => {
-                    this.toggleEdit();
-                  }}
-                >
-                  Renunta
+                    <button
+                      variant="primary"
+                      type="button"
+                      className="btn btn-danger "
+                      onClick={() => {
+                        this.toggleEdit();
+                      }}
+                    >
+                      Renunta
                 </button>
-              </>
-            )}
-            <Button variant="primary" onClick={this.handleClose}>
-              Close
+                  </>
+                )}
+              <Button variant="primary" onClick={this.handleClose}>
+                Close
             </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
+            </Modal.Footer>
+          </Modal>
+        </>
+      );
   }
 }
 
